@@ -74,3 +74,76 @@ fun isHoliday(dayOfWeek: Any) {
     println(result)
 }
 ```
+### 반복문
+- for문
+   1. 코틀린에서는 for문안 범위를 다양한 방법으로 표현할 수 있다.  
+   1부터 10까지 범위를 아래와 같이 나타낼 수 있다.
+      - `1..10`
+      - `IntRange(1, 10)` 
+      - `1 until 11` → `until` 다음 선언되는 수는 포함하지 않는다.
+   2. `step` : 증감 범위를 지정한다. (단, 값으로 양수만 넣을 수 있다.)   
+   ex) `for (i in 10 downTo 1 step(2)) {...}`
+   3. `downTo` : 감소하는 범위에서 사용된다.
+```kotlin
+// for 문
+for(i in 1..10) {
+   print("$i ")
+}
+println()
+for (i in IntRange(1, 10)) {
+   print("$i ")
+}
+println()
+for (i in 1 until 11) {
+   print("$i ")
+}
+println()
+for (i in 10 downTo 1 step(1)) {
+   print("$i ")
+}
+println()
+```
+- while문 
+```kotlin
+// while 문
+var i = 1
+while (i <= 10) {
+   print("$i ")
+   i++
+}
+```
+### 컬렉션
+1. `mutable` : 값의 변경(삽입, 삭제..)이 가능한 컬렉션  
+ex) `mutableListOf()`, `mutableMapOf()`
+2. `immutable` : 값의 변경이 불가능한 컬렉션  
+ex) `listOf()`, `mapOf()`
+3. `Indexing Operator`을 사용하여 표현할 수 있다.  
+ex) `map.put(3, "c")` → `map[3] = "c"`
+4. 자바와 다르게 다양한 타입의 값을 리스트에 넣을 수 있다.  
+ex) `listOf(1, "a", 3.14, true)`
+- 다양한 **확장 함수**를 지원한다.
+   1. `joinToString` : 배열 데이터 출력 형식을 변경해준다. (`separator` = 구분자)
+   2. `map` : 원소를 원하는 형태로 변환한다.
+   3. `first` : 조건을 만족하는 원소중 첫번째 값 반환한다.
+   4. `filter` : 조건을 만족하는 원소들만 필터링한다.
+   5. `dropWhile` : 조건을 만족할 때까지 앞에서부터 인수를 버린다.
+```kotlin
+fun main() {
+    val list = listOf(1, 2, 3)  // 변경 불가능
+    val mutableList = mutableListOf(1, 2, 3)    // 변경 가능
+    mutableList.add(4)
+    println(mutableList[0]) // indexing operator
+
+    val map = mapOf((1 to "a"), (2 to "b")) // 변경 불가능
+    val mutableMap = mutableMapOf((1 to "a"), (2 to "b"))   // 변경
+    mutableMap[3] = "c" // indexing operator
+
+    val diverseList = listOf(1, "a", 3.14, true)
+
+    list.joinToString(",")  // 배열 데이터 출력 형식을 변경(separator : 구분자)
+    list.map { it * 10 }    // 원소를 원하는 형태로 변환
+    list.first { it == 1 }  // 조건을 만족하는 원소중 첫번째 값 반환
+    list.filter { it != 2 } // 조건을 만족하는 원소들만 필터링
+    list.dropWhile { it == 2 }  // 조건을 만족할 때까지 앞에서부터 인수를 버린다.
+}
+```
