@@ -126,7 +126,8 @@ ex) `listOf(1, "a", 3.14, true)`
    2. `map` : 원소를 원하는 형태로 변환한다.
    3. `first` : 조건을 만족하는 원소중 첫번째 값 반환한다.
    4. `filter` : 조건을 만족하는 원소들만 필터링한다.
-   5. `dropWhile` : 조건을 만족할 때까지 앞에서부터 인수를 버린다.
+   5. `takeWhile` : 조건을 만족할 때까지 앞에서부터 인수를 취한다.
+   6. `dropWhile` : 조건을 만족할 때까지 앞에서부터 인수를 버린다.
 ```kotlin
 fun main() {
     val list = listOf(1, 2, 3)  // 변경 불가능
@@ -144,6 +145,7 @@ fun main() {
     list.map { it * 10 }    // 원소를 원하는 형태로 변환
     list.first { it == 1 }  // 조건을 만족하는 원소중 첫번째 값 반환
     list.filter { it != 2 } // 조건을 만족하는 원소들만 필터링
+    list.takeWhile { it == 2 }  // 조건을 만족할 때까지 앞에서부터 인수를 취한다.
     list.dropWhile { it == 2 }  // 조건을 만족할 때까지 앞에서부터 인수를 버린다.
 }
 ```
