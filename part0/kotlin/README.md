@@ -149,3 +149,10 @@ fun main() {
     list.dropWhile { it == 2 }  // 조건을 만족할 때까지 앞에서부터 인수를 버린다.
 }
 ```
+### Null
+1. `?` : 타입 뒤에 `?`을 붙이면 타입을 **nullable**하게 처리할 수 있다.   
+ex) `var nickname: String? = null`  
+만약 변수에서 사용한다면, **null-safe** 할 수 있도록 도와준다.   
+ex) `val size = nickname?.length` ← `nickname`이 `null`이라면, `size`는 **length()** 함수 호출 없이 `null` 처리
+2. `?:` : `Elvis Operation`으로 `?:` 왼쪽 객체가 **non-null**이라면 해당 객체를 리턴하고, 만약 **null**이라면 `?:` 오른쪽 값을 리턴한다.  
+ex) `val result = nickname ?: "없음"`
