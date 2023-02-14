@@ -156,3 +156,59 @@ ex) `var nickname: String? = null`
 ex) `val size = nickname?.length` ← `nickname`이 `null`이라면, `size`는 **length()** 함수 호출 없이 `null` 처리
 2. `?:` : `Elvis Operation`으로 `?:` 왼쪽 객체가 **non-null**이라면 해당 객체를 리턴하고, 만약 **null**이라면 `?:` 오른쪽 값을 리턴한다.  
 ex) `val result = nickname ?: "없음"`
+### 타입체크와 캐스팅
+1. `is` : 타입체크에 사용된다.  
+ex) `if (nickname is String) { ... }`
+2. `as` : 타입캐스팅에 사용된다. `as?`로 사용할 경우, 잘못된 캐스팅이 발생했을 때 `null`을 반환한다.  
+(즉, `as?`를 이용하여 타입체크도 할 수 있다.)  
+ex) `val result = (a as? String) ?: "fail"`
+3. 코틀린에서는 한번 타입체크가 이뤄진 변수에 대하여 자동으로 **스마트 캐스팅**을 해준다. → 별도의 캐스팅이 필요없다!
+### 람다
+1. **익명 함수** 이다.
+2. 변수처럼 사용되서, 함수의 **argument**, **return** 값으로 사용 가능하다.
+3. 한번 사용되고, 재사용되지 않는 함수이다.
+4. 람다식의 타입을 선언할 때, `(?) -> ?` 형식을 따른다.  
+ex) `val lambda: (Int) -> Int = { it * 10 }`  
+타입을 따로 명시하지 않고, 구현부에서 타입을 선언하여 사용할 수도 있다.  
+ex) `val lambda = { i: Int, j: Int -> i * j }`
+5. 람다식을 실행하기 위해서는 입력값을 반드시 입력해줘야 한다.  
+ex) `val result = lambda(10)`
+6. 구현해야 하는 추상메소드가 하나인(`SAM(Single Abstract Method`) 함수형 인터페이스는 코틀린에서 람다식으로 대체할 수 있다.  
+ex) `view.setOnClickListener { ... }`
+``` kotlin
+override fun onCreate(savedInstanceState: Bundle?) {
+   super.onCreate(savedInstanceState)
+   setContentView(R.layout.activity_main)
+
+   val view = View(this)
+   // SAM(Single Abstract Method)
+   // Kotlin 에서는 단일 추상 메소드를 람다식으로 표현할 수 있다.
+   // 1. java style
+   view.setOnClickListener(object : View.OnClickListener {
+      override fun onClick(v: View) {
+         println("click!!")
+      }
+   })
+   // 2. use lambda
+   view.setOnClickListener { println("click!!") }
+}
+```
+### 확장함수
+- 기존에 정의되어 있는 클래스에 함수를 추가하는 기능이다. 자바의 경우 함수를 추가할 클래스를 상속 받아서 함수를 추가하였지만,  
+코틀린에서는 `확장함수(Extension Function)`를 이용하여 간단히 구현할 수 있다.
+``` kotlin
+fun main() {
+    val a = MyClass()
+    a.fuc1()    
+    a.fuc2()
+    a.fuc3()    // MyClass 클래스에 대한 확장함수
+}
+
+class MyClass {
+
+    fun fuc1() = println("1")
+    fun fuc2() = println("2")
+}
+
+fun MyClass.fuc3() = println("3")
+```
