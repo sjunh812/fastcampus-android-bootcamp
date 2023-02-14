@@ -1,5 +1,5 @@
 # Part0
-Part0 강의에서는 **코틀린 언어의 기초 문법** 및 **안드로이드의 기본**에 대해 담고 있다.  
+Part0 강의에서는 [**코틀린 언어의 기초 문법**](#kotlin) 및 **안드로이드의 기본**에 대해 담고 있다.  
 아래 내용은 강의를 들으면서 **Remind** 해야 할 내용을 정리한 것이다.
 ## Kotlin
 ### 함수
@@ -152,7 +152,7 @@ fun main() {
 ### Null
 1. `?` : 타입 뒤에 `?`을 붙이면 타입을 **nullable**하게 처리할 수 있다.   
 ex) `var nickname: String? = null`  
-만약 변수에서 사용한다면, **null-safe** 할 수 있도록 도와준다.   
+**nullable** 변수의 함수를 사용할 때 **null-safe** 할 수 있도록 도와준다.   
 ex) `val size = nickname?.length` ← `nickname`이 `null`이라면, `size`는 **length()** 함수 호출 없이 `null` 처리
 2. `?:` : `Elvis Operation`으로 `?:` 왼쪽 객체가 **non-null**이라면 해당 객체를 리턴하고, 만약 **null**이라면 `?:` 오른쪽 값을 리턴한다.  
 ex) `val result = nickname ?: "없음"`
@@ -212,7 +212,7 @@ class MyClass {
 
 fun MyClass.fuc3() = println("3")
 ```
-### Scope Function
+### Scope Function (범위 지정함수)
 - 코틀린 표준 라이브러리에서 제공하는 **확장함수**
 - 목적 : **간결성**, **명료성**, **유지보수 용이성**을 가진다.
 - 정의 : 객체의 컨텍스트 내에서 실행 가능한 코드 블럭을 만드는 함수  
@@ -234,4 +234,50 @@ fun MyClass.fuc3() = println("3")
 ```
 * this : 생략이 가능하며, 바로 객체의 함수로 접근이 가능하다.
 * it : Local Variable 로 생략이 불가능하며, 원하는 이름으로 바꿔 사용할 수 있다.
+```
+- `let` : **null** 체크를 해야할 때, 지역 변수를 명시적으로 표현해야할 때 주로 사용한다.
+- `run` : 객체를 초기화 하고 리턴 값이 있을 때 주로 사용한다.
+- `apply` : 객체 초기화에 주로 사용한다.
+- `also` : 수신객체를 명시적으로 사용하고 싶을 때나 로그를 남길 때 주로 사용한다.
+- `with` : 객체 초기화에 주로 사용한다.
+### 초기화 지연
+- 정의 : 변수를 선언할 때 값을 지정하지 않고, 나중에 지정할 수 있는 방법
+- 목적 : 메모리를 효율적으로 사용하기 위해서, **null safe** 한 value를 사용하기 위해서
+1. `lateinit`, `var` 
+   - 변수 타입을 지정해줘야 한다.
+   - **primitive** 타입을 사용할 수 없다 ex) `Int`
+   - 선언 후, 나중에 초기화 해줘도 된다.  
+   ex) `lateinit var name: String"`
+2. `lazy`, `val`
+   - 선언과 동시에 초기화를 해야한다.
+   - 호출 시점에 초기화가 이뤄진다. → **메모리를 효율적으로 사용할 수 있다.**  
+   ex) `val age: Int by lazy { 10 }`
+### data, sealed class
+- `data class` : 데이터를 담기 위한 클래스
+   - `toString()`, `hashCode()`, `equals()`, `copy()` 함수를 자동으로 생성
+      - **override** 하여 직접 구현한 코드를 사용할 수 있음
+   - 1개 이상 **Property** 가 있어야함.
+   - 데이터 클래스는 `abstract`, `open`, `inner`를 붙일 수 없음.
+   - 상속이 불가능
+- `sealed class` : 추상클래스로, 상속받은 자식 클래스의 종류를 제한
+   - 컴파일러가 `sealed class`의 자식 클래스가 어떤 것인지 알고있음.
+   - `when`과 함께 쓰일 때, 장점을 느낄 수 있음.
+```kotlin
+fun main() {
+    val cat: Cat = BlueCat
+    // 컴파일러가 Cat 의 자식을 알고있음. → else 가 필요없다.
+    val result = when (cat) {
+        is RedCat -> "red"
+        is BlueCat -> "blue"
+        is GreenCat -> "green"
+        is WhiteCat -> "white"
+    }
+    println(result)
+}
+
+sealed class Cat
+object RedCat : Cat()
+object BlueCat : Cat()
+object GreenCat : Cat()
+object WhiteCat : Cat()
 ```
