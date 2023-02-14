@@ -253,13 +253,15 @@ fun MyClass.fuc3() = println("3")
    - 호출 시점에 초기화가 이뤄진다. → **메모리를 효율적으로 사용할 수 있다.**  
    ex) `val age: Int by lazy { 10 }`
 ### data, sealed class
-- `data class` : 데이터를 담기 위한 클래스
+- `data class` 
+   - 데이터를 담기 위한 클래스
    - `toString()`, `hashCode()`, `equals()`, `copy()` 함수를 자동으로 생성
       - **override** 하여 직접 구현한 코드를 사용할 수 있음
    - 1개 이상 **Property** 가 있어야함.
    - 데이터 클래스는 `abstract`, `open`, `inner`를 붙일 수 없음.
    - 상속이 불가능
-- `sealed class` : 추상클래스로, 상속받은 자식 클래스의 종류를 제한
+- `sealed class` 
+   - 추상클래스로, 상속받은 자식 클래스의 종류를 제한
    - 컴파일러가 `sealed class`의 자식 클래스가 어떤 것인지 알고있음.
    - `when`과 함께 쓰일 때, 장점을 느낄 수 있음.
 ```kotlin
@@ -281,3 +283,13 @@ object BlueCat : Cat()
 object GreenCat : Cat()
 object WhiteCat : Cat()
 ```
+### object, compaion object
+- `object` 
+   - 클래스를 정의함과 동시에 객체를 생성
+   - `Singleton`을 쉽게 만들 수 있는 키워드
+   - 생성자 사용불가
+   - 프로퍼티, 메소드, 초기화 블록은 사용가능
+   - 다른 클래스나, 인터페이스를 상속 받을 수 있음.
+- `companion object`
+   - 자바의 `static`과 동일한 역할
+   - 클래스 내에 하나만 생성할 수 있음.
