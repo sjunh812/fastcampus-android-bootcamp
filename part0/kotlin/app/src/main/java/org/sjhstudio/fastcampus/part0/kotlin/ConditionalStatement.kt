@@ -1,9 +1,6 @@
 package org.sjhstudio.fastcampus.part0.kotlin
 
-/**
- * 4. 조건식(Conditional Statement)
- */
-
+// Conditional Statement
 fun main() {
     println(max(1, 2))
     isHoliday(4)

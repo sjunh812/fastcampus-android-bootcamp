@@ -1,13 +1,10 @@
 package org.sjhstudio.fastcampus.part0.kotlin
 
-/**
- * 3. 클래스(Class)
- */
 
+// Class
 fun main() {
     val user = User("서준형", 10)
     println(user.age)
-
     val kid = Kid("아이", 3, "female")
 }
 

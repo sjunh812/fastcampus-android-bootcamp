@@ -1,12 +1,9 @@
 package org.sjhstudio.fastcampus.part0.kotlin
 
-/**
- * 5. 반복문
- */
-
+// 반복문
 fun main() {
     // for 문
-    for(i in 1..10) {
+    for (i in 1..10) {
         print("$i ")
     }
     println()
@@ -18,7 +15,7 @@ fun main() {
         print("$i ")
     }
     println()
-    for (i in 10 downTo 1 step(1)) {
+    for (i in 10 downTo 1 step (1)) {
         print("$i ")
     }
     println()

@@ -1,9 +1,6 @@
 package org.sjhstudio.fastcampus.part0.kotlin
 
-/**
- * 1. 함수(Function)
- */
-
+// Function
 fun main() {
     val result = test(1, c = 5)
     test2(id = "준형", name = "서준형", nickname = "준형")

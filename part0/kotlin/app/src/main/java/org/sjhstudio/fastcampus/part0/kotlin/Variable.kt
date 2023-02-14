@@ -1,9 +1,6 @@
 package org.sjhstudio.fastcampus.part0.kotlin
 
-/**
- * 2. 변수(Variable)
- */
-
+// 변수
 fun main() {
     // 변수
     // val = value (값)
