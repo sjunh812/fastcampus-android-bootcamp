@@ -304,7 +304,7 @@ object WhiteCat : Cat()
       - 앱이 실행되면, 화면이 표시됨.
       - 사용자의 입력값을 받음(화면 클릭, 더블 클릭, 롱 클릭, 스와이프, 드래그 앤 드랍 등)
       - 사용자에게 제공하고자 하는 내용을 화면에 표시함.
-   - [**Lifecycle**](#activity-lifecycle)이 있음.  
+   - [**Lifecycle**](#activity-lifecycle)이 있음. 
 2. Service
    - 백그라운드에서 오래 실행되는 작업 수행을 위한 컴포넌트
    - 사용자가 다른 앱으로 전환하더라도 백그라운드에서 계속 실행
@@ -318,16 +318,15 @@ object WhiteCat : Cat()
          - 지연 작업 : `Alarm Manager`
    - 바인드 서비스 : 앱 컴포넌트가 `bindService`를 호출해 서비스를 호출하면 서비스가 바인딩 됨. 바인딩된 서비스는 **클라이언트-서버** 인터페이스를 제공해 서비스와 상호 작용함.  
    여러개가 한꺼번에 바인딩될 수 있고, 바인딩된 컴포넌트가 모두 종료되면, 서비스도 종료됨.  
- 
-![image](https://user-images.githubusercontent.com/79048895/218927152-0111ce7b-721a-416f-b5b3-cb257b290f93.png)  
+   ![image](https://user-images.githubusercontent.com/79048895/218927152-0111ce7b-721a-416f-b5b3-cb257b290f93.png)  
 3. BroadCastReceiver
    - 안드로이드 OS에서 발생하는 이벤트와 정보를 앱에서 수신할 수 있도록 하는 구성요소
    - `UI` 없음
    - 예시
       - 화면이 꺼졌거나
       - 배터리가 부족하거나
-      - 사진을 캡쳐했거나
-4. ContentProvider
+      - 사진을 캡쳐했거나  
+4. ContentProvider   
    - 파일 시스템, SQLite 데이터베이스, 웹상이나 앱이 엑세스할 수 있는 다른 모든 영구 저장위치에 저장 가능한 앱 데이터의 공유형 집합을 관리
    - 다른 앱은 `ContentProvider` 를 통해 해당 데이터를 질의하거나, 수정할 수 있음.
    - 예시
