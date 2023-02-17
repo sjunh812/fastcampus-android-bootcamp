@@ -1,6 +1,24 @@
 # Part0
 Part0 강의에서는 [**코틀린 언어의 기초 문법**](#kotlin) 및 [**안드로이드의 기본**](#android)에 대해 담고 있다.  
 아래 내용은 강의를 들으면서 **Remind** 해야 할 내용을 정리한 것이다.
+## 목차
+1. Kotlin
+   - [함수](#함수)
+   - [변수](#변수)
+   - [조건식](#조건식)
+   - [반복문](#반복문)
+   - [컬렉션](#컬렉션)
+   - [Null](#null)
+   - [타입체크와 캐스팅](#타입체크와-캐스팅)
+   - [람다](#람다)
+   - [Scope Function](#scope-function)
+   - [초기화 지연](#초기화-지연)
+   - [data class, sealed class](#data-sealed-class)
+   - [object, companion object](#object-companion-object)
+2. Android
+   - [앱 구성요소](#앱-구성요소)
+   - [Activity Lifecycle](#activity-lifecycle)
+   - [View 그려지는 과정](#view-그려지는-과정)
 ## Kotlin
 ### 함수
 1. `Unit` : 코틀린에서 리턴값이 없는 함수에서의 실제 리턴값으로, 자바의 `void`와 같은 역할로 볼 수 있다. (생략 가능)
@@ -212,7 +230,7 @@ class MyClass {
 
 fun MyClass.fuc3() = println("3")
 ```
-### Scope Function (범위 지정함수)
+### Scope Function
 - 코틀린 표준 라이브러리에서 제공하는 **확장함수**
 - 목적 : **간결성**, **명료성**, **유지보수 용이성**을 가진다.
 - 정의 : 객체의 컨텍스트 내에서 실행 가능한 코드 블럭을 만드는 함수  
@@ -283,7 +301,7 @@ object BlueCat : Cat()
 object GreenCat : Cat()
 object WhiteCat : Cat()
 ```
-### object, compaion object
+### object, companion object
 - `object` 
    - 클래스를 정의함과 동시에 객체를 생성
    - `Singleton`을 쉽게 만들 수 있는 키워드
