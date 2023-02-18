@@ -265,7 +265,7 @@ fun MyClass.fuc3() = println("3")
    - 변수 타입을 지정해줘야 한다.
    - **primitive** 타입을 사용할 수 없다 ex) `Int`
    - 선언 후, 나중에 초기화 해줘도 된다.  
-   ex) `lateinit var name: String"`
+   ex) `lateinit var name: String`
 2. `lazy`, `val`
    - 선언과 동시에 초기화를 해야한다.
    - 호출 시점에 초기화가 이뤄진다. → **메모리를 효율적으로 사용할 수 있다.**  
