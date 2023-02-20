@@ -448,7 +448,7 @@ object WhiteCat : Cat()
    - `Android lint` : 안드로이드 스튜디오 내, 폴더 선택 > 마우스 오른쪽 버튼 > Analyaze > Inspect
 ### detekt
 - 정적 프로그램 분석(static program analysis) : 프로그램을 실행하지 않고, 소프트웨어를 분석하는 것
-- `ktlint` VS `detekt`
+- `ktlint` vs `detekt`
    - `ktlint`는 **코딩 컨벤션**을 중점적으로 보고, `detekt`는 **코드의 전체적인 퀄리티를 높이기 위한 분석**을 수행  
    예를 들면, 메소드 길이가 너무 길다거나, 메소드의 depth가 너무 깊다거나 등의 분석을 수행
 - https://detekt.dev/
