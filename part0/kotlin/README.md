@@ -1,5 +1,5 @@
 # Part0
-Part0 강의에서는 [**코틀린 언어의 기초 문법**](#kotlin) 및 [**안드로이드의 기본**](#android)에 대해 담고 있다.  
+Part0 강의에서는 코틀린 언어의 기초 문법 및 안드로이드의 기본에 대해 담고 있다.  
 아래 내용은 강의를 들으면서 **Remind** 해야 할 내용을 정리한 것이다.
 ## 목차
 1. Kotlin
@@ -19,6 +19,9 @@ Part0 강의에서는 [**코틀린 언어의 기초 문법**](#kotlin) 및 [**�
    - [앱 구성요소](#앱-구성요소)
    - [Activity Lifecycle](#activity-lifecycle)
    - [View 그려지는 과정](#view-그려지는-과정)
+3. Android 개발 환경설정
+   - [ktlint](#ktlint)
+   - [detekt](#detekt)
 ## Kotlin
 ### 함수
 1. `Unit` : 코틀린에서 리턴값이 없는 함수에서의 실제 리턴값으로, 자바의 `void`와 같은 역할로 볼 수 있다. (생략 가능)
@@ -437,4 +440,16 @@ object WhiteCat : Cat()
       - color 변화 (`draw`)
    - `requestLayout` : view를 처음부터 그려야할 때 
       - 크기에 변화가 생겨 `measure`부터 다시 해야할 때
+## Android 개발 환경설정
+### ktlint
+- lint : 코드를 분석하여, 프로그램 오류, 버그, 스타일 오류, 구조적 문제점을 확인하는 도구
+   - 코딩 컨벤션에 따라 코드를 작성했는지 확인해주는 도구
+   - `ktlint` : Kotlin 개발 환경에서 사용되는 lint로, 공식 코틀린 코딩 컨벤션과 안드로이드 코틀린 스타일 가이드에 따라 만들어짐
+   - `Android lint` : 안드로이드 스튜디오 내, 폴더 선택 > 마우스 오른쪽 버튼 > Analyaze > Inspect
+### detekt
+- 정적 프로그램 분석(static program analysis) : 프로그램을 실행하지 않고, 소프트웨어를 분석하는 것
+- `ktlint` VS `detekt`
+   - `ktlint`는 **코딩 컨벤션**을 중점적으로 보고, `detekt`는 **코드의 전체적인 퀄리티를 높이기 위한 분석**을 수행  
+   예를 들면, 메소드 길이가 너무 길다거나, 메소드의 depth가 너무 깊다거나 등의 분석을 수행
+- https://detekt.dev/
 
