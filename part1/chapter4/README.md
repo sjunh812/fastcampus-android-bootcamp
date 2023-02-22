@@ -9,6 +9,7 @@
 2. 액티비티 전환
 3. 다른 앱 실행
 4. 데이터 저장 및 삭제
+5. `DatePickerDialog`, `Spinner`, `Toast`등 여러 UI 컴포넌트 사용
 <br>  
 
 ## 스크린샷  
