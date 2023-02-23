@@ -1,5 +1,5 @@
 # 🧮 계산기 앱
-- `ConstraintLayout-Flow`를 이용하여 계산기 키패드 UI 구성
+- `ConstraintLayout-Flow`를 이용하여 UI 구성
 - 다크/라이트 모드에 따른 UI 그리기
 - `BigDecimal`을 이용하여 매우 큰 연산에 대해 대응
 - `DecimalFormat`을 이용하여 수를 표현
