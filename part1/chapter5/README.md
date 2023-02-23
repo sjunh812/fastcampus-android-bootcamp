@@ -3,6 +3,7 @@
 - 다크/라이트 모드에 따른 UI 그리기
 - `BigDecimal`을 이용하여 매우 큰 연산에 대해 대응
 - `DecimalFormat`을 이용하여 수를 표현
+- `StringBuilder`를 이용하여 효율적인 문자열 처리
 <br>
 
 ## 구현 기능
