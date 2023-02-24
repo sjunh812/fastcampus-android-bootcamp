@@ -13,3 +13,4 @@
 | [📐 단위 변환기 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter3) | - 길이변환 UI 그리기<br>- 단위변환기능 구현 | `ConstraintLayout` `ViewBinding` | 
 | [🚨 응급의료정보 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter4) | - UI 컴포넌트 이용<br>- 전화앱 실행 | `SharedPreferences` `Style` `Intent` |
 | [🧮 계산기 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter5) | - 계산기 UI 그리기<br>- 계산기능 구현 | `ConstraintLayout-Flow` `Theme` | 
+| [⏱ 스톱워치 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter6) | - 스톱워치기능 구현<br>- 스레드와 핸들러 | `runOnUiThread` `AlertDialog` `ProgressBar` |
