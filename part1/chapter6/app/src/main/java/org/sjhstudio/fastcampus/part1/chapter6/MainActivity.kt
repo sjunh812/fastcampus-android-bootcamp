@@ -3,6 +3,8 @@ package org.sjhstudio.fastcampus.part1.chapter6
 import android.media.AudioManager
 import android.media.ToneGenerator
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.Gravity
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -66,7 +68,11 @@ class MainActivity : AppCompatActivity() {
                 val second = countdownDeciSec.div(10)
                 val progress = ((countdownDeciSec / (countdownSec * 10f)) * 100).toInt()
 
-                binding.root.post { // Worker Thread 에서 UI 처리방법 2
+//                binding.root.post { // Worker Thread 에서 UI 처리방법 2
+//                    binding.tvCountdown.text = String.format("%02d", second)
+//                    binding.progressbarCountdown.progress = progress
+//                }
+                Handler(mainLooper).post { // Worker Thread 에서 UI 처리방법 3
                     binding.tvCountdown.text = String.format("%02d", second)
                     binding.progressbarCountdown.progress = progress
                 }
@@ -77,7 +83,7 @@ class MainActivity : AppCompatActivity() {
                     if (countdownDeciSec == 0) ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK
                     else ToneGenerator.TONE_CDMA_ABBR_ALERT
                 ToneGenerator(AudioManager.STREAM_ALARM, ToneGenerator.MAX_VOLUME)
-                    .startTone(toneType)
+                    .startTone(toneType, 100)
             }
         }
     }
