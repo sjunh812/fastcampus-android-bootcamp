@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part1.chapter7
+package org.sjhstudio.fastcampus.part1.chapter7.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.sjhstudio.fastcampus.part1.chapter7.database.AppDatabase
 import org.sjhstudio.fastcampus.part1.chapter7.database.Word
 import org.sjhstudio.fastcampus.part1.chapter7.databinding.ActivityMainBinding
+import org.sjhstudio.fastcampus.part1.chapter7.ui.adapter.WordAdapter
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,13 @@ class MainActivity : AppCompatActivity() {
             val isUpdated = result.data?.getBooleanExtra("isUpdated", false) ?: false
             if (result.resultCode == RESULT_OK && isUpdated) {
                 addAndUpdateItemUi()
+            }
+        }
+    private val updateWordResult =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            val editWord = result.data?.getParcelableExtra<Word>("editWord")
+            if (result.resultCode == RESULT_OK && editWord != null) {
+                editAndUpdateItemUi(editWord)
             }
         }
 
@@ -50,6 +58,15 @@ class MainActivity : AppCompatActivity() {
             }
             ivDelete.setOnClickListener {
                 deleteAndUpdateItemUi()
+            }
+            ivEdit.setOnClickListener {
+                selectedWord?.let { word ->
+                    val intent = Intent(this@MainActivity, AddActivity::class.java)
+                        .apply {
+                            putExtra("originWord", word)
+                        }
+                    updateWordResult.launch(intent)
+                }
             }
         }
     }
@@ -80,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         Thread {
             AppDatabase.getInstance(this)?.wordDao()?.getLatestWord()?.let { word ->
                 wordAdapter.list.add(0, word)
+                wordAdapter.selectedIndex = 0
                 runOnUiThread {
                     wordAdapter.notifyDataSetChanged()
                     updateClickedItemUi(word)
@@ -93,6 +111,7 @@ class MainActivity : AppCompatActivity() {
             selectedWord?.let { word ->
                 AppDatabase.getInstance(this)?.wordDao()?.removeWord(word)
                 wordAdapter.list.remove(word)
+                wordAdapter.selectedIndex = 0
                 runOnUiThread {
                     wordAdapter.notifyDataSetChanged()
 
@@ -103,5 +122,12 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.start()
+    }
+
+    private fun editAndUpdateItemUi(editWord: Word) {
+        val updatedIndex = wordAdapter.list.indexOfFirst { word -> word.id == editWord.id }
+        wordAdapter.list[updatedIndex] = editWord
+        wordAdapter.notifyItemChanged(updatedIndex)
+        updateClickedItemUi(editWord)
     }
 }
