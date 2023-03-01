@@ -7,11 +7,14 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.google.android.material.snackbar.Snackbar
+import org.sjhstudio.fastcampus.part1.chapter8.R
 import org.sjhstudio.fastcampus.part1.chapter8.data.ImageItem
 import org.sjhstudio.fastcampus.part1.chapter8.databinding.ActivityMainBinding
 import org.sjhstudio.fastcampus.part1.chapter8.ui.adapter.ImageAdapter
@@ -35,6 +38,21 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_main, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_add_image -> {
+                checkPermission()
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -66,12 +84,13 @@ class MainActivity : AppCompatActivity() {
 
     private fun initView() {
         with(binding) {
+            toolbar.apply {
+                title = "사진 가져오기"
+                setSupportActionBar(this)
+            }
             rvImage.apply {
                 adapter = imageAdapter
                 layoutManager = GridLayoutManager(this@MainActivity, 2)
-            }
-            btnLoadImage.setOnClickListener {
-                checkPermission()
             }
             btnNavigateFrameActivity.setOnClickListener {
                 navigateToFrameActivity()
