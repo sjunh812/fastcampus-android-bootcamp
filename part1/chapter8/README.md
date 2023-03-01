@@ -1,4 +1,4 @@
-# 🖼 나만의 앨범 
+# 🖼 나만의 앨범 앱
 #### 권한 처리
 <img src="https://user-images.githubusercontent.com/79048895/222072523-24a26d63-3c28-4e36-b814-f1bfd9df520a.gif" width="324" height="702" />
 
