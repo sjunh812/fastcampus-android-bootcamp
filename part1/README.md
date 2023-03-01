@@ -15,5 +15,5 @@
 | [🧮 계산기 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter5) | - 계산기 UI 그리기<br>- 계산기능 구현 | `ConstraintLayout-Flow` `Theme` | 
 | [⏱ 스톱워치 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter6) | - 스톱워치기능 구현<br>- 스레드와 핸들러 | `runOnUiThread` `AlertDialog` `ProgressBar` |
 | [📋 단어장 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter7) | - 단어장 기능 구현<br>- 데이터 저장/읽기/삭제/수정 | `RecyclerView` `Room` `registerForActivityResult` |
-| [📋 나만의 액자 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter8) | - 권한 요청하기<br>- 갤러리 이미지 불러오기 | `Permission` `Storage Access Framework` `ViewPager2` |
+| [🖼 나만의 액자 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter8) | - 권한 요청하기<br>- 갤러리 이미지 불러오기 | `Permission` `Storage Access Framework` `ViewPager2` |
 
