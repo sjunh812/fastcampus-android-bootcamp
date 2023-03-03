@@ -16,4 +16,5 @@
 | [⏱ 스톱워치 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter6) | - 스톱워치기능 구현<br>- 스레드와 핸들러 | `runOnUiThread` `AlertDialog` `ProgressBar` |
 | [📋 단어장 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter7) | - 단어장 기능 구현<br>- 데이터 저장/읽기/삭제/수정 | `RecyclerView` `Room` `registerForActivityResult` |
 | [🖼 나만의 액자 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter8) | - 권한 요청하기<br>- 갤러리 이미지 불러오기 | `Permission` `Storage Access Framework` `ViewPager2` |
+| [🎵 음악 재생 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1/chapter9) | - MediaPlayer로 음악재생<br>- 디바이스 이벤트 알림 | `Media Player` `BroadcastReceiver` `Serivce` |
 
