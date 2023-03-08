@@ -1,4 +1,4 @@
-# 🖌 웹툰 앱
+# 🎨 웹툰 앱
 <img src="https://user-images.githubusercontent.com/79048895/223631176-2c079b84-65f2-4e3a-94f5-17c73f92be51.png" width="324" height="702" />  <img src="https://user-images.githubusercontent.com/79048895/223631354-01f18e5d-c7af-41ad-90d7-accbad87046b.png" width="324" height="702" />  
 
 - `WebView`를 사용하여 네이버 웹툰 화면 띄우기
