@@ -8,7 +8,7 @@
 ### [Part1) 안드로이드 기본](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1) 
 - 안드로이드 4대 컴포넌트 : `Activity` `Service` `BroadcastReceiver` `ContentProvider`
 - 기본 UI 구성 : `LinearLayout` `ConstraintLayout` `RecyclerView` `ViewPager2` ...
-- 데이터 저장 : `SharedPreferences` `Room` ...
+- 데이터 저장 : `SharedPreferences` `Room`
 ### [Part2) 개발의 퀄리티를 높이는 라이브러리의 활용](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2)
 ### Part3
 ### Part4
