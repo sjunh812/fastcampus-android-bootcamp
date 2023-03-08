@@ -69,7 +69,7 @@ class WebtoonFragment(private val position: Int, private val url: String) : Frag
                 AlertDialog.Builder(requireContext()).apply {
                     setTitle("변경할 탭 이름을 입력하세요.")
                     setView(editText)
-                    setPositiveButton("확인") { _, _ -> setTabName(editText.text.toString()) }
+                    setPositiveButton("확인") { _, _ -> setTabNameToMainActivity(editText.text.toString()) }
                     setNegativeButton("취소", null)
                 }.show()
             }
@@ -100,7 +100,7 @@ class WebtoonFragment(private val position: Int, private val url: String) : Frag
             .getString("tab$position", "").takeIf { !it.isNullOrEmpty() }
     }
 
-    private fun setTabName(name: String) {
+    private fun setTabNameToMainActivity(name: String) {
         requireContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE)
             .edit { putString("tab${position}_name", name) }
         (activity as? MainActivity)?.setTabName(position, name)
