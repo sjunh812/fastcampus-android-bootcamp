@@ -11,14 +11,14 @@
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="00:00.0"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@id/view_wave_form"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="00:00.00" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <View
+    <org.sjhstudio.fastcampus.part2.chapter2.WaveFormView
         android:id="@+id/view_wave_form"
         android:layout_width="0dp"
         android:layout_height="250dp"
