@@ -9,9 +9,9 @@ class Timer(tickListener: OnTimerTickListener) {
     private val handler: Handler = Handler(Looper.getMainLooper())
     private val runnable: Runnable = object : Runnable {
         override fun run() {
-            tickListener.onTick(duration)
             duration += TIMER_DELAY
             handler.postDelayed(this, TIMER_DELAY)
+            tickListener.onTick(duration)
         }
     }
 
@@ -21,6 +21,10 @@ class Timer(tickListener: OnTimerTickListener) {
 
     fun start() {
         handler.postDelayed(runnable, TIMER_DELAY)
+    }
+
+    fun pause() {
+        handler.removeCallbacks(runnable)
     }
 
     fun stop() {

@@ -22,6 +22,7 @@
         android:id="@+id/view_wave_form"
         android:layout_width="0dp"
         android:layout_height="250dp"
+        android:background="@color/light_gray"
         app:layout_constraintBottom_toTopOf="@id/flow_buttons"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">chapter2</string>
+
+    <string name="label_grant">허용하기</string>
+    <string name="label_change">변경하기</string>
+    <string name="label_cancel">취소</string>
+
+    <string name="description_record_audio_permission_rationale">
+        녹음 권한을 허용해야 앱을 정상적으로 사용할 수 있습니다.
+    </string>
+    <string name="description_record_audio_permission_settings">
+        녹음 권한을 허용해야 앱을 정상적으로 사용할 수 있습니다. 앱 설정 화면에서 권한을 켜주세요.
+    </string>
 </resources>

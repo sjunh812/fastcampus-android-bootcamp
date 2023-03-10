@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
         // Record to the external cache directory for visibility
         recordFileName = "${externalCacheDir?.absolutePath}/audiorecordtest.3gp"
-
         timer = Timer(this)
 
         initViews()
@@ -65,8 +64,8 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         with(binding) {
             btnRecord.setOnClickListener {
                 when (recordState) {
-                    RecordState.RELEASE -> record()
-                    RecordState.RECORDING -> onRecord(false)
+                    RecordState.RELEASE -> record() // with permission check
+                    RecordState.RECORDING -> stopRecording()
                     else -> {} // do nothing
                 }
             }
@@ -88,6 +87,8 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
     }
 
     private fun updateRecordViews() {
+        if (recordState == RecordState.PLAYING || recordState == RecordState.PAUSE) return
+
         val recordButtonDrawableId =
             if (recordState == RecordState.RELEASE) R.drawable.ic_record_24 else R.drawable.ic_stop_24
         val recordButtonColor =
@@ -137,7 +138,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
     private fun record() {
         when {
             checkSelfPermission(RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED -> {
-                onRecord(true)
+                startRecording()
             }
             shouldShowRequestPermissionRationale(RECORD_AUDIO) -> {
                 showPermissionRationaleDialog()
@@ -147,8 +148,6 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
             }
         }
     }
-
-    private fun onRecord(start: Boolean) = if (start) startRecording() else stopRecording()
 
     private fun startRecording() {
         recordState = RecordState.RECORDING
@@ -168,6 +167,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
             start()
         }
 
+        binding.viewWaveForm.clearData()    // 녹음된 maxAmplitude 리스트 초기화
         timer.start()
 
         updateRecordViews()
@@ -176,7 +176,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
     private fun stopRecording() {
         recordState = RecordState.RELEASE
 
-        recorder?.apply {
+        recorder?.run {
             stop()
             release()
         }
@@ -191,12 +191,13 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         recordState = RecordState.PLAYING
 
         player = MediaPlayer().apply {
-            setDataSource(recordFileName)
-
             try {
+                setDataSource(recordFileName)
                 prepare()
             } catch (e: IOException) {
                 Log.e(LOG, "[MediaPlayer] prepare() failed")
+            } catch (e: IllegalArgumentException) {
+                Log.e(LOG, "[MediaPlayer] setDataSource() failed")
             }
 
             start()
@@ -206,16 +207,22 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
             stopPlaying()
         }
 
+        binding.viewWaveForm.clearWave()    // 그려진 녹음 파형 초기화(maxAmplitude 유지)
+        timer.start()
+
         updatePlayViews()
     }
 
     private fun resumePlaying() {
         recordState = RecordState.PLAYING
-
-        player?.seekTo(position)
-        player?.start()
-
         Log.i(LOG, "[MediaPlayer] play resumed(position : $position)")
+
+        player?.run {
+            seekTo(position)
+            start()
+        }
+
+        timer.start()
 
         updatePlayViews()
     }
@@ -223,10 +230,11 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
     private fun pausePlaying() {
         recordState = RecordState.PAUSE
         position = player?.currentPosition ?: 0
+        Log.i(LOG, "[MediaPlayer] play paused(position : $position)")
 
         player?.pause()
 
-        Log.i(LOG, "[MediaPlayer] play paused(position : $position)")
+        timer.pause()
 
         updatePlayViews()
     }
@@ -234,33 +242,35 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
     private fun stopPlaying() {
         recordState = RecordState.RELEASE
 
-        player?.apply {
+        player?.run {
             stop()
             release()
         }
         player = null
+
+        timer.stop()
 
         updatePlayViews()
     }
 
     private fun showPermissionRationaleDialog() {
         AlertDialog.Builder(this).apply {
-            setMessage("녹음 권한을 허용해야 앱을 정상적으로 사용할 수 있습니다.")
-            setPositiveButton("허용하기") { _, _ ->
+            setMessage(getString(R.string.description_record_audio_permission_rationale))
+            setPositiveButton(getString(R.string.label_grant)) { _, _ ->
                 requestPermissions(
                     arrayOf(RECORD_AUDIO),
                     REQUEST_RECORD_AUDIO
                 )
             }
-            setNegativeButton("취소", null)
+            setNegativeButton(getString(R.string.label_cancel), null)
         }.show()
     }
 
     private fun showPermissionSettingsDialog() {
         AlertDialog.Builder(this).apply {
-            setMessage("녹음 권한을 허용해야 앱을 정상적으로 사용할 수 있습니다. 앱 설정 화면에서 권한을 켜주세요.")
-            setPositiveButton("변경하기") { _, _ -> navigateToAppSettings() }
-            setNegativeButton("취소", null)
+            setMessage(getString(R.string.description_record_audio_permission_settings))
+            setPositiveButton(getString(R.string.label_change)) { _, _ -> navigateToAppSettings() }
+            setNegativeButton(getString(R.string.label_cancel), null)
         }.show()
     }
 
@@ -280,7 +290,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
                 && grantResults.firstOrNull() == PackageManager.PERMISSION_GRANTED
 
         if (audioPermissionGranted) {
-            onRecord(true)
+            startRecording()
         } else if (shouldShowRequestPermissionRationale(RECORD_AUDIO)) {
             showPermissionRationaleDialog()
         } else {
@@ -297,6 +307,11 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         val time = String.format("%02d:%02d.%d", minute, second, millisecond / 100)
 
         binding.tvTime.text = time
-        binding.viewWaveForm.addAmplitude(recorder?.maxAmplitude?.toFloat() ?: 0f)
+
+        if (recordState == RecordState.PLAYING) {
+            binding.viewWaveForm.replyAmplitude()
+        } else {
+            binding.viewWaveForm.addAmplitude(recorder?.maxAmplitude?.toFloat() ?: 0f)
+        }
     }
 }
