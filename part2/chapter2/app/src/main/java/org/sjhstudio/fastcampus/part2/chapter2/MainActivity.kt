@@ -15,15 +15,22 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import org.sjhstudio.fastcampus.part2.chapter2.databinding.ActivityMainBinding
 import java.io.IOException
+import kotlin.concurrent.timer
 
 class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
     private lateinit var binding: ActivityMainBinding
-    private lateinit var timer: Timer
     private var recorder: MediaRecorder? = null
     private var player: MediaPlayer? = null
     private var recordFileName: String = ""
     private var recordState: RecordState = RecordState.RELEASE
+
+    // 화면 상단 타이머 (10ms)
+    private lateinit var timer: Timer
+
+    // 녹음 파형을 그리기 위한 타이머 (40ms)
+    private var waveTimer: java.util.Timer? = null
+    private var waveDuration = 0L
 
     // MediaPlayer seek
     private var position = 0
@@ -170,6 +177,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         binding.viewWaveForm.clearData()    // 녹음된 maxAmplitude 리스트 초기화
         timer.start()
 
+        startWaveTimer()
         updateRecordViews()
     }
 
@@ -184,6 +192,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
         timer.stop()
 
+        stopWaveTimer()
         updateRecordViews()
     }
 
@@ -210,6 +219,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         binding.viewWaveForm.clearWave()    // 그려진 녹음 파형 초기화(maxAmplitude 유지)
         timer.start()
 
+        startWaveTimer()
         updatePlayViews()
     }
 
@@ -224,6 +234,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
         timer.start()
 
+        startWaveTimer()
         updatePlayViews()
     }
 
@@ -236,6 +247,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
         timer.pause()
 
+        stopWaveTimer(pause = true)
         updatePlayViews()
     }
 
@@ -250,6 +262,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
         timer.stop()
 
+        stopWaveTimer()
         updatePlayViews()
     }
 
@@ -280,6 +293,23 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         startActivity(intent)
     }
 
+    private fun startWaveTimer() {
+        waveTimer = timer(period = 40L) {
+            waveDuration += 40
+            if (recordState == RecordState.PLAYING) {
+                binding.viewWaveForm.replyAmplitude()
+            } else if (recordState == RecordState.RECORDING) {
+                binding.viewWaveForm.addAmplitude(recorder?.maxAmplitude?.toFloat() ?: 0f)
+            }
+        }
+    }
+
+    private fun stopWaveTimer(pause: Boolean = false) {
+        if (pause) waveDuration = 0L
+        waveTimer?.cancel()
+        waveTimer = null
+    }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -304,14 +334,8 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         val millisecond = duration % 1000
         val second = (duration / 1000) % 60
         val minute = (duration / 1000 / 60)
-        val time = String.format("%02d:%02d.%d", minute, second, millisecond / 100)
+        val time = String.format("%02d:%02d.%02d", minute, second, millisecond / 10)
 
         binding.tvTime.text = time
-
-        if (recordState == RecordState.PLAYING) {
-            binding.viewWaveForm.replyAmplitude()
-        } else {
-            binding.viewWaveForm.addAmplitude(recorder?.maxAmplitude?.toFloat() ?: 0f)
-        }
     }
 }

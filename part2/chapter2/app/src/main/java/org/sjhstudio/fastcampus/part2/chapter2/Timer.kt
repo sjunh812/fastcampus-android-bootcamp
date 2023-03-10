@@ -16,16 +16,12 @@ class Timer(tickListener: OnTimerTickListener) {
     }
 
     companion object {
-        const val TIMER_DELAY = 100L
+        const val TIMER_DELAY = 10L
     }
 
-    fun start() {
-        handler.postDelayed(runnable, TIMER_DELAY)
-    }
+    fun start() = handler.postDelayed(runnable, TIMER_DELAY)
 
-    fun pause() {
-        handler.removeCallbacks(runnable)
-    }
+    fun pause() = handler.removeCallbacks(runnable)
 
     fun stop() {
         handler.removeCallbacks(runnable)

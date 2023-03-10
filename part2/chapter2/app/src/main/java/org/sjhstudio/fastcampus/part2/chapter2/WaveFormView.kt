@@ -41,10 +41,10 @@ class WaveFormView @JvmOverloads constructor(
         ampList.add(amplitude)
         ampList.takeLast(maxRect).forEachIndexed { i, amp ->
             val rectF = RectF().apply {
-                top = (height / 2) + amp / 2
+                top = (height / 2) - (amp / 2)
                 bottom = top + amp
                 left = i * RECT_WIDTH
-                right = left + RECT_WIDTH
+                right = left + (RECT_WIDTH - 10f)
             }
 
             rectList.add(rectF)
@@ -59,10 +59,10 @@ class WaveFormView @JvmOverloads constructor(
         rectList.clear()
         ampList.take(tick++).takeLast(maxRect).forEachIndexed { i, amp ->
             val rectF = RectF().apply {
-                top = (height / 2) + amp / 2
+                top = (height / 2) - (amp / 2)
                 bottom = top + amp
                 left = i * RECT_WIDTH
-                right = left + RECT_WIDTH
+                right = left + (RECT_WIDTH - 10f)
             }
 
             rectList.add(rectF)

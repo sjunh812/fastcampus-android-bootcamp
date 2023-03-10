@@ -6,12 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <TextView
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="00:00.0"
+        android:text="@string/label_initial_timer"
         android:textSize="40sp"
         app:layout_constraintBottom_toTopOf="@id/view_wave_form"
         app:layout_constraintEnd_toEndOf="parent"
