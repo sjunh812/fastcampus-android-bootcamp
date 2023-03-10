@@ -12,5 +12,6 @@
 
 | 프로젝트 명 | 구현사항 | 태그 |
 | ---- | -------- | -------- |
-| [🎨 웹툰 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter1) | - URL 불러오기<br>- 좌우 스와이프 화면 구현 | `ViewPager2` `WebView` |  
+| [🎨 웹툰 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter1) | - URL 불러오기<br>- 좌우 스와이프 화면 구현 | `ViewPager2` `WebView` | 
+| [🎙 녹음기 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter2) | - 녹음, 재생, 저장 구현<br>- 녹음 파형 그리기 | `MediaRecorder` `MediaPlayer` `Canvas` |
  
