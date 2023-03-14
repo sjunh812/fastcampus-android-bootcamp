@@ -24,13 +24,13 @@
 - HTML 문서를 주고받기 위한 통신 규약
 - 단방향 통신 (클라이언트의 요청, 서버의 응답 이후로 연결을 끊음)
 
-### 요청
+### 요청 (Request)
 **Request Line**, **Header**, **Body** 의 구성
 - Request Line : 메소드 (GET / POST), version, URL 등의 정보
 - Header : 기본 구조에 정의된 대로 서버에 전달하는 정보
 - Body : 요청에 들어가는 데이터 (단순 데이터 요청 시, 사용하지 않음)
 
-### 응답
+### 응답 (Response)
 **Status Line**, **Header**, **Body** 의 구성
 - Status Line : 상태 코드(200, 404..), version 등의 정보
 - Header : 기본 구조에 정의된 대로 서버에 전달하는 정보
