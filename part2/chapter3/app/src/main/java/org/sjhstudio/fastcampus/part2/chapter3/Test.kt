@@ -13,8 +13,10 @@ fun main() {
 
         while (true) {
             val socket = server.accept() // connected(open socket)
-            // socket.getInputStream() : 클라이언트로부터 받은 데이터 흐름 == 클라이언트의 OutputStream
-            // socket.getOutputStream() : 클라리언트에게 보낼 데이터 흐름 == 클라이언트의 InputStream
+
+            // socket.getInputStream() : 클라이언트로부터 받은 데이터 흐름 → 클라이언트의 OutputStream
+            // socket.getOutputStream() : 클라리언트에게 보낼 데이터 흐름 → 클라이언트의 InputStream
+
             val reader = BufferedReader(InputStreamReader(socket.getInputStream()))
             val printer = PrintWriter(socket.getOutputStream())
 
@@ -25,12 +27,15 @@ fun main() {
                 line = reader.readLine()
             }
 
-            println("[SERVER] read data >>\n$input")
+            println("READ DATA >>\n$input")
 
+            // HEADER
             printer.println("HTTP/1.1 200 OK")
             printer.println("Content-Type: text/html")
             printer.println("\r\n")
-            printer.println("<h1>Hello, World!</h1>")
+
+            // BODY
+            printer.println("{ \"message\": \"Hello World!\" }")
             printer.println("\r\n")
 
             printer.flush()
