@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    android:elevation="2.5dp"
+    android:padding="16dp"
+    android:background="@drawable/bg_white_radius_8dp">
+
+    <TextView
+        android:id="@+id/tv_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Repository Name" />
+
+    <TextView
+        android:id="@+id/tv_description"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_name"
+        tools:text="This is description" />
+
+    <View
+        android:id="@+id/view_language"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/circle"
+        app:layout_constraintBottom_toBottomOf="@id/tv_language"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tv_language" />
+
+    <TextView
+        android:id="@+id/tv_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="14sp"
+        app:layout_constraintStart_toEndOf="@id/view_language"
+        app:layout_constraintTop_toBottomOf="@id/tv_description"
+        tools:text="Kotlin" />
+
+    <ImageView
+        android:id="@+id/iv_star_count"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_star_outline_24"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_star_count"
+        app:layout_constraintEnd_toStartOf="@id/tv_star_count"
+        app:layout_constraintTop_toTopOf="@id/tv_star_count" />
+
+    <TextView
+        android:id="@+id/tv_star_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:layout_marginEnd="5dp"
+        app:layout_constraintEnd_toStartOf="@id/iv_fork_count"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_language"
+        tools:text="100" />
+
+    <ImageView
+        android:id="@+id/iv_fork_count"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/ic_fork_right_24"
+        android:layout_marginEnd="3dp"
+        app:layout_constraintBottom_toBottomOf="@id/tv_fork_count"
+        app:layout_constraintEnd_toStartOf="@id/tv_fork_count"
+        app:layout_constraintTop_toTopOf="@id/tv_fork_count" />
+
+    <TextView
+        android:id="@+id/tv_fork_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBaseline_toBaselineOf="@id/tv_language"
+        tools:text="100" />
+</androidx.constraintlayout.widget.ConstraintLayout>

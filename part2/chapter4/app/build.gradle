@@ -3,6 +3,9 @@ plugins {
     id 'org.jetbrains.kotlin.android'
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     namespace 'org.sjhstudio.fastcampus.part2.chapter4'
     compileSdk 33
@@ -15,6 +18,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "GITHUB_API_ACCESS_TOKEN", properties["GITHUB_API_ACCESS_TOKEN"]
     }
 
     buildTypes {
