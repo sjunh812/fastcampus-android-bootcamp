@@ -15,5 +15,4 @@
 | [🎨 웹툰 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter1) | - URL 불러오기<br>- 좌우 스와이프 화면 구현 | `ViewPager2` `WebView` | 
 | [🎙 녹음기 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter2) | - 녹음, 재생, 저장 구현<br>- 녹음 파형 그리기 | `MediaRecorder` `MediaPlayer` `Canvas` |
 | [📌 오늘의 공지 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter3) | - 간단한 서버 및 클라이언트 구현 | `Socket` `OkHttp` `Gson` |
-
- 
+| [🐈‍⬛ 깃허브 레포지토리 조회 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter4) | - 네트워크 통신 구현<br>- 유저 불러오기 및 검색화면 구현 | `Gson` `Retrofit` `OpenAPI` |
