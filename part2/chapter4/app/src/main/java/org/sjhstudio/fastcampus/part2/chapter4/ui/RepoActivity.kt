@@ -9,8 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import org.sjhstudio.fastcampus.part2.chapter4.databinding.ActivityRepoBinding
 import org.sjhstudio.fastcampus.part2.chapter4.model.Repo
+import org.sjhstudio.fastcampus.part2.chapter4.network.ApiClient
 import org.sjhstudio.fastcampus.part2.chapter4.network.GithubService
-import org.sjhstudio.fastcampus.part2.chapter4.network.Network
 import org.sjhstudio.fastcampus.part2.chapter4.ui.MainActivity.Companion.USER_NAME
 import org.sjhstudio.fastcampus.part2.chapter4.ui.adapter.RepoAdapter
 import retrofit2.Call
@@ -64,7 +64,7 @@ class RepoActivity : AppCompatActivity() {
     }
 
     private fun callRepoList(userName: String, page: Int) {
-        val githubApi = Network.getRetrofit().create(GithubService::class.java)
+        val githubApi = ApiClient.getRetrofit().create(GithubService::class.java)
         githubApi.listRepos(userName, page).enqueue(object : Callback<List<Repo>> {
             override fun onFailure(call: Call<List<Repo>>, t: Throwable) {
                 Log.e(LOG, t.message.toString())

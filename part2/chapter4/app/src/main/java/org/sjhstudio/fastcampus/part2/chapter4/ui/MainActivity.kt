@@ -8,16 +8,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
-import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.sjhstudio.fastcampus.part2.chapter4.databinding.ActivityMainBinding
 import org.sjhstudio.fastcampus.part2.chapter4.model.User
 import org.sjhstudio.fastcampus.part2.chapter4.model.UsersDto
 import org.sjhstudio.fastcampus.part2.chapter4.network.GithubService
-import org.sjhstudio.fastcampus.part2.chapter4.network.Network
+import org.sjhstudio.fastcampus.part2.chapter4.network.ApiClient
 import org.sjhstudio.fastcampus.part2.chapter4.ui.adapter.UserAdapter
 import org.sjhstudio.fastcampus.part2.chapter4.util.textChangedFlow
 import retrofit2.Call
@@ -52,6 +49,7 @@ class MainActivity : AppCompatActivity() {
                 adapter = userAdapter
                 layoutManager = LinearLayoutManager(context)
             }
+
             setSearchDebounce()
 //            etSearch.addTextChangedListener { input ->
 //                userNameInput = input.toString()
@@ -69,11 +67,11 @@ class MainActivity : AppCompatActivity() {
             .debounce(500)
             .filter { text -> !text.isNullOrEmpty() }
             .onEach { text -> searchUser(text.toString()) }
-            .launchIn(this)
+            .collect()
     }
 
     private fun searchUser(query: String) {
-        val githubApi = Network.getRetrofit().create(GithubService::class.java)
+        val githubApi = ApiClient.getRetrofit().create(GithubService::class.java)
 
         githubApi.searchUsers(query).enqueue(object : Callback<UsersDto> {
             override fun onFailure(call: Call<UsersDto>, t: Throwable) {

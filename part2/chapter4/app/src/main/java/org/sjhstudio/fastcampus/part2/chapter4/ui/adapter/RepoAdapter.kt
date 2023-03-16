@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -41,13 +42,13 @@ class RepoAdapter(private val onClick: (Repo) -> Unit) :
                 tvDescription.text = repo.description
                 tvStarCount.text = repo.startCount.toString()
                 tvForkCount.text = repo.forkCount.toString()
+                viewLanguage.visibility = if (repo.language != null) View.VISIBLE else View.INVISIBLE
+                tvLanguage.visibility = if (repo.language != null) View.VISIBLE else View.INVISIBLE
 
                 repo.language?.let { language ->
-                    Log.d("LanguageColor", itemView.context.findLanguageColor(language).toString())
-
                     viewLanguage.backgroundTintList = ColorStateList.valueOf(
                         Color.parseColor(
-                            itemView.context.findLanguageColor(language) ?: "#000000"
+                            itemView.context.findLanguageColor(language) ?: "#FFFFFF"
                         )
                     )
                     tvLanguage.text = language
