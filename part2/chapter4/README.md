@@ -1,4 +1,4 @@
-# 🐈‍⬛ Github Repository 조회 앱
+# 🐈‍⬛ 깃허브 레포지토리 조회 앱
 <img src="https://user-images.githubusercontent.com/79048895/225524486-08e22094-0195-41b1-a7da-f9b7ef8112d2.gif" width="324" height="702" />
 
 - `Retrofit`를 통해 네트워크 통신 구현
