@@ -5,17 +5,19 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import org.sjhstudio.fastcampus.part2.chapter5.databinding.ItemNewsBinding
 import org.sjhstudio.fastcampus.part2.chapter5.model.NewsItem
+import org.sjhstudio.fastcampus.part2.chapter5.model.NewsModel
 
-class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(diffCallback) {
+class NewsAdapter : ListAdapter<NewsModel, NewsAdapter.NewsViewHolder>(diffCallback) {
 
     companion object {
-        private val diffCallback = object : DiffUtil.ItemCallback<NewsItem>() {
-            override fun areItemsTheSame(oldItem: NewsItem, newItem: NewsItem) =
+        private val diffCallback = object : DiffUtil.ItemCallback<NewsModel>() {
+            override fun areItemsTheSame(oldItem: NewsModel, newItem: NewsModel) =
                 oldItem === newItem
 
-            override fun areContentsTheSame(oldItem: NewsItem, newItem: NewsItem) =
+            override fun areContentsTheSame(oldItem: NewsModel, newItem: NewsModel) =
                 oldItem == newItem
         }
     }
@@ -46,9 +48,13 @@ class NewsAdapter : ListAdapter<NewsItem, NewsAdapter.NewsViewHolder>(diffCallba
             }
         }
 
-        fun bind(item: NewsItem) {
+        fun bind(item: NewsModel) {
             with(binding) {
                 tvTitle.text = item.title
+
+                Glide.with(itemView.context)
+                    .load(item.imageUrl)
+                    .into(ivThumbnail)
             }
         }
     }

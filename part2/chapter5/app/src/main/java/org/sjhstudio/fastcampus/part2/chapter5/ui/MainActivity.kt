@@ -1,13 +1,12 @@
 package org.sjhstudio.fastcampus.part2.chapter5.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.sjhstudio.fastcampus.part2.chapter5.R
+import org.jsoup.Jsoup
 import org.sjhstudio.fastcampus.part2.chapter5.databinding.ActivityMainBinding
-import org.sjhstudio.fastcampus.part2.chapter5.model.NewsRss
-import org.sjhstudio.fastcampus.part2.chapter5.model.NewsService
+import org.sjhstudio.fastcampus.part2.chapter5.model.*
 import org.sjhstudio.fastcampus.part2.chapter5.network.ApiClient
 import org.sjhstudio.fastcampus.part2.chapter5.ui.adapter.NewsAdapter
 import retrofit2.Call
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
-        test()
+        callMainFeed()
     }
 
     private fun initViews() {
@@ -41,7 +40,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun test() {
+    private fun callMainFeed() {
         val newsService = ApiClient.getRetrofit().create(NewsService::class.java)
 
         newsService.mainFeed().enqueue(object : Callback<NewsRss> {
@@ -52,8 +51,30 @@ class MainActivity : AppCompatActivity() {
             override fun onResponse(call: Call<NewsRss>, response: Response<NewsRss>) {
                 Log.d(LOG, "${response.body()?.channel?.items}")
 
-                newsAdapter.submitList(response.body()?.channel?.items)
+                val newsList = response.body()?.channel?.items?.transform()
+
+                newsAdapter.submitList(newsList)
+                callNewsThumbnail(newsList)
             }
         })
+    }
+
+    private fun callNewsThumbnail(list: List<NewsModel>?) {
+        Thread {
+            try {
+                list?.forEachIndexed { i, news ->
+                    val jsoup = Jsoup.connect(news.link).get()
+                    val elements = jsoup.select("meta[property^=og:]")
+                    val ogImageNode = elements.find { element -> element.attr("property") == "og:image" }
+                    val imageUrl = ogImageNode?.attr("content")
+
+                    news.imageUrl = imageUrl
+
+                    runOnUiThread { newsAdapter.notifyItemChanged(i) }
+                }
+            } catch (e : Exception) {
+                e.printStackTrace()
+            }
+        }.start()
     }
 }
