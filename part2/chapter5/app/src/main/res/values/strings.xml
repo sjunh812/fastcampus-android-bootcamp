@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">chapter5</string>
+
+    <string name="hint_search">검색어를 입력해주세요.</string>
+
+    <string name="label_feed">피드</string>
+    <string name="label_politics">정치</string>
+    <string name="label_economy">경제</string>
+    <string name="label_society">사회</string>
+    <string name="label_it">정보기술</string>
+    <string name="label_sport">스포츠</string>
+
+    <string name="label_search_empty">검색결과가 없습니다.</string>
 </resources>

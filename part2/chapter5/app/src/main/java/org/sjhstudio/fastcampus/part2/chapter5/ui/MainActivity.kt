@@ -1,12 +1,22 @@
 package org.sjhstudio.fastcampus.part2.chapter5.ui
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.jsoup.Jsoup
+import org.sjhstudio.fastcampus.part2.chapter5.R
+import org.sjhstudio.fastcampus.part2.chapter5.WebViewActivity
 import org.sjhstudio.fastcampus.part2.chapter5.databinding.ActivityMainBinding
-import org.sjhstudio.fastcampus.part2.chapter5.model.*
+import org.sjhstudio.fastcampus.part2.chapter5.model.NewsModel
+import org.sjhstudio.fastcampus.part2.chapter5.model.NewsRss
+import org.sjhstudio.fastcampus.part2.chapter5.model.NewsService
+import org.sjhstudio.fastcampus.part2.chapter5.model.transform
 import org.sjhstudio.fastcampus.part2.chapter5.network.ApiClient
 import org.sjhstudio.fastcampus.part2.chapter5.ui.adapter.NewsAdapter
 import retrofit2.Call
@@ -16,10 +26,19 @@ import retrofit2.Response
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val newsAdapter: NewsAdapter by lazy { NewsAdapter() }
+    private val newsAdapter: NewsAdapter by lazy {
+        NewsAdapter { url -> navigateToWebViewActivity(url) }
+    }
+    private val newsService: NewsService by lazy {
+        ApiClient.getRetrofit().create(NewsService::class.java)
+    }
+    private val imm: InputMethodManager by lazy {
+        getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
 
     companion object {
         private const val LOG = "MainActivity"
+        const val NEWS_URL = "newsUrl"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,11 +47,44 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
-        callMainFeed()
+        newsService.mainFeed().submitList()
     }
 
     private fun initViews() {
         with(binding) {
+            etSearch.apply {
+                setOnEditorActionListener { v, actionId, _ ->
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        chipGroup.clearCheck()
+                        clearFocus()
+                        imm.hideSoftInputFromWindow(v.windowToken, 0)
+                        newsService.search(text.toString()).submitList()
+                        true
+                    } else {
+                        false
+                    }
+                }
+            }
+
+            chipGroup.apply {
+                setOnCheckedStateChangeListener { group, checkedIds ->
+                    if (checkedIds.isEmpty()) return@setOnCheckedStateChangeListener
+                    // singleSelection 이 반드시 true 여야 작동
+                    Log.d(LOG, "checkedId: ${checkedIds.first()}")
+                    etSearch.setText("")
+                    etSearch.clearFocus()
+
+                    when (checkedIds.first()) {
+                        R.id.chip_feed -> newsService.mainFeed().submitList()
+                        R.id.chip_politics -> newsService.politicsNews().submitList()
+                        R.id.chip_economy -> newsService.economyNews().submitList()
+                        R.id.chip_society -> newsService.societyNews().submitList()
+                        R.id.chip_it -> newsService.itNews().submitList()
+                        R.id.chip_sport -> newsService.sportNews().submitList()
+                    }
+                }
+            }
+
             rvNews.apply {
                 adapter = newsAdapter
                 layoutManager = LinearLayoutManager(context)
@@ -40,10 +92,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun callMainFeed() {
-        val newsService = ApiClient.getRetrofit().create(NewsService::class.java)
-
-        newsService.mainFeed().enqueue(object : Callback<NewsRss> {
+    private fun Call<NewsRss>.submitList() {
+        enqueue(object : Callback<NewsRss> {
             override fun onFailure(call: Call<NewsRss>, t: Throwable) {
                 t.printStackTrace()
             }
@@ -52,7 +102,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d(LOG, "${response.body()?.channel?.items}")
 
                 val newsList = response.body()?.channel?.items?.transform()
-
+                binding.viewSearchEmpty.isVisible = newsList.isNullOrEmpty()
                 newsAdapter.submitList(newsList)
                 callNewsThumbnail(newsList)
             }
@@ -65,16 +115,24 @@ class MainActivity : AppCompatActivity() {
                 list?.forEachIndexed { i, news ->
                     val jsoup = Jsoup.connect(news.link).get()
                     val elements = jsoup.select("meta[property^=og:]")
-                    val ogImageNode = elements.find { element -> element.attr("property") == "og:image" }
+                    val ogImageNode =
+                        elements.find { element -> element.attr("property") == "og:image" }
                     val imageUrl = ogImageNode?.attr("content")
 
                     news.imageUrl = imageUrl
 
                     runOnUiThread { newsAdapter.notifyItemChanged(i) }
                 }
-            } catch (e : Exception) {
+            } catch (e: Exception) {
                 e.printStackTrace()
             }
         }.start()
+    }
+
+    private fun navigateToWebViewActivity(url: String) {
+        startActivity(
+            Intent(this, WebViewActivity::class.java)
+                .apply { putExtra(NEWS_URL, url) }
+        )
     }
 }
