@@ -4,11 +4,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.MotionEvent
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.textfield.TextInputEditText
 import org.jsoup.Jsoup
 import org.sjhstudio.fastcampus.part2.chapter5.R
 import org.sjhstudio.fastcampus.part2.chapter5.WebViewActivity
@@ -39,6 +41,26 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val LOG = "MainActivity"
         const val NEWS_URL = "newsUrl"
+    }
+
+    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+        val view = currentFocus
+
+        view?.takeIf { v -> v is TextInputEditText && ev.action == MotionEvent.ACTION_UP }
+            ?.let { et ->
+                val x = ev.rawX
+                val y = ev.rawY
+                val outLocation = IntArray(2)
+
+                et.getLocationOnScreen(outLocation)
+
+                if (x < outLocation[0] || x > outLocation[0] + et.width || y < outLocation[1] || y > outLocation[1] + et.height) {
+                    et.clearFocus()
+                    imm.hideSoftInputFromWindow(et.windowToken, 0)
+                }
+            }
+
+        return super.dispatchTouchEvent(ev)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -72,7 +94,7 @@ class MainActivity : AppCompatActivity() {
                     // singleSelection 이 반드시 true 여야 작동
                     Log.d(LOG, "checkedId: ${checkedIds.first()}")
                     etSearch.setText("")
-                    etSearch.clearFocus()
+//                    etSearch.clearFocus()
 
                     when (checkedIds.first()) {
                         R.id.chip_feed -> newsService.mainFeed().submitList()
