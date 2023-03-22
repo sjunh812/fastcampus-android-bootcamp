@@ -67,5 +67,31 @@ https://airbnb.io/lottie/#/
 
 Airbnb 에서 만든 애니메이션 처리 라이브러리  
 
-JSON 파일 형식으로 데이터를 불러와 간편하게 개발자가 디자이너에게 전달받은 애니메이션을 그려줄 수 있다.
+JSON 파일 형식으로 데이터를 불러와 간편하게 개발자가 디자이너에게 전달받은 애니메이션을 그려줄 수 있다.  
+<br>
+
+## EditText 포커스 해제 및 키보드 내리기
+`EditText` 범위 밖에 터치 이벤트가 발생했을 때
+```Kotlin
+override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
+    val view = currentFocus
+
+    view?.takeIf { v -> v is TextInputEditText && ev.action == MotionEvent.ACTION_UP }
+        ?.let { et ->
+            val x = ev.rawX     // 터치 이벤트 발생 위치(x)
+            val y = ev.rawY     // 터치 이벤트 발생 위치(y)
+            val outLocation = IntArray(2)   // EditText의 위치를 저장할 배열
+
+            et.getLocationOnScreen(outLocation) // EditText 위치 정보 가져오기
+
+            if (x < outLocation[0] || x > outLocation[0] + et.width || y < outLocation[1] || y > outLocation[1] + et.height) {
+                et.clearFocus()     // 포커스 해제
+                imm.hideSoftInputFromWindow(et.windowToken, 0)      // 키보드 내리기
+            }
+        }
+
+    return super.dispatchTouchEvent(ev)
+}
+```
+
 
