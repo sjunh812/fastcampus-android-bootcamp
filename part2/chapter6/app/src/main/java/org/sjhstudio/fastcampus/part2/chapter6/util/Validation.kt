@@ -1,11 +1,18 @@
-package org.sjhstudio.fastcampus.part2.chapter6
+package org.sjhstudio.fastcampus.part2.chapter6.util
 
 import java.util.regex.Pattern
 
 object Validation {
 
     fun validateEmail(email: String): Boolean? {
-        return true
+        val emailRegex = "^[a-zA-z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,}$"
+        val emailPattern = Pattern.compile(emailRegex)
+
+        return when {
+            email.isEmpty() -> null
+            !emailPattern.matcher(email).matches() -> false
+            else -> true
+        }
     }
 
     fun validatePassword(password: String): Boolean? {
