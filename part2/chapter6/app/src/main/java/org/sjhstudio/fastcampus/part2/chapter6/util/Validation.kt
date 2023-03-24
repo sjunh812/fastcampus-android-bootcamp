@@ -5,7 +5,7 @@ import java.util.regex.Pattern
 object Validation {
 
     fun validateEmail(email: String): Boolean? {
-        val emailRegex = "^[a-zA-z0-9]+@[a-zA-Z0-9]+\\.[a-zA-Z0-9]{2,}$"
+        val emailRegex = "^[_a-zA-Z\\d-]+(\\.[_a-zA-Z\\d]+)*@[a-zA-Z\\d]+(\\.[a-zA-Z\\d]+)*(\\.[a-zA-Z]{2,})$"
         val emailPattern = Pattern.compile(emailRegex)
 
         return when {

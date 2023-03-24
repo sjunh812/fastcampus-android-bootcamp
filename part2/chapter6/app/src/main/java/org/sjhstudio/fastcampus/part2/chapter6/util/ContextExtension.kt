@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter6
+package org.sjhstudio.fastcampus.part2.chapter6.util
 
 import android.content.Context
 import android.widget.Toast

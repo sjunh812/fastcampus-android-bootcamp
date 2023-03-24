@@ -7,14 +7,20 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.sjhstudio.fastcampus.part2.chapter6.databinding.ActivityLoginBinding
-import org.sjhstudio.fastcampus.part2.chapter6.showToastMessage
+import org.sjhstudio.fastcampus.part2.chapter6.model.User
+import org.sjhstudio.fastcampus.part2.chapter6.util.Constants
+import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_URL
 import org.sjhstudio.fastcampus.part2.chapter6.util.Validation
+import org.sjhstudio.fastcampus.part2.chapter6.util.showToastMessage
 
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private lateinit var database: DatabaseReference
 
     companion object {
         private const val LOG = "LoginActivity"
@@ -22,6 +28,7 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        database = Firebase.database(DB_URL).reference
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -35,43 +42,64 @@ class LoginActivity : AppCompatActivity() {
             }
 
             btnSignUp.setOnClickListener {
-                val email = binding.etEmail.text.toString()
-                val password = binding.etPassword.text.toString()
-
-                if (!validate(email, password)) return@setOnClickListener
-
-                Firebase.auth.createUserWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this@LoginActivity) { task ->
-                        if (task.isSuccessful) {
-                            // 회원가입 성공
-                            showToastMessage("회원가입에 성공했습니다.")
-                        } else {
-                            // 회원가입 실패
-                            Log.e(LOG, task.exception.toString())
-                            showToastMessage("회원가입에 실패했습니다.")
-                        }
-                    }
+                signUp(etEmail.text.toString(), etPassword.text.toString())
             }
 
             btnLogin.setOnClickListener {
-                val email = binding.etEmail.text.toString()
-                val password = binding.etPassword.text.toString()
-
-                if (!validate(email, password, loginValidation = true)) return@setOnClickListener
-
-                Firebase.auth.signInWithEmailAndPassword(email, password)
-                    .addOnCompleteListener(this@LoginActivity) { task ->
-                        if (task.isSuccessful) {
-                            // 로그인 성공
-                            navigateToMainActivity()
-                        } else {
-                            // 로그인 실패
-                            Log.e(LOG, task.exception.toString())
-                            showToastMessage("로그인에 실패했습니다.")
-                        }
-                    }
+                login(etEmail.text.toString(), etPassword.text.toString())
             }
         }
+    }
+
+    // 회원가입
+    private fun signUp(email: String, password: String) {
+        if (!validate(email, password)) return
+
+        Firebase.auth.createUserWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this@LoginActivity) { task ->
+                if (task.isSuccessful) {
+                    // 회원가입 성공
+                    showToastMessage("회원가입에 성공했습니다.")
+                    login(email, password)
+                } else {
+                    // 회원가입 실패
+                    Log.e(LOG, task.exception.toString())
+                    showToastMessage("회원가입에 실패했습니다.")
+                }
+            }
+    }
+
+    // 로그인
+    private fun login(email: String, password: String) {
+        if (!validate(email, password, loginValidation = true)) return
+
+        Firebase.auth.signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener(this@LoginActivity) { task ->
+                if (task.isSuccessful) {
+                    // 로그인 성공
+                    Firebase.auth.currentUser?.let { currentUser ->
+                        val user = User(
+                            userId = currentUser.uid,
+                            userName = email
+                        )
+
+                        database.child(Constants.DB_USERS).child(currentUser.uid)
+                            .setValue(user)
+                            .addOnCompleteListener(this) {
+                                Log.d(LOG, "유저정보 쓰기 성공")
+                            }
+                            .addOnFailureListener(this) {
+                                Log.e(LOG, "유저정보 쓰기 실패: $it")
+                            }
+
+                        navigateToMainActivity()
+                    }
+                } else {
+                    // 로그인 실패
+                    Log.e(LOG, task.exception.toString())
+                    showToastMessage("로그인에 실패했습니다.")
+                }
+            }
     }
 
     private fun validate(
@@ -88,9 +116,11 @@ class LoginActivity : AppCompatActivity() {
     private fun emailValidation(email: String): Boolean {
         when (Validation.validateEmail(email)) {
             null -> {
+                binding.etEmail.requestFocus()
                 handleInputError(binding.textInputLayoutEmail, "이메일을 입력해주세요.")
             }
             false -> {
+                binding.etEmail.requestFocus()
                 handleInputError(binding.textInputLayoutEmail, "이메일 형식이 맞지 않습니다.")
             }
             true -> {
@@ -105,6 +135,7 @@ class LoginActivity : AppCompatActivity() {
     private fun passwordValidation(password: String, loginValidation: Boolean): Boolean {
         when (Validation.validatePassword(password)) {
             null -> {
+                binding.etPassword.requestFocus()
                 handleInputError(binding.textInputLayoutPassword, "비밀번호를 입력해주세요.")
             }
             false -> {
@@ -112,6 +143,7 @@ class LoginActivity : AppCompatActivity() {
                     handleInputSuccess(binding.textInputLayoutPassword)
                     return true
                 }
+                binding.etPassword.requestFocus()
                 handleInputError(binding.textInputLayoutPassword, "올바르지 않은 비밀번호입니다.")
                 showToastMessage("영문 숫자 포함 8자이상 20이내의 비밀번호를 입력해주세요.")
             }
