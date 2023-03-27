@@ -60,7 +60,7 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 회원가입 성공
                     showToastMessage("회원가입에 성공했습니다.")
-                    login(email, password)
+                    login(email, password, signUp = true)
                 } else {
                     // 회원가입 실패
                     Log.e(LOG, task.exception.toString())
@@ -70,7 +70,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     // 로그인
-    private fun login(email: String, password: String) {
+    private fun login(email: String, password: String, signUp: Boolean = false) {
         if (!validate(email, password, loginValidation = true)) return
 
         Firebase.auth.signInWithEmailAndPassword(email, password)
@@ -78,19 +78,22 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 로그인 성공
                     Firebase.auth.currentUser?.let { currentUser ->
-                        val user = User(
-                            userId = currentUser.uid,
-                            userName = email
-                        )
+                        if (signUp) {
+                            val user = User(
+                                userId = currentUser.uid,
+                                userName = email,
+                                description = ""
+                            )
 
-                        database.child(Constants.DB_USERS).child(currentUser.uid)
-                            .setValue(user)
-                            .addOnCompleteListener(this) {
-                                Log.d(LOG, "유저정보 쓰기 성공")
-                            }
-                            .addOnFailureListener(this) {
-                                Log.e(LOG, "유저정보 쓰기 실패: $it")
-                            }
+                            database.child(Constants.DB_USERS).child(currentUser.uid)
+                                .setValue(user)
+                                .addOnCompleteListener(this) {
+                                    Log.d(LOG, "유저정보 쓰기 성공")
+                                }
+                                .addOnFailureListener(this) {
+                                    Log.e(LOG, "유저정보 쓰기 실패: $it")
+                                }
+                        }
 
                         navigateToMainActivity()
                     }

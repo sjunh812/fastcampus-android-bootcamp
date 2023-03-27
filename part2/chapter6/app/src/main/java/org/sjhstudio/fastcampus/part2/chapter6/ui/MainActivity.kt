@@ -2,7 +2,6 @@ package org.sjhstudio.fastcampus.part2.chapter6.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseUser
@@ -12,11 +11,9 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import org.sjhstudio.fastcampus.part2.chapter6.R
 import org.sjhstudio.fastcampus.part2.chapter6.databinding.ActivityMainBinding
-import org.sjhstudio.fastcampus.part2.chapter6.model.User
-import org.sjhstudio.fastcampus.part2.chapter6.ui.chat.ChatFragment
+import org.sjhstudio.fastcampus.part2.chapter6.ui.chatroom.ChatRoomFragment
 import org.sjhstudio.fastcampus.part2.chapter6.ui.mypage.MyPageFragment
 import org.sjhstudio.fastcampus.part2.chapter6.ui.user.UserFragment
-import org.sjhstudio.fastcampus.part2.chapter6.util.Constants
 import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_URL
 
 class MainActivity : AppCompatActivity() {
@@ -25,7 +22,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var database: DatabaseReference
     private var currentUser: FirebaseUser? = null
     private val userFragment: UserFragment by lazy { UserFragment() }
-    private val chatFragment: ChatFragment by lazy { ChatFragment() }
+    private val chatRoomFragment: ChatRoomFragment by lazy { ChatRoomFragment() }
     private val myPageFragment: MyPageFragment by lazy { MyPageFragment() }
 
     companion object {
@@ -56,7 +53,7 @@ class MainActivity : AppCompatActivity() {
                         true
                     }
                     R.id.menu_chat -> {
-                        replaceFragment(chatFragment)
+                        replaceFragment(chatRoomFragment)
                         true
                     }
                     R.id.menu_my_page -> {

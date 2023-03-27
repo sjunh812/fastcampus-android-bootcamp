@@ -13,4 +13,5 @@
     <string name="label_description">상태메시지</string>
     <string name="label_edit">수정하기</string>
     <string name="label_logout">로그아웃</string>
+    <string name="label_send">전송</string>
 </resources>
