@@ -21,7 +21,6 @@ open class BaseFragment<T : ViewBinding>(
     private var _binding: T? = null
     protected val binding: T
         get() = _binding ?: error("ViewBinding error")
-
     lateinit var database: DatabaseReference
     protected val userId: String? by lazy { Firebase.auth.currentUser?.uid }
 

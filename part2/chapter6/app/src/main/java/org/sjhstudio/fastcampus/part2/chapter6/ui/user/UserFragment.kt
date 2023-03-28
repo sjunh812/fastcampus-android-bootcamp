@@ -44,6 +44,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>(FragmentUserBinding::infl
     }
 
     private fun getUserList() {
+        // 최초 1회 listening
         database.child(DB_USERS).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userList = mutableListOf<User>()
@@ -62,25 +63,25 @@ class UserFragment : BaseFragment<FragmentUserBinding>(FragmentUserBinding::infl
         })
     }
 
-    private fun navigateToChatActivity(user: User) {
-        // ChatRooms/myUserId/otherUserId(user) 확인
+    private fun navigateToChatActivity(otherUser: User) {
+        // ChatRooms/myUserId/otherUserId 확인
         // 없다면, unique 한 새로운 chatRoomId 생성
-        val chatRoomReference =
-            database.child(DB_CHAT_ROOMS).child(userId!!).child(user.userId ?: "")
+        val chatRoomReference = database.child(DB_CHAT_ROOMS)
+            .child(userId!!)
+            .child(otherUser.userId ?: "")
 
         chatRoomReference.get().addOnSuccessListener { dataSnapshot ->
             val chatRoom = dataSnapshot.getValue(ChatRoom::class.java)
-            var chatRoomId = ""
+            val chatRoomId: String
 
-            if (chatRoom != null) {
-                // 데이터가 존재
+            if (chatRoom != null) { // 데이터가 존재
                 chatRoomId = chatRoom.chatRoomId ?: ""
-            } else {
+            } else {    // 데이터가 없음.
                 chatRoomId = UUID.randomUUID().toString()
                 val newChatRoom = ChatRoom(
                     chatRoomId = chatRoomId,
-                    otherUserId = user.userId,
-                    otherUserName = user.userName
+                    otherUserId = otherUser.userId,
+                    otherUserName = otherUser.userName
                 )
                 chatRoomReference.setValue(newChatRoom)
             }
@@ -88,7 +89,7 @@ class UserFragment : BaseFragment<FragmentUserBinding>(FragmentUserBinding::infl
             val intent = Intent(requireContext(), ChatActivity::class.java)
                 .apply {
                     putExtra(EXTRA_CHAT_ROOM_ID, chatRoomId)
-                    putExtra(EXTRA_OTHER_USER_ID, user.userId)
+                    putExtra(EXTRA_OTHER_USER_ID, otherUser.userId)
                 }
             startActivity(intent)
         }

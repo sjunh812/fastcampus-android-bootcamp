@@ -4,7 +4,7 @@ import com.google.firebase.database.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 data class Chat(
-    val chatId: String? = null,
+    var chatId: String? = null,
     val message: String? = null,
     val userId: String? = null
 )

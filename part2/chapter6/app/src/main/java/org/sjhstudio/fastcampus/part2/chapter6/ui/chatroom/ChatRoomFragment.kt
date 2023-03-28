@@ -1,5 +1,6 @@
 package org.sjhstudio.fastcampus.part2.chapter6.ui.chatroom
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -10,12 +11,19 @@ import com.google.firebase.database.ValueEventListener
 import org.sjhstudio.fastcampus.part2.chapter6.databinding.FragmentChatRoomBinding
 import org.sjhstudio.fastcampus.part2.chapter6.model.ChatRoom
 import org.sjhstudio.fastcampus.part2.chapter6.ui.base.BaseFragment
+import org.sjhstudio.fastcampus.part2.chapter6.ui.chat.ChatActivity
+import org.sjhstudio.fastcampus.part2.chapter6.ui.chat.ChatActivity.Companion.EXTRA_CHAT_ROOM_ID
+import org.sjhstudio.fastcampus.part2.chapter6.ui.chat.ChatActivity.Companion.EXTRA_OTHER_USER_ID
 import org.sjhstudio.fastcampus.part2.chapter6.ui.chatroom.adapter.ChatRoomAdapter
 import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_CHAT_ROOMS
 
 class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(FragmentChatRoomBinding::inflate) {
 
-    private val chatRoomAdapter: ChatRoomAdapter by lazy { ChatRoomAdapter() }
+    private val chatRoomAdapter: ChatRoomAdapter by lazy {
+        ChatRoomAdapter { chatRoom ->
+            navigateToChatActivity(chatRoom)
+        }
+    }
 
     companion object {
         private const val LOG = "ChatRoomFragment"
@@ -52,5 +60,14 @@ class ChatRoomFragment : BaseFragment<FragmentChatRoomBinding>(FragmentChatRoomB
                     Log.e(LOG, error.message)
                 }
             })
+    }
+
+    private fun navigateToChatActivity(chatRoom: ChatRoom) {
+        val intent = Intent(requireContext(), ChatActivity::class.java)
+            .apply {
+                putExtra(EXTRA_CHAT_ROOM_ID, chatRoom.chatRoomId)
+                putExtra(EXTRA_OTHER_USER_ID, chatRoom.otherUserId)
+            }
+        startActivity(intent)
     }
 }
