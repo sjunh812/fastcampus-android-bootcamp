@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">chapter6</string>
+    <string name="notification_channel_id">notificationChannelId</string>
+    <string name="notification_channel_name">notificationChannel</string>
+    <string name="notification_channel_description">This is chat notification.</string>
 
     <string name="hint_input_email">이메일</string>
     <string name="hint_input_password">패스워드</string>
