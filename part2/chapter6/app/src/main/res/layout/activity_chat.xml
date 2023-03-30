@@ -36,6 +36,7 @@
             android:layout_weight="1"
             android:background="@drawable/bg_white_radius_8dp"
             android:padding="10dp"
+            android:enabled="false"
             android:textColor="@color/black"
             android:textSize="15sp" />
 

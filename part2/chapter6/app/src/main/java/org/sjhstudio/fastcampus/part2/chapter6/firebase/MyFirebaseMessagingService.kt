@@ -10,7 +10,6 @@ import org.sjhstudio.fastcampus.part2.chapter6.R
 
 class MyFirebaseMessagingService : FirebaseMessagingService() {
 
-    private val channelId = getString(R.string.notification_channel_id)
     private val notificationManager: NotificationManager by lazy {
         getSystemService(NOTIFICATION_SERVICE) as NotificationManager
     }
@@ -40,8 +39,9 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         val name = getString(R.string.notification_channel_name)
         val description = getString(R.string.notification_channel_description)
         val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val notificationChannel = NotificationChannel(channelId, name, importance)
-            .apply { setDescription(description) }
+        val notificationChannel =
+            NotificationChannel(getString(R.string.notification_channel_id), name, importance)
+                .apply { setDescription(description) }
 
         notificationManager.createNotificationChannel(notificationChannel)
 
@@ -49,7 +49,10 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
     }
 
     private fun createNotification(title: String, content: String) {
-        val notification = NotificationCompat.Builder(applicationContext, channelId)
+        val notification = NotificationCompat.Builder(
+            applicationContext,
+            getString(R.string.notification_channel_id)
+        )
             .setSmallIcon(R.drawable.ic_chat_bubble_24)
             .setContentTitle(title)
             .setContentText(content)

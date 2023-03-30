@@ -10,10 +10,15 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.ktx.messaging
 import org.sjhstudio.fastcampus.part2.chapter6.databinding.ActivityLoginBinding
 import org.sjhstudio.fastcampus.part2.chapter6.model.User
 import org.sjhstudio.fastcampus.part2.chapter6.util.Constants
 import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_URL
+import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_USERS
+import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_USERS_FCM_TOKEN
+import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_USERS_USER_ID
+import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_USERS_USER_NAME
 import org.sjhstudio.fastcampus.part2.chapter6.util.Validation
 import org.sjhstudio.fastcampus.part2.chapter6.util.showToastMessage
 
@@ -78,24 +83,23 @@ class LoginActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // 로그인 성공
                     Firebase.auth.currentUser?.let { currentUser ->
-                        if (signUp) {
-                            val user = User(
-                                userId = currentUser.uid,
-                                userName = email,
-                                description = ""
+                        Firebase.messaging.token.addOnCompleteListener { task ->
+                            val token = task.result
+                            val updateMap = mutableMapOf<String, Any>(
+                                DB_USERS_USER_ID to currentUser.uid,
+                                DB_USERS_FCM_TOKEN to token
                             )
 
-                            database.child(Constants.DB_USERS).child(currentUser.uid)
-                                .setValue(user)
-                                .addOnCompleteListener(this) {
-                                    Log.d(LOG, "유저정보 쓰기 성공")
-                                }
-                                .addOnFailureListener(this) {
-                                    Log.e(LOG, "유저정보 쓰기 실패: $it")
-                                }
-                        }
+                            // 회원가입시, 닉네임을 이메일로 초기화
+                            if (signUp) updateMap[DB_USERS_USER_NAME] = email
 
-                        navigateToMainActivity()
+                            database.child(DB_USERS).child(currentUser.uid)
+                                .updateChildren(updateMap)
+                                .addOnSuccessListener { Log.d(LOG, "유저정보 쓰기 성공") }
+                                .addOnFailureListener { Log.e(LOG, "유저정보 쓰기 실패: $it") }
+
+                            navigateToMainActivity()
+                        }
                     }
                 } else {
                     // 로그인 실패

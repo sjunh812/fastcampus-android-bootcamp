@@ -14,3 +14,4 @@
 .cxx
 local.properties
 /app/google-services.json
+/app/src/main/java/org/sjhstudio/fastcampus/part2/chapter6/util/Constants.kt
