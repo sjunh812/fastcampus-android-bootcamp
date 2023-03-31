@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -31,7 +32,16 @@ class ChatActivity : BaseActivity<ActivityChatBinding>(ActivityChatBinding::infl
 
     private val chatRoomId: String? by lazy { intent.getStringExtra(EXTRA_CHAT_ROOM_ID) }
     private val otherUserId: String? by lazy { intent.getStringExtra(EXTRA_OTHER_USER_ID) }
-    private val chatAdapter: ChatAdapter by lazy { ChatAdapter() }
+    private val chatAdapter: ChatAdapter by lazy {
+        ChatAdapter().apply {
+            registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+                override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                    super.onItemRangeInserted(positionStart, itemCount)
+                    binding.rvChat.smoothScrollToPosition(chatAdapter.currentList.lastIndex)
+                }
+            })
+        }
+    }
     private var userName: String = ""
     private var otherUser: User? = null
     private var chatList = mutableListOf<Chat>()
@@ -135,7 +145,6 @@ class ChatActivity : BaseActivity<ActivityChatBinding>(ActivityChatBinding::infl
                     val chat = snapshot.getValue(Chat::class.java) ?: return
                     chatList.add(chat)
                     chatAdapter.submitList(chatList.toMutableList())
-                    binding.rvChat.smoothScrollToPosition(chatList.lastIndex)
                 }
 
                 override fun onChildChanged(
@@ -156,6 +165,7 @@ class ChatActivity : BaseActivity<ActivityChatBinding>(ActivityChatBinding::infl
             })
     }
 
+    // OkHttp3를 이용해 FCM 서버에 메시지 객체(Json) 전달.
     private fun sendFcmMessage(title: String, body: String) {
         val okHttpClient = OkHttpClient()
 
@@ -172,11 +182,14 @@ class ChatActivity : BaseActivity<ActivityChatBinding>(ActivityChatBinding::infl
         rootJson.put("notification", notificationJson)
 
         val request = Request.Builder()
-            .post(rootJson.toString().toRequestBody("application/json; charset=utf-8".toMediaType()))
+            .post(
+                rootJson.toString().toRequestBody("application/json; charset=utf-8".toMediaType())
+            )
             .header("Authorization", "key=${FCM_SERVER_KEY}")
             .url(FCM_SERVER_URL)
             .build()
-        okHttpClient.newCall(request).enqueue(object: Callback {
+
+        okHttpClient.newCall(request).enqueue(object : Callback {
             override fun onFailure(call: Call, e: IOException) {
                 Log.e(LOG, e.message.toString())
             }

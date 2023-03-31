@@ -11,13 +11,11 @@ object Constants {
     const val DB_USERS = "Users"
     const val DB_CHAT_ROOMS = "ChatRooms"
     const val DB_CHATS = "Chats"
-
     // DB Users
     const val DB_USERS_USER_ID = "userId"
     const val DB_USERS_USER_NAME = "userName"
     const val DB_USERS_DESCRIPTION = "description"
     const val DB_USERS_FCM_TOKEN = "fcmToken"
-
     // DB ChatRooms
     const val DB_CHAT_ROOMS_LAST_MESSAGE = "lastMessage"
     const val DB_CHAT_ROOMS_CHAT_ROOM_ID = "chatRoomId"

@@ -12,8 +12,6 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.messaging.ktx.messaging
 import org.sjhstudio.fastcampus.part2.chapter6.databinding.ActivityLoginBinding
-import org.sjhstudio.fastcampus.part2.chapter6.model.User
-import org.sjhstudio.fastcampus.part2.chapter6.util.Constants
 import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_URL
 import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_USERS
 import org.sjhstudio.fastcampus.part2.chapter6.util.Constants.DB_USERS_FCM_TOKEN
@@ -76,7 +74,7 @@ class LoginActivity : AppCompatActivity() {
 
     // 로그인
     private fun login(email: String, password: String, signUp: Boolean = false) {
-        if (!validate(email, password, loginValidation = true)) return
+        if (!validate(email, password, isLogin = true)) return
 
         Firebase.auth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener(this@LoginActivity) { task ->
@@ -112,55 +110,56 @@ class LoginActivity : AppCompatActivity() {
     private fun validate(
         email: String,
         password: String,
-        loginValidation: Boolean = false
+        isLogin: Boolean = false
     ): Boolean {
         if (!emailValidation(email)) return false
-        if (!passwordValidation(password, loginValidation)) return false
+
+        if (!passwordValidation(password, isLogin)) return false
 
         return true
     }
 
     private fun emailValidation(email: String): Boolean {
-        when (Validation.validateEmail(email)) {
+        return when (Validation.validateEmail(email)) {
             null -> {
                 binding.etEmail.requestFocus()
                 handleInputError(binding.textInputLayoutEmail, "이메일을 입력해주세요.")
+                false
             }
             false -> {
                 binding.etEmail.requestFocus()
                 handleInputError(binding.textInputLayoutEmail, "이메일 형식이 맞지 않습니다.")
+                false
             }
             true -> {
                 handleInputSuccess(binding.textInputLayoutEmail)
-                return true
+                true
             }
         }
-
-        return false
     }
 
-    private fun passwordValidation(password: String, loginValidation: Boolean): Boolean {
-        when (Validation.validatePassword(password)) {
+    private fun passwordValidation(password: String, isLogin: Boolean): Boolean {
+        return when (Validation.validatePassword(password)) {
             null -> {
                 binding.etPassword.requestFocus()
                 handleInputError(binding.textInputLayoutPassword, "비밀번호를 입력해주세요.")
+                false
             }
             false -> {
-                if (loginValidation) {
+                if (isLogin) {  // 로그인에서는 빈값만 체크
                     handleInputSuccess(binding.textInputLayoutPassword)
                     return true
                 }
                 binding.etPassword.requestFocus()
                 handleInputError(binding.textInputLayoutPassword, "올바르지 않은 비밀번호입니다.")
                 showToastMessage("영문 숫자 포함 8자이상 20이내의 비밀번호를 입력해주세요.")
+                false
             }
             true -> {
                 handleInputSuccess(binding.textInputLayoutPassword)
-                return true
+                true
             }
         }
-
-        return false
     }
 
     private fun handleInputSuccess(textInputLayout: TextInputLayout) {
