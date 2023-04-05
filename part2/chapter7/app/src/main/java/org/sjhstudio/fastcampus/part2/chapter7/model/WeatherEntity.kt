@@ -32,6 +32,7 @@ data class ForecastEntityList(
     @SerializedName("item")
     val forecastEntities: List<ForecastEntity>
 ) {
+
     fun toForecastMap(): Map<String, Forecast> {
         val map = mutableMapOf<String, Forecast>()
 
@@ -45,8 +46,6 @@ data class ForecastEntityList(
                     forecastTime = forecastEntity.forecastTime,
                 )
             }
-
-            println("${forecastEntity.category}")
 
             when (forecastEntity.category) {
                 Category.POP -> map[key]?.pop = categoryValue.toIntOrNull()

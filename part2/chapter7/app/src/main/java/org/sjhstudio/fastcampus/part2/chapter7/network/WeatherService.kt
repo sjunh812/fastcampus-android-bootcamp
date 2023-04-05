@@ -8,7 +8,6 @@ import retrofit2.http.Query
 
 interface WeatherService {
 
-    //https://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst?nummOfRows=400&dataType=JSON&base_date=20230404&base_time=1400&nx=55&ny=127
     @GET("/1360000/VilageFcstInfoService_2.0/getVilageFcst?serviceKey=${WEATHER_API_SERVICE_KEY}&dataType=JSON")
     fun getWeather(
         @Query("base_date") baseDate: String,

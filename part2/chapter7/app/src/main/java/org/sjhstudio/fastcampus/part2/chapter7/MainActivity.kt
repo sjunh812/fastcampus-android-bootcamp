@@ -3,6 +3,7 @@ package org.sjhstudio.fastcampus.part2.chapter7
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import org.sjhstudio.fastcampus.part2.chapter7.model.BaseDateTime
 import org.sjhstudio.fastcampus.part2.chapter7.model.WeatherEntity
 import org.sjhstudio.fastcampus.part2.chapter7.network.Network
 import retrofit2.Call
@@ -23,9 +24,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun apiTest() {
+        val baseDateTime = BaseDateTime.getBaseDateTime()
+        Log.e(LOG, "$baseDateTime")
         Network.getWeatherService().getWeather(
-            baseDate = "20230404",
-            baseTime = "1400",
+            baseDate = BaseDateTime.getBaseDateTime().baseDate,
+            baseTime = BaseDateTime.getBaseDateTime().baseTime,
             nx = 55,
             ny = 127
         ).enqueue(object : Callback<WeatherEntity> {

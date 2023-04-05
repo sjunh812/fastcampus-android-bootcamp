@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/src/main/java/org/sjhstudio/fastcampus/part2/chapter7/util/Constants.kt

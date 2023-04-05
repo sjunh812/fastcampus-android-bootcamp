@@ -1,7 +1,5 @@
 package org.sjhstudio.fastcampus.part2.chapter7.model
 
-import com.google.gson.annotations.SerializedName
-
 enum class Category {
     POP,    // 강수확률
     PTY,    // 강수형태
