@@ -19,7 +19,6 @@ data class BaseDateTime(
         fun getBaseDateTime(): BaseDateTime {
             val dateTime = LocalDateTime.now(ZoneId.of("Asia/Seoul"))
 
-            println("xxx ${dateTime.toLocalTime()}")
             val baseTime = when (dateTime.toLocalTime()) {
                 in LocalTime.of(0, 0)..LocalTime.of(2, 15) -> {
                     dateTime.minusDays(1)
