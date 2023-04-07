@@ -4,15 +4,65 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_blue"
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/tv_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
+        android:layout_marginTop="80dp"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="서울" />
+
+    <TextView
+        android:id="@+id/tv_tmp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:includeFontPadding="false"
+        android:letterSpacing="0"
+        android:textColor="@color/white"
+        android:textSize="80sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_location"
+        tools:text="12°" />
+
+    <TextView
+        android:id="@+id/tv_sky_pty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_tmp"
+        tools:text="맑음" />
+
+    <TextView
+        android:id="@+id/tv_pop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_sky_pty"
+        tools:text="강수확률 30%" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_forecast"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toBottomOf="@id/tv_pop"
+        app:layout_constraintVertical_bias="1" />
 </androidx.constraintlayout.widget.ConstraintLayout>

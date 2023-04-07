@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">chapter7</string>
+
+    <string name="format_temperature">%d°</string>
+    <string name="format_pop">강수확률 %d%%</string>
 </resources>

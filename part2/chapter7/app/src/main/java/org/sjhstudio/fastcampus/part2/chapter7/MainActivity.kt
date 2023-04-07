@@ -17,6 +17,7 @@ import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
 import org.sjhstudio.fastcampus.part2.chapter7.databinding.ActivityMainBinding
 import org.sjhstudio.fastcampus.part2.chapter7.model.BaseDateTime
+import org.sjhstudio.fastcampus.part2.chapter7.model.Forecast
 import org.sjhstudio.fastcampus.part2.chapter7.model.WeatherEntity
 import org.sjhstudio.fastcampus.part2.chapter7.network.Network
 import org.sjhstudio.fastcampus.part2.chapter7.util.GeoPointConverter
@@ -35,14 +36,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val locationPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->
-            if (isGranted) {
-                getLocation()
-            } else {
-                showToastMessage("날씨 정보를 가져오기 위해서 위치 권한이 필요합니다.")
-                val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                    .apply { data = Uri.fromParts("package", packageName, null) }
-                startActivity(intent)
+        registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            when {
+                permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
+                    // 대략적위치 허용
+                    getLocation()
+                }
+                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
+                    // 정확한위치 허용
+                    getLocation()
+                }
+                else -> {
+                    // 거부
+                    showToastMessage("날씨 정보를 가져오기 위해서 위치 권한이 필요합니다.")
+                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                        .apply { data = Uri.fromParts("package", packageName, null) }
+                    startActivity(intent)
+                }
             }
         }
 
@@ -55,7 +65,6 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         private const val LOG = "MainActivity"
-        private const val REQUEST_CHECK_SETTINGS = 100
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -75,10 +84,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        Log.e(LOG, "onStart()")
-        locationPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+    override fun onResume() {
+        super.onResume()
+        locationPermissionLauncher.launch(
+            arrayOf(
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_FINE_LOCATION
+            )
+        )
     }
 
     private fun startLocationUpdates() {
@@ -145,10 +158,14 @@ class MainActivity : AppCompatActivity() {
         ).enqueue(object : Callback<WeatherEntity> {
             override fun onResponse(call: Call<WeatherEntity>, response: Response<WeatherEntity>) {
                 if (response.isSuccessful) {
-                    val forecastList = response.body()?.response?.body?.items
-                    Log.e(LOG, "${forecastList?.toForecastMap()}")
+                    val forecastEntities = response.body()?.response?.body?.items
+                    forecastEntities?.let { entities ->
+                        val list = entities.toForecastList()
+                        Log.e(LOG, "$list")
+                        updateWeatherUi(list)
+                    }
                 } else {
-                    Log.e(LOG, "network error")
+                    Log.e(LOG, "Network error")
                 }
             }
 
@@ -156,5 +173,15 @@ class MainActivity : AppCompatActivity() {
                 t.printStackTrace()
             }
         })
+    }
+
+    private fun updateWeatherUi(forecastList: List<Forecast>) {
+        if (forecastList.isEmpty()) return
+
+        with(binding) {
+            tvTmp.text = getString(R.string.format_temperature, forecastList.first().tmp)
+            tvSkyPty.text = forecastList.first().skyPty
+            tvPop.text = getString(R.string.format_pop, forecastList.first().pop)
+        }
     }
 }

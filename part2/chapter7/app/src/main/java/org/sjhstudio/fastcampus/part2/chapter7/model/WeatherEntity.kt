@@ -33,7 +33,7 @@ data class ForecastEntityList(
     val forecastEntities: List<ForecastEntity>
 ) {
 
-    fun toForecastMap(): Map<String, Forecast> {
+    fun toForecastList(): List<Forecast> {
         val map = mutableMapOf<String, Forecast>()
 
         forecastEntities.forEach { forecastEntity ->
@@ -56,7 +56,9 @@ data class ForecastEntityList(
             }
         }
 
-        return map
+        return map.values.toMutableList().sortedWith { f1, f2 ->
+            return@sortedWith f1.dateTime.compareTo(f2.dateTime)
+        }
     }
 }
 
