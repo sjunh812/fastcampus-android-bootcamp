@@ -14,6 +14,6 @@ interface WeatherService {
         @Query("base_time") baseTime: String,
         @Query("nx") nx: Int,
         @Query("ny") ny: Int,
-        @Query("numOfRows") numOfRows: Int = 400,
+        @Query("numOfRows") numOfRows: Int = 336,
     ): Call<WeatherEntity>
 }

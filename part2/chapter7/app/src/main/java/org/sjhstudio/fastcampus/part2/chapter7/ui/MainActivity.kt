@@ -1,9 +1,10 @@
-package org.sjhstudio.fastcampus.part2.chapter7
+package org.sjhstudio.fastcampus.part2.chapter7.ui
 
 import android.Manifest
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.location.Address
 import android.net.Uri
 import android.os.Bundle
 import android.os.Looper
@@ -13,18 +14,17 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.google.android.gms.common.api.ResolvableApiException
 import com.google.android.gms.location.*
+import org.sjhstudio.fastcampus.part2.chapter7.R
 import org.sjhstudio.fastcampus.part2.chapter7.databinding.ActivityMainBinding
-import org.sjhstudio.fastcampus.part2.chapter7.model.BaseDateTime
 import org.sjhstudio.fastcampus.part2.chapter7.model.Forecast
-import org.sjhstudio.fastcampus.part2.chapter7.model.WeatherEntity
-import org.sjhstudio.fastcampus.part2.chapter7.network.Network
-import org.sjhstudio.fastcampus.part2.chapter7.util.GeoPointConverter
+import org.sjhstudio.fastcampus.part2.chapter7.repository.WeatherRepository
+import org.sjhstudio.fastcampus.part2.chapter7.ui.adapter.ForecastAdapter
 import org.sjhstudio.fastcampus.part2.chapter7.util.showToastMessage
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
     private val locationRequest by lazy {
         LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000).build()
     }
+    private val forecastAdapter by lazy { ForecastAdapter() }
 
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
@@ -78,10 +79,33 @@ class MainActivity : AppCompatActivity() {
                 super.onLocationResult(result)
                 Log.e(LOG, "${result.locations}")
                 result.lastLocation ?: return
-                getWeather(result.lastLocation!!.latitude, result.lastLocation!!.longitude)
+
+                WeatherRepository.getAddress(
+                    context = this@MainActivity,
+                    latitude = result.lastLocation!!.latitude,
+                    longitude = result.lastLocation!!.longitude
+                ) { address ->
+                    updateAddressUi(address)
+                }
+
+                WeatherRepository.getVillageForecast(
+                    latitude = result.lastLocation!!.latitude,
+                    longitude = result.lastLocation!!.longitude,
+                    successCallback = { forecastList ->
+                        Log.e(LOG, "$forecastList")
+                        updateWeatherUi(forecastList)
+                    },
+                    failureCallback = { t ->
+                        t.printStackTrace()
+                    }
+                )
+//                getAddress(result.lastLocation!!.latitude, result.lastLocation!!.longitude)
+//                getWeather(result.lastLocation!!.latitude, result.lastLocation!!.longitude)
                 stopLocationUpdates()
             }
         }
+
+        initViews()
     }
 
     override fun onResume() {
@@ -92,6 +116,25 @@ class MainActivity : AppCompatActivity() {
                 Manifest.permission.ACCESS_FINE_LOCATION
             )
         )
+    }
+
+    private fun initViews() {
+        with(binding) {
+            rvForecast.apply {
+                adapter = forecastAdapter
+                layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
+            }
+        }
+    }
+
+    private fun getLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) return
+
+        startLocationUpdates()
     }
 
     private fun startLocationUpdates() {
@@ -134,54 +177,18 @@ class MainActivity : AppCompatActivity() {
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-    private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) return
-
-        startLocationUpdates()
-    }
-
-    private fun getWeather(latitude: Double, longitude: Double) {
-        val baseDateTime = BaseDateTime.getBaseDateTime()
-        Log.e(LOG, "$baseDateTime")
-        val geoPoint = GeoPointConverter.convert(latitude, longitude)
-        Log.e(LOG, "${geoPoint.x} ${geoPoint.y}")
-
-        Network.getWeatherService().getWeather(
-            baseDate = BaseDateTime.getBaseDateTime().baseDate,
-            baseTime = BaseDateTime.getBaseDateTime().baseTime,
-            nx = geoPoint.x,
-            ny = geoPoint.y
-        ).enqueue(object : Callback<WeatherEntity> {
-            override fun onResponse(call: Call<WeatherEntity>, response: Response<WeatherEntity>) {
-                if (response.isSuccessful) {
-                    val forecastEntities = response.body()?.response?.body?.items
-                    forecastEntities?.let { entities ->
-                        val list = entities.toForecastList()
-                        Log.e(LOG, "$list")
-                        updateWeatherUi(list)
-                    }
-                } else {
-                    Log.e(LOG, "Network error")
-                }
-            }
-
-            override fun onFailure(call: Call<WeatherEntity>, t: Throwable) {
-                t.printStackTrace()
-            }
-        })
+    private fun updateAddressUi(address: Address?) {
+        binding.tvLocation.text = address?.thoroughfare.orEmpty()
     }
 
     private fun updateWeatherUi(forecastList: List<Forecast>) {
-        if (forecastList.isEmpty()) return
-
         with(binding) {
             tvTmp.text = getString(R.string.format_temperature, forecastList.first().tmp)
             tvSkyPty.text = forecastList.first().skyPty
             tvPop.text = getString(R.string.format_pop, forecastList.first().pop)
+            rvForecast.isVisible = true
         }
+
+        forecastAdapter.submitList(forecastList)
     }
 }

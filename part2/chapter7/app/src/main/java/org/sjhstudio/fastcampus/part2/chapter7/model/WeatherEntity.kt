@@ -58,7 +58,7 @@ data class ForecastEntityList(
 
         return map.values.toMutableList().sortedWith { f1, f2 ->
             return@sortedWith f1.dateTime.compareTo(f2.dateTime)
-        }
+        }.dropLast(1)
     }
 }
 
