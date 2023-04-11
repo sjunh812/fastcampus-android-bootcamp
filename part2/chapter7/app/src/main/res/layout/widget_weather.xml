@@ -1,37 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:id="@+id/container"
+    android:layout_width="110dp"
+    android:layout_height="110dp"
+    android:addStatesFromChildren="true"
     android:background="@drawable/bg_weather_widget"
+    android:clickable="true"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:layout_height="110dp"
     tools:layout_width="110dp">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <TextView
+            android:id="@+id/tv_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            tools:text="서울" />
+
+        <TextView
+            android:id="@+id/tv_tmp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            tools:text="17°" />
+
+        <TextView
+            android:id="@+id/tv_sky_pty"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="bottom"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            tools:text="맑음" />
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/tv_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/tv_message"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_weather_widget"
+        android:gravity="center"
+        android:text="새로고침"
         android:textColor="@color/white"
         android:textSize="12sp"
-        android:textStyle="bold"
-        tools:text="서울" />
-
-    <TextView
-        android:id="@+id/tv_tmp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        tools:text="17°" />
-
-    <TextView
-        android:id="@+id/tv_sky_pty"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        tools:text="맑음" />
-</LinearLayout>
+        android:visibility="visible" />
+</FrameLayout>

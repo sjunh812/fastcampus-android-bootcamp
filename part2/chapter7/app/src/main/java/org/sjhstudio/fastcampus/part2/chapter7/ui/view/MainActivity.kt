@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter7.ui
+package org.sjhstudio.fastcampus.part2.chapter7.ui.view
 
 import android.Manifest
 import android.content.Intent
@@ -6,6 +6,7 @@ import android.content.IntentSender
 import android.content.pm.PackageManager
 import android.location.Address
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.provider.Settings
@@ -38,21 +39,13 @@ class MainActivity : AppCompatActivity() {
 
     private val locationPermissionLauncher =
         registerForActivityResult(ActivityResultContracts.RequestMultiplePermissions()) { permissions ->
+            Log.e(LOG, "$permissions")
             when {
                 permissions.getOrDefault(Manifest.permission.ACCESS_COARSE_LOCATION, false) -> {
-                    // 대략적위치 허용
-                    getLocation()
-                }
-                permissions.getOrDefault(Manifest.permission.ACCESS_FINE_LOCATION, false) -> {
-                    // 정확한위치 허용
-                    getLocation()
+                    startLocationUpdates()
                 }
                 else -> {
-                    // 거부
-                    showToastMessage("날씨 정보를 가져오기 위해서 위치 권한이 필요합니다.")
-                    val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                        .apply { data = Uri.fromParts("package", packageName, null) }
-                    startActivity(intent)
+                    navigateToApplicationSettings()
                 }
             }
         }
@@ -61,11 +54,27 @@ class MainActivity : AppCompatActivity() {
         registerForActivityResult(ActivityResultContracts.StartIntentSenderForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 startLocationUpdates()
+            } else {
+                navigateToApplicationSettings()
             }
         }
 
     companion object {
         private const val LOG = "MainActivity"
+    }
+
+    override fun onStart() {
+        super.onStart()
+        val permissions = mutableListOf(
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+            Manifest.permission.ACCESS_FINE_LOCATION
+        )
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            permissions.add(Manifest.permission.POST_NOTIFICATIONS)
+        }
+
+        locationPermissionLauncher.launch(permissions.toTypedArray())
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -84,38 +93,20 @@ class MainActivity : AppCompatActivity() {
                     context = this@MainActivity,
                     latitude = result.lastLocation!!.latitude,
                     longitude = result.lastLocation!!.longitude
-                ) { address ->
-                    updateAddressUi(address)
-                }
+                ) { address -> updateAddressUi(address) }
 
                 WeatherRepository.getVillageForecast(
                     latitude = result.lastLocation!!.latitude,
                     longitude = result.lastLocation!!.longitude,
-                    successCallback = { forecastList ->
-                        Log.e(LOG, "$forecastList")
-                        updateWeatherUi(forecastList)
-                    },
-                    failureCallback = { t ->
-                        t.printStackTrace()
-                    }
+                    successCallback = { forecastList -> updateWeatherUi(forecastList) },
+                    failureCallback = { t -> t.printStackTrace() }
                 )
-//                getAddress(result.lastLocation!!.latitude, result.lastLocation!!.longitude)
-//                getWeather(result.lastLocation!!.latitude, result.lastLocation!!.longitude)
+
                 stopLocationUpdates()
             }
         }
 
         initViews()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        locationPermissionLauncher.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_COARSE_LOCATION,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            )
-        )
     }
 
     private fun initViews() {
@@ -125,16 +116,6 @@ class MainActivity : AppCompatActivity() {
                 layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             }
         }
-    }
-
-    private fun getLocation() {
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) return
-
-        startLocationUpdates()
     }
 
     private fun startLocationUpdates() {
@@ -156,8 +137,7 @@ class MainActivity : AppCompatActivity() {
                     locationCallback,
                     Looper.getMainLooper()
                 )
-            }
-            .addOnFailureListener { exception ->
+            }.addOnFailureListener { exception ->
                 if (exception is ResolvableApiException) {
                     Log.e(LOG, "ResolvableApiException")
                     try {
@@ -168,7 +148,7 @@ class MainActivity : AppCompatActivity() {
                         // Ignore the error.
                     }
                 } else {
-                    Log.e(LOG, "??")
+                    Log.e(LOG, "UnknownException")
                 }
             }
     }
@@ -182,6 +162,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateWeatherUi(forecastList: List<Forecast>) {
+        Log.e(LOG, "$forecastList")
         with(binding) {
             tvTmp.text = getString(R.string.format_temperature, forecastList.first().tmp)
             tvSkyPty.text = forecastList.first().skyPty
@@ -190,5 +171,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         forecastAdapter.submitList(forecastList)
+    }
+
+    private fun navigateToApplicationSettings() {
+        showToastMessage("날씨 정보를 가져오기 위해서 위치 권한이 필요합니다.")
+
+        Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            .apply { data = Uri.fromParts("package", packageName, null) }
+            .run { startActivity(intent) }
     }
 }

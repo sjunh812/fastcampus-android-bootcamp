@@ -1,6 +1,12 @@
 <resources>
     <string name="app_name">chapter7</string>
 
+    <string name="id_weather_widget_channel">UpdateWeatherWidgetChannel</string>
+
+    <string name="description_weather_widget_channel">Update the weather in the widget</string>
+
+    <string name="content_weather_widget_notification">날씨 업데이트</string>
+
     <string name="format_temperature">%d°</string>
     <string name="format_pop">강수확률 %d%%</string>
 </resources>
