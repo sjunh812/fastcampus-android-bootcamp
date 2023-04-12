@@ -9,6 +9,7 @@ import org.sjhstudio.fastcampus.part2.chapter7.R
 import org.sjhstudio.fastcampus.part2.chapter7.databinding.ItemForecastBinding
 import org.sjhstudio.fastcampus.part2.chapter7.model.Forecast
 import org.sjhstudio.fastcampus.part2.chapter7.util.formatTime
+import org.sjhstudio.fastcampus.part2.chapter7.util.setSkyPtyImageResource
 
 class ForecastAdapter : ListAdapter<Forecast, ForecastAdapter.ForecastViewHolder>(diffCallback) {
 
@@ -30,8 +31,8 @@ class ForecastAdapter : ListAdapter<Forecast, ForecastAdapter.ForecastViewHolder
         fun bind(data: Forecast, isFirst: Boolean = false) {
             with(binding) {
                 tvTime.text = if (isFirst) "지금" else formatTime(data.forecastTime)
-                tvStyPty.text = data.skyPty
                 tvTmp.text = itemView.context.getString(R.string.format_temperature, data.tmp)
+                ivSkyPty.setSkyPtyImageResource(data.skyPty)
             }
         }
     }

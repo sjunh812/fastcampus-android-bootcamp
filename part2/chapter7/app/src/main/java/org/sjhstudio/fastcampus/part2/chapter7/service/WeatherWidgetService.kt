@@ -14,6 +14,8 @@ import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.LocationServices
 import org.sjhstudio.fastcampus.part2.chapter7.R
 import org.sjhstudio.fastcampus.part2.chapter7.repository.WeatherRepository
+import org.sjhstudio.fastcampus.part2.chapter7.util.showToastMessage
+import org.sjhstudio.fastcampus.part2.chapter7.util.transformSkyPtyImageResource
 import org.sjhstudio.fastcampus.part2.chapter7.util.updateRemoteViews
 
 class WeatherWidgetService : Service() {
@@ -23,7 +25,7 @@ class WeatherWidgetService : Service() {
     companion object {
         private const val LOG = "WeatherWidgetService"
         private const val WEATHER_WIDGET_FOREGROUND_SERVICE_ID = 100
-        private const val REQUEST_APPLICATION_SETTINGS = 2
+        private const val REQUEST_APPLICATION_SETTINGS = 3
     }
 
     override fun onBind(intent: Intent?): IBinder? = null
@@ -51,6 +53,7 @@ class WeatherWidgetService : Service() {
         ) {
             // todo. 위젯을 권한없음 상태로 표시하고, 클릭했을 때 권한팝업을 얻을 수 있도록 조정
             Log.e(LOG, "위젯 권한 없음")
+            showToastMessage("위젯을 사용하기 위해서 위치권한을 항상 허용해야 합니다.")
 
             updateRemoteViews { remoteViews ->
                 remoteViews.setTextViewText(R.id.tv_message, "권한 없음")
@@ -104,6 +107,10 @@ class WeatherWidgetService : Service() {
                         remoteViews.setTextViewText(
                             R.id.tv_sky_pty,
                             forecastList.first().skyPty
+                        )
+                        remoteViews.setImageViewResource(
+                            R.id.iv_sky_pty,
+                            transformSkyPtyImageResource(forecastList.first().skyPty)
                         )
                         remoteViews.setViewVisibility(R.id.tv_message, View.GONE)
                     }

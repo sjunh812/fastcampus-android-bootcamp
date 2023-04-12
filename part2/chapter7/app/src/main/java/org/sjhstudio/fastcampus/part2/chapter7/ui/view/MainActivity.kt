@@ -174,7 +174,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun navigateToApplicationSettings() {
-        showToastMessage("날씨 정보를 가져오기 위해서 위치 권한이 필요합니다.")
+        showToastMessage("날씨 정보를 가져오기 위해서 위치권한이 필요합니다.")
 
         Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             .apply { data = Uri.fromParts("package", packageName, null) }

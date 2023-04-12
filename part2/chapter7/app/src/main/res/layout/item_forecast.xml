@@ -12,20 +12,27 @@
         android:id="@+id/tv_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="10dp"
         android:textColor="@color/white"
-        android:textSize="11sp"
+        android:textSize="12sp"
         android:textStyle="bold"
+        android:includeFontPadding="false"
         tools:text="오후 3시" />
 
-    <TextView
-        android:id="@+id/tv_sty_pty"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:textColor="@color/white"
-        android:textSize="10sp"
-        tools:text="맑음" />
+<!--    <TextView-->
+<!--        android:id="@+id/tv_sty_pty"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="7dp"-->
+<!--        android:textColor="@color/white"-->
+<!--        android:textSize="10sp"-->
+<!--        tools:text="맑음" />-->
+
+    <ImageView
+        android:id="@+id/iv_sky_pty"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginBottom="10dp"/>
 
     <TextView
         android:id="@+id/tv_tmp"
@@ -33,6 +40,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="16sp"
+        android:includeFontPadding="false"
         android:textStyle="bold"
         tools:text="19°" />
 </LinearLayout>

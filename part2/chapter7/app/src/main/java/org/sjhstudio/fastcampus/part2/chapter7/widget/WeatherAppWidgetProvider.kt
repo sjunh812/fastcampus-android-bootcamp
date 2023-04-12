@@ -11,6 +11,7 @@ import android.util.Log
 import android.widget.RemoteViews
 import org.sjhstudio.fastcampus.part2.chapter7.R
 import org.sjhstudio.fastcampus.part2.chapter7.service.WeatherWidgetService
+import org.sjhstudio.fastcampus.part2.chapter7.ui.view.MainActivity
 
 // Broadcast Receiver
 class WeatherAppWidgetProvider : AppWidgetProvider() {
@@ -18,6 +19,7 @@ class WeatherAppWidgetProvider : AppWidgetProvider() {
     companion object {
         private const val LOG = "WeatherAppWidgetProvider"
         private const val REQUEST_WEATHER_WIDGET_SERVICE = 1
+        private const val REQUEST_MAIN_ACTIVITY = 2
     }
 
     override fun onUpdate(
@@ -28,11 +30,19 @@ class WeatherAppWidgetProvider : AppWidgetProvider() {
         Log.e(LOG, "onUpdate()")
 
         appWidgetIds.forEach { appWidgetId ->
-            val intent = Intent(context, WeatherWidgetService::class.java)
-            val pendingIntent = PendingIntent.getService(
+            val serviceIntent = Intent(context, WeatherWidgetService::class.java)
+            val servicePendingIntent = PendingIntent.getService(
                 context,
                 REQUEST_WEATHER_WIDGET_SERVICE,
-                intent,
+                serviceIntent,
+                PendingIntent.FLAG_IMMUTABLE
+            )
+            val activityIntent = Intent(context, MainActivity::class.java)
+                .apply { flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP }
+            val activityPendingIntent = PendingIntent.getActivity(
+                context,
+                REQUEST_MAIN_ACTIVITY,
+                activityIntent,
                 PendingIntent.FLAG_IMMUTABLE
             )
 
@@ -40,7 +50,8 @@ class WeatherAppWidgetProvider : AppWidgetProvider() {
                 context.packageName,
                 R.layout.widget_weather
             ).apply {
-                setOnClickPendingIntent(R.id.container, pendingIntent)
+                setOnClickPendingIntent(R.id.tv_message, servicePendingIntent)
+                setOnClickPendingIntent(R.id.container, activityPendingIntent)
             }.run {
                 appWidgetManager.updateAppWidget(appWidgetId, this)
             }
