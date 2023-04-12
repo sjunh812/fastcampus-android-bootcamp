@@ -30,14 +30,12 @@ https://developer.android.com/training/location/permissions?hl=ko
 **targetSDK가 31이상**일 경우, 두 권한을 동시에 요청해야함
 
 ### 포그라운드 위치 vs 백그라운드 위치
-#### 포그라운드 위치
-앱을 사용하는 중 요청하는 위치 권한으로 백그라운드 위치권한과는 별개  
+- 포그라운드 위치 : 앱을 사용하는 중 요청하는 위치 권한으로 백그라운드 위치권한과는 별개  
 
-#### 백그라운드 위치
-`ACCESS_BACKGROUND_LOCATION` 권한 필요  
-- Android 10 (API 29) : 백그라운드 위치를 요청시, 시스템 권한 대화상자에는 항상 허용이라는 옵션이 포함된다.   
-- Android 11 (API 30) : 백그라운드 위치를 요청시, 항상 허용이라는 옵션이 추가되지 않고 설정에서 직접 허용하도록 유도하는 팝업이 뜬다.  
-- Android 12 (API 31) : 백그라운드 위치를 위치권한과 함께 요청하면 권한 요청 팝업이 노출되지 않는다.
+- 백그라운드 위치 : `ACCESS_BACKGROUND_LOCATION` 권한 필요  
+  - Android 10 (API 29) : 백그라운드 위치를 요청시, 시스템 권한 대화상자에는 항상 허용이라는 옵션이 포함된다.   
+  - Android 11 (API 30) : 백그라운드 위치를 요청시, 항상 허용이라는 옵션이 추가되지 않고 설정에서 직접 허용하도록 유도하는 팝업이 뜬다.  
+  - Android 12 (API 31) : 백그라운드 위치를 위치권한과 함께 요청하면 권한 요청 팝업이 노출되지 않는다.
 따라서 위치권한이 승인된 상태에서 별도로 백그라운드 위치를 요청해야하고, 요청시 앱 권한 설정 페이지로 이동한다.  
 
 ![image](https://user-images.githubusercontent.com/79048895/231401747-f57dc11c-5cee-4e8f-a86d-482ff86a62a1.png)  
@@ -48,6 +46,7 @@ https://developer.android.com/training/location/permissions?hl=ko
 
 ## Foreground Service
 앱이 **API 26** 이상을 대상으로 한다면, 앱이 포그라운드에 있지 않을 때 시스템에서 백그라운 서비스 실행에 대한 제한을 적용  
+
 포그라운드 서비스의 경우, 사용자가 서비스가 실행되고 있음을 인식할 수 있도록 상태 표시줄에 알림을 제공 → `Notification`  
 
 ![image](https://user-images.githubusercontent.com/79048895/231405004-14ee4890-946e-4682-bbe8-28071699ba7d.png)  
