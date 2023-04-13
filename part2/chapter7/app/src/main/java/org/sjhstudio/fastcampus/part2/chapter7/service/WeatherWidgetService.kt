@@ -32,8 +32,8 @@ class WeatherWidgetService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        createNotificationChannel()
-        startForeground(WEATHER_WIDGET_FOREGROUND_SERVICE_ID, createNotification())
+//        createNotificationChannel()
+//        startForeground(WEATHER_WIDGET_FOREGROUND_SERVICE_ID, createNotification())
     }
 
     override fun onDestroy() {
@@ -42,6 +42,9 @@ class WeatherWidgetService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        createNotificationChannel()
+        startForeground(WEATHER_WIDGET_FOREGROUND_SERVICE_ID, createNotification())
+
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_BACKGROUND_LOCATION
@@ -76,44 +79,40 @@ class WeatherWidgetService : Service() {
         }
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location ->
-            WeatherRepository.getAddress(
-                context = this,
-                latitude = location.latitude,
-                longitude = location.longitude,
-                callback = { address ->
-                    Log.e(LOG, address?.thoroughfare.orEmpty())
-
-                    updateRemoteViews { remoteViews ->
-                        remoteViews.setTextViewText(
-                            R.id.tv_location,
-                            address?.thoroughfare.orEmpty()
-                        )
-                        remoteViews.setViewVisibility(R.id.tv_message, View.GONE)
-                    }
-                }
-            )
-
             WeatherRepository.getVillageForecast(
                 latitude = location.latitude,
                 longitude = location.longitude,
                 successCallback = { forecastList ->
                     Log.e(LOG, "$forecastList")
 
-                    updateRemoteViews { remoteViews ->
-                        remoteViews.setTextViewText(
-                            R.id.tv_tmp,
-                            getString(R.string.format_temperature, forecastList.first().tmp)
-                        )
-                        remoteViews.setTextViewText(
-                            R.id.tv_sky_pty,
-                            forecastList.first().skyPty
-                        )
-                        remoteViews.setImageViewResource(
-                            R.id.iv_sky_pty,
-                            transformSkyPtyImageResource(forecastList.first().skyPty)
-                        )
-                        remoteViews.setViewVisibility(R.id.tv_message, View.GONE)
-                    }
+                    WeatherRepository.getAddress(
+                        context = this,
+                        latitude = location.latitude,
+                        longitude = location.longitude,
+                        callback = { address ->
+                            Log.e(LOG, address?.thoroughfare.orEmpty())
+
+                            updateRemoteViews { remoteViews ->
+                                remoteViews.setTextViewText(
+                                    R.id.tv_location,
+                                    address?.thoroughfare.orEmpty()
+                                )
+                                remoteViews.setTextViewText(
+                                    R.id.tv_tmp,
+                                    getString(R.string.format_temperature, forecastList.first().tmp)
+                                )
+                                remoteViews.setTextViewText(
+                                    R.id.tv_sky_pty,
+                                    forecastList.first().skyPty
+                                )
+                                remoteViews.setImageViewResource(
+                                    R.id.iv_sky_pty,
+                                    transformSkyPtyImageResource(forecastList.first().skyPty)
+                                )
+                                remoteViews.setViewVisibility(R.id.tv_message, View.GONE)
+                            }
+                        }
+                    )
                 },
                 failureCallback = { t ->
                     t.printStackTrace()
