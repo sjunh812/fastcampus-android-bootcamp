@@ -66,7 +66,7 @@ https://developer.android.com/training/location/permissions?hl=ko
 - `LocationRequest` : 위치 정보 제공자에 관한 요청 파라미터를 저장 (업데이트 주기, 우선순위)
 - `locationSettingsRequest` : Google Play 서비스 및 위치 서비스 API에 연결하여 사용자 기기의 현재 위치 설정을 가져옴.
   - 위치를 요청할 수 있도록 위치 설정이 되어있는지 확인
-  - 실패 결과값으로 onFailure() 메서드에 전달된 Exception 객체가 `ResolvableApiException` 클래스의 경우,
+  - 실패 결과값으로 `onFailure()` 메서드에 전달된 Exception 객체가 `ResolvableApiException` 클래스의 경우,
 `startResolutionForResult()` 호출을 통해 사용자에게 위치 설정을 수정할 수 있는 권한을 요청하는 대화상자를 표시할 수 있음.
 
 ```Kotlin
