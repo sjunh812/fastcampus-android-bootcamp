@@ -4,6 +4,7 @@ import android.accounts.NetworkErrorException
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView.OnQueryTextListener
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -36,7 +37,21 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
             getMapAsync(this@MainActivity)
         }
 
+        initViews()
         testApi()
+    }
+
+    private fun initViews() {
+        with(binding) {
+            searchView.setOnQueryTextListener(object : OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    Log.e(LOG, query ?: "query error")
+                    return false
+                }
+
+                override fun onQueryTextChange(newText: String?) = true
+            })
+        }
     }
 
     private fun testApi() {
