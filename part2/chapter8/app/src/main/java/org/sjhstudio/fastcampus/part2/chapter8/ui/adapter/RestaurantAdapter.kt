@@ -6,6 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipDrawable
 import com.naver.maps.geometry.LatLng
 import org.sjhstudio.fastcampus.part2.chapter8.databinding.ItemRestaurantBinding
 import org.sjhstudio.fastcampus.part2.chapter8.model.Restaurant
@@ -43,6 +45,13 @@ class RestaurantAdapter(
                 tvTitle.text = Html.fromHtml(data.title, Html.FROM_HTML_MODE_LEGACY)
                 tvCategory.text = data.category
                 tvAddress.text = data.address
+
+                data.subCategory.forEach { category ->
+                    val chip = Chip(itemView.context).apply {
+                        text = category
+                    }
+                    chipGroupSubCategory.addView(chip)
+                }
             }
         }
     }

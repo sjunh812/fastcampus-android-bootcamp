@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private val restaurantAdapter by lazy {
         RestaurantAdapter { position ->
+            collapseBottomSheet()
             moveCamera(position, 17.0)
         }
     }
@@ -57,8 +58,10 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private fun initViews() {
         with(binding) {
+            layoutBottomSheet.rvRestaurant.adapter = restaurantAdapter
             searchView.setOnQueryTextListener(object : OnQueryTextListener {
                 override fun onQueryTextSubmit(query: String?): Boolean {
+                    collapseBottomSheet()
                     search(query ?: return false)
                     // true:키보드유지, false:키보드내림
                     return false
@@ -66,15 +69,12 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 override fun onQueryTextChange(newText: String?) = true
             })
-            layoutBottomSheet.rvRestaurant.adapter = restaurantAdapter
 
             BottomSheetBehavior.from(layoutBottomSheet.root)
                 .apply {
                     state = BottomSheetBehavior.STATE_COLLAPSED
                     addBottomSheetCallback(object : BottomSheetCallback() {
-                        override fun onStateChanged(bottomSheet: View, newState: Int) {
-
-                        }
+                        override fun onStateChanged(bottomSheet: View, newState: Int) {}
 
                         override fun onSlide(bottomSheet: View, slideOffset: Float) {
                             layoutBottomSheet.rvRestaurant.alpha =
@@ -134,6 +134,11 @@ class MainActivity : AppCompatActivity(), OnMapReadyCallback {
         val cameraUpdate = CameraUpdate.scrollAndZoomTo(position, zoom)
             .animate(CameraAnimation.Easing)
         naverMap.moveCamera(cameraUpdate)
+    }
+
+    private fun collapseBottomSheet() {
+        BottomSheetBehavior.from(binding.layoutBottomSheet.root)
+            .run { state = BottomSheetBehavior.STATE_COLLAPSED }
     }
 
     override fun onStart() {
