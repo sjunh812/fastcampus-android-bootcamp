@@ -6,3 +6,7 @@ import android.widget.Toast
 fun Context.showToastMessage(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, duration).show()
 }
+
+fun Context.dpToPx(dp: Int) = dp * resources.displayMetrics.density
+
+fun Context.pxToDp(px: Float) = (px / resources.displayMetrics.density).toInt()

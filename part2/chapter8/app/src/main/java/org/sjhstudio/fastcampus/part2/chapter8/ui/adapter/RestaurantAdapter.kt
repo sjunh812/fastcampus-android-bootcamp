@@ -2,15 +2,17 @@ package org.sjhstudio.fastcampus.part2.chapter8.ui.adapter
 
 import android.text.Html
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.Dimension
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipDrawable
 import com.naver.maps.geometry.LatLng
 import org.sjhstudio.fastcampus.part2.chapter8.databinding.ItemRestaurantBinding
 import org.sjhstudio.fastcampus.part2.chapter8.model.Restaurant
+import org.sjhstudio.fastcampus.part2.chapter8.util.dpToPx
 
 class RestaurantAdapter(
     private val onClick: (LatLng) -> Unit
@@ -48,7 +50,25 @@ class RestaurantAdapter(
 
                 data.subCategory.forEach { category ->
                     val chip = Chip(itemView.context).apply {
+                        isClickable = false
                         text = category
+                        // (default) chipStartPadding=4dp, chipEndPadding=6dp
+                        chipStartPadding = itemView.context.dpToPx(0)
+                        chipEndPadding = itemView.context.dpToPx(2)
+
+                        // (default) textStartPadding=8dp, textEndPadding=6dp
+                        textStartPadding = itemView.context.dpToPx(4)
+                        textEndPadding = itemView.context.dpToPx(2)
+                        textAlignment = View.TEXT_ALIGNMENT_CENTER
+
+                        // ensureMinTouchTargetSize = true 일 때만 적용가능.
+                        chipMinHeight = itemView.context.dpToPx(20)
+
+                        setTextSize(Dimension.SP, 10f)
+                        setEnsureMinTouchTargetSize(true)
+
+                        // chip touch area
+                        ensureAccessibleTouchTarget(itemView.context.dpToPx(24).toInt())
                     }
                     chipGroupSubCategory.addView(chip)
                 }

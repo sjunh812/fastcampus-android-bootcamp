@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/bg_bottom_sheet"
     app:behavior_hideable="false"
-    app:behavior_peekHeight="65dp"
+    app:behavior_peekHeight="75dp"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <View
@@ -34,8 +34,7 @@
         android:id="@+id/rv_restaurant"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="16dp"
+        android:paddingBottom="16dp"
         android:orientation="vertical"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
