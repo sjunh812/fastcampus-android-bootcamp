@@ -19,3 +19,4 @@
 | [📺 뉴스 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter5) | - RSS 데이터 불러오기<br>- 검색기능 구현 | `Retrofit2` `Jsoup` `Glide` `Lottie` |
 | [💬 채팅 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter6) | - Firebase 활용 DB 불러오기<br>- 채팅 및 알림기능 구현 | `FCM` `Firebase Realtime Database` `OkHttp3` |
 | [☀️ 날씨 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter7) | - 공공 API 불러오기<br>- 현 위치 날씨 정보 표시하기 | `Location` `Foreground Service` `Android Widget` `공공API` |
+| [🍴 대동맛집도](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter8) | - 네이버 지도 사용<br>- 맛집 목록 가져오기<br>- 맛집 목록 나타내기 | `Moshi` `Naver Map` `BottomSheetBehavior` | 
