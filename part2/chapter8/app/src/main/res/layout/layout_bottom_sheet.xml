@@ -7,6 +7,7 @@
     android:background="@drawable/bg_bottom_sheet"
     app:behavior_hideable="false"
     app:behavior_peekHeight="75dp"
+    app:behavior_fitToContents="true"
     app:layout_behavior="@string/bottom_sheet_behavior">
 
     <View
