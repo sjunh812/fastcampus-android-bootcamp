@@ -29,6 +29,17 @@
 네이버 플랫폼의 정보를 외부 개발자가 쉽게 이용할 수 있도록 제공하는 Open API  
 <br>
 
+## Moshi
+[Moshi Github](https://github.com/square/moshi)
+
+`Gson` 과 같이 **직렬화 및 역직렬화** 를 안전하게 할 수 있도록 돕는 square 사에서 만든 라이브러리
+- `Kotlin` 친화적
+- `Gson` 의 리플렉션 외 **Code-gen** 방식을 지원
+- 어뎁터를 커스텀하게 사용 가능 
+- `Gson` 에 비해 빠르고 적은 메모리 사용 
+- null 이나 알 수 없는 데이터 타입 처리의 편의성  
+<br>
+
 ## BottomSheetBehavior
 [Bottom Sheets(Material Design)](https://m2.material.io/develop/android/components/bottom-sheet-dialog-fragment)
 
