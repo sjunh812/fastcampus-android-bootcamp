@@ -31,14 +31,13 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         googleMap = map
 
         // Marker example
-        // 고양대로 719-12
-        // X :126.776859, Y :37.6836878
+        // 고양대로 719-12 (X :126.776859, Y :37.6836878)
         val homeLatLng = LatLng(37.6836878, 126.776859)
         googleMap.addMarker(
             MarkerOptions()
                 .position(homeLatLng)
                 .title("Marker in my home")
         )
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(homeLatLng))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(homeLatLng, 16f))
     }
 }

@@ -1,13 +1,19 @@
 package org.sjhstudio.fastcampus.part2.chapter9
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuthUserCollisionException
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
+import com.kakao.sdk.user.model.User
 import org.sjhstudio.fastcampus.part2.chapter9.databinding.ActivityLoginBinding
+import org.sjhstudio.fastcampus.part2.chapter9.util.showToastMessage
 
 class LoginActivity : AppCompatActivity() {
 
@@ -18,9 +24,14 @@ class LoginActivity : AppCompatActivity() {
             // 로그인 실패
             Log.e(LOG, "Error login with kakao account : $error")
             error.printStackTrace()
+
+            if (!(error is ClientError && error.reason == ClientErrorCause.Cancelled)) {
+                showToastMessage("로그인에 실패하였습니다.")
+            }
         } else if (token != null) {
             // 로그인 성공
             Log.e(LOG, "Success login with kakao account $token")
+            getKakaoAccountInfo()
         }
     }
 
@@ -34,11 +45,15 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
+
+        EmailBottomSheetDialog().show(supportFragmentManager, "EmailBottomSheetDialog")
     }
 
     private fun initViews() {
         with(binding) {
-            btnKakaoLogin.setOnClickListener { kakaoLogin() }
+            btnKakaoLogin.setOnClickListener {
+                kakaoLogin()
+            }
         }
     }
 
@@ -63,6 +78,7 @@ class LoginActivity : AppCompatActivity() {
                 } else if (token != null) {
                     // 로그인 성공
                     Log.e(LOG, "Success login with kakao talk : $token")
+                    getKakaoAccountInfo()
                 }
             }
         } else {
@@ -72,5 +88,68 @@ class LoginActivity : AppCompatActivity() {
                 callback = kakaoAccountLoginCallback
             )
         }
+    }
+
+    private fun getKakaoAccountInfo() {
+        UserApiClient.instance.me { user, error ->
+            if (error != null) {
+                Log.e(LOG, "Error get kakao account : $error")
+                error.printStackTrace()
+                showToastMessage("로그인에 실패하였습니다.")
+            } else if (user != null) {
+                Log.e(
+                    LOG,
+                    "Success get kakao account : email=${user.kakaoAccount?.email}, " +
+                            "nickname=${user.kakaoAccount?.profile?.nickname}, " +
+                            "profile image=${user.kakaoAccount?.profile?.profileImageUrl}"
+                )
+                checkKakaoAccountData(user)
+            }
+        }
+    }
+
+    private fun checkKakaoAccountData(user: User) {
+        // 이메일이 제대로 내려오는지 확인
+        val email = user.kakaoAccount?.email.orEmpty()
+
+        if (email.isEmpty()) {
+            // 사용자로부터 직접 이메일을 입력 받아야함.
+        } else {
+            signInFirebase(user, email)
+        }
+    }
+
+    private fun signInFirebase(user: User, email: String) {
+        val uid = user.id.toString()
+
+        Firebase.auth.createUserWithEmailAndPassword(email, uid)
+            .addOnCompleteListener { signUpResult ->
+                if (signUpResult.isSuccessful) {
+
+                } else {
+                    showToastMessage("로그인에 실패하였습니다.")
+                }
+            }
+            .addOnFailureListener { signUpException ->
+                if (signUpException is FirebaseAuthUserCollisionException) {
+                    // 이미 회원가입된 계정
+                    Firebase.auth.signInWithEmailAndPassword(email, uid)
+                        .addOnCompleteListener { loginResult ->
+                            if (loginResult.isSuccessful) {
+
+                            } else {
+                                showToastMessage("로그인에 실패하였습니다.")
+                            }
+                        }
+                        .addOnFailureListener { loginException ->
+                            loginException.printStackTrace()
+                            showToastMessage("로그인에 실패하였습니다.")
+                        }
+                }
+            }
+    }
+
+    private fun navigateToMapActivity() {
+        startActivity(Intent(this, MapActivity::class.java))
     }
 }

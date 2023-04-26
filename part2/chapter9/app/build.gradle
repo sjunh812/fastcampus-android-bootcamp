@@ -56,6 +56,8 @@ dependencies {
     implementation "com.kakao.sdk:v2-user:2.13.0" // 카카오 로그인
 
     implementation platform('com.google.firebase:firebase-bom:31.5.0')  // Firebase
+    implementation "com.google.firebase:firebase-auth-ktx"  // Firebase Authentication
+    implementation "com.google.firebase:firebase-database-ktx"  // Firebase Realtime Database
 
     implementation 'com.google.android.gms:play-services-maps:18.1.0'   // Google Map
 
