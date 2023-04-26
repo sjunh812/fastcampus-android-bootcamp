@@ -18,6 +18,7 @@ import org.sjhstudio.fastcampus.part2.chapter9.util.showToastMessage
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
+    private val emailDialog by lazy { EmailBottomSheetDialog() }
 
     private val kakaoAccountLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -45,8 +46,7 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
-
-        EmailBottomSheetDialog().show(supportFragmentManager, "EmailBottomSheetDialog")
+        emailDialog.show(supportFragmentManager, emailDialog.tag)
     }
 
     private fun initViews() {
