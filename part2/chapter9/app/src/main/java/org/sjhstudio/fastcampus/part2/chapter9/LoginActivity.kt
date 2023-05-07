@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -18,7 +19,12 @@ import org.sjhstudio.fastcampus.part2.chapter9.util.showToastMessage
 class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
-    private val emailDialog by lazy { EmailBottomSheetDialog() }
+    private var pendingUser: User? = null
+    private val emailDialog by lazy {
+        EmailBottomSheetDialog { email ->
+            pendingUser?.let { user -> signInFirebase(user, email) }
+        }
+    }
 
     private val kakaoAccountLoginCallback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
         if (error != null) {
@@ -46,7 +52,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
-        emailDialog.show(supportFragmentManager, emailDialog.tag)
     }
 
     private fun initViews() {
@@ -103,6 +108,7 @@ class LoginActivity : AppCompatActivity() {
                             "nickname=${user.kakaoAccount?.profile?.nickname}, " +
                             "profile image=${user.kakaoAccount?.profile?.profileImageUrl}"
                 )
+                pendingUser = user
                 checkKakaoAccountData(user)
             }
         }
@@ -114,6 +120,7 @@ class LoginActivity : AppCompatActivity() {
 
         if (email.isEmpty()) {
             // 사용자로부터 직접 이메일을 입력 받아야함.
+            emailDialog.show(supportFragmentManager, emailDialog.tag)
         } else {
             signInFirebase(user, email)
         }
@@ -125,9 +132,7 @@ class LoginActivity : AppCompatActivity() {
         Firebase.auth.createUserWithEmailAndPassword(email, uid)
             .addOnCompleteListener { signUpResult ->
                 if (signUpResult.isSuccessful) {
-
-                } else {
-                    showToastMessage("로그인에 실패하였습니다.")
+                    updateFirebaseDatabase(user)
                 }
             }
             .addOnFailureListener { signUpException ->
@@ -136,9 +141,7 @@ class LoginActivity : AppCompatActivity() {
                     Firebase.auth.signInWithEmailAndPassword(email, uid)
                         .addOnCompleteListener { loginResult ->
                             if (loginResult.isSuccessful) {
-
-                            } else {
-                                showToastMessage("로그인에 실패하였습니다.")
+                                updateFirebaseDatabase(user)
                             }
                         }
                         .addOnFailureListener { loginException ->
@@ -147,6 +150,18 @@ class LoginActivity : AppCompatActivity() {
                         }
                 }
             }
+    }
+
+    private fun updateFirebaseDatabase(user: User) {
+        val uid = Firebase.auth.currentUser?.uid.orEmpty()
+        val userMap = mutableMapOf<String, Any>(
+            "uid" to uid,
+            "name" to user.kakaoAccount?.profile?.nickname.orEmpty(),
+            "profilePhoto" to user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty()
+        )
+
+        Firebase.database.reference.child("User").child(uid).updateChildren(userMap)
+        navigateToMapActivity()
     }
 
     private fun navigateToMapActivity() {

@@ -10,7 +10,9 @@ import com.google.android.material.textfield.TextInputLayout
 import org.sjhstudio.fastcampus.part2.chapter9.databinding.BottomSheetDialogEmailBinding
 import org.sjhstudio.fastcampus.part2.chapter9.util.Validation
 
-class EmailBottomSheetDialog : BottomSheetDialogFragment() {
+class EmailBottomSheetDialog(
+    private val submitEmail: (String) -> Unit
+) : BottomSheetDialogFragment() {
 
     private lateinit var binding: BottomSheetDialogEmailBinding
 
@@ -38,16 +40,32 @@ class EmailBottomSheetDialog : BottomSheetDialogFragment() {
         with(binding) {
             etEmail.addTextChangedListener { text ->
                 text?.let { email ->
-                    when (Validation.validateEmail(email.toString())) {
-                        true -> handleInputSuccess(textInputLayoutEmail)
-                        false -> handleInputError(textInputLayoutEmail, "이메일 형식이 올바르지 않습니다.")
-                        null -> handleInputError(textInputLayoutEmail, "이메일을 입력해주세요.")
-                    }
+                    validateEmail(email.toString())
                 }
             }
             btnOk.setOnClickListener {
                 // LoginActivity 에 이메일 전달
-                dismiss()
+                if (validateEmail(etEmail.toString())) {
+                    submitEmail.invoke(etEmail.toString())
+                    dismiss()
+                }
+            }
+        }
+    }
+
+    private fun validateEmail(email: String): Boolean {
+        return when (Validation.validateEmail(email)) {
+            true -> {
+                handleInputSuccess(binding.textInputLayoutEmail)
+                true
+            }
+            false -> {
+                handleInputError(binding.textInputLayoutEmail, "이메일 형식이 올바르지 않습니다.")
+                false
+            }
+            null -> {
+                handleInputError(binding.textInputLayoutEmail, "이메일을 입력해주세요.")
+                false
             }
         }
     }
