@@ -14,6 +14,10 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
 import org.sjhstudio.fastcampus.part2.chapter9.databinding.ActivityLoginBinding
+import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_USER
+import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_USER_NAME
+import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_USER_PROFILE_PHOTO
+import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_USER_UID
 import org.sjhstudio.fastcampus.part2.chapter9.util.showToastMessage
 
 class LoginActivity : AppCompatActivity() {
@@ -155,12 +159,12 @@ class LoginActivity : AppCompatActivity() {
     private fun updateFirebaseDatabase(user: User) {
         val uid = Firebase.auth.currentUser?.uid.orEmpty()
         val userMap = mutableMapOf<String, Any>(
-            "uid" to uid,
-            "name" to user.kakaoAccount?.profile?.nickname.orEmpty(),
-            "profilePhoto" to user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty()
+            DB_USER_UID to uid,
+            DB_USER_NAME to user.kakaoAccount?.profile?.nickname.orEmpty(),
+            DB_USER_PROFILE_PHOTO to user.kakaoAccount?.profile?.thumbnailImageUrl.orEmpty()
         )
 
-        Firebase.database.reference.child("User").child(uid).updateChildren(userMap)
+        Firebase.database.reference.child(DB_USER).child(uid).updateChildren(userMap)
         navigateToMapActivity()
     }
 

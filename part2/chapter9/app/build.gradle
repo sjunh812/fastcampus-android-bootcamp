@@ -2,7 +2,6 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'com.google.gms.google-services'
-    id 'com.google.android.libraries.mapsplatform.secrets-gradle-plugin'
 }
 
 android {
@@ -60,6 +59,7 @@ dependencies {
     implementation "com.google.firebase:firebase-database-ktx"  // Firebase Realtime Database
 
     implementation 'com.google.android.gms:play-services-maps:18.1.0'   // Google Map
+    implementation 'com.google.android.gms:play-services-location:21.0.1'   // Google Location
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
