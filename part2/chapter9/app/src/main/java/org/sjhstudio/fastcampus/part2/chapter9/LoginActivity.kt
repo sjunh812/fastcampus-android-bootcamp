@@ -8,6 +8,7 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
@@ -24,6 +25,7 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private var pendingUser: User? = null
+
     private val emailDialog by lazy {
         EmailBottomSheetDialog { email ->
             pendingUser?.let { user -> signInFirebase(user, email) }
@@ -56,12 +58,23 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initViews()
+        checkKakaoLoginToken()
     }
 
     private fun initViews() {
         with(binding) {
             btnKakaoLogin.setOnClickListener {
                 kakaoLogin()
+            }
+        }
+    }
+
+    private fun checkKakaoLoginToken() {
+        if (AuthApiClient.instance.hasToken()) {
+            UserApiClient.instance.accessTokenInfo { tokenInfo, error ->
+                if (error == null && tokenInfo != null) {
+                    getKakaoAccountInfo()
+                }
             }
         }
     }

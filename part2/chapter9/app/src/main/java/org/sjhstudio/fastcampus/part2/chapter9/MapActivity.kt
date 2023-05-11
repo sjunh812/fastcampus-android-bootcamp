@@ -2,20 +2,26 @@ package org.sjhstudio.fastcampus.part2.chapter9
 
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.DataSource
+import com.bumptech.glide.load.engine.GlideException
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestListener
+import com.bumptech.glide.request.target.Target
 import com.google.android.gms.location.*
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMap.OnCameraMoveStartedListener.REASON_GESTURE
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.Marker
-import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.ChildEventListener
 import com.google.firebase.database.DataSnapshot
@@ -34,8 +40,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var uid: String
     private lateinit var googleMap: GoogleMap
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
-
     private val markerMap = hashMapOf<String, Marker>()
+    private var trackingUserUid: String? = null
 
     private val locationPermissionResult = registerForActivityResult(
         ActivityResultContracts.RequestMultiplePermissions()
@@ -56,6 +62,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private val locationRequest by lazy {
         LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000L).build()
     }
+
     private val locationCallback by lazy {
         object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
@@ -67,7 +74,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         DB_USER_LONGITUDE to location.longitude
                     )
 
-                    Firebase.database.reference.child(DB_USER).child(uid).updateChildren(locationMap)
+                    Firebase.database.reference.child(DB_USER).child(uid)
+                        .updateChildren(locationMap)
                 }
             }
         }
@@ -125,6 +133,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         fusedLocationProviderClient.run {
             requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
             lastLocation.addOnSuccessListener { location ->
+                if (location == null) return@addOnSuccessListener
+
                 googleMap.animateCamera(
                     CameraUpdateFactory.newLatLngZoom(
                         LatLng(
@@ -162,12 +172,23 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                     val user = snapshot.getValue(User::class.java) ?: return
                     val userUid = user.uid ?: return
+                    val userPosition = LatLng(user.latitude ?: 0.0, user.longitude ?: 0.0)
 
                     if (!markerMap.containsKey(userUid)) {
                         markerMap[userUid] = createMarker(user) ?: return
                     } else {
-                        markerMap[userUid]?.position =
-                            LatLng(user.latitude ?: 0.0, user.longitude ?: 0.0)
+                        markerMap[userUid]?.position = userPosition
+                    }
+
+                    if (userUid == trackingUserUid) {
+                        googleMap.animateCamera(
+                            CameraUpdateFactory.newCameraPosition(
+                                CameraPosition.Builder()
+                                    .target(userPosition)
+                                    .zoom(16.0f)
+                                    .build()
+                            )
+                        )
                     }
                 }
 
@@ -184,7 +205,41 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             MarkerOptions()
                 .position(LatLng(user.latitude ?: 0.0, user.longitude ?: 0.0))
                 .title(user.name.orEmpty())
-        )
+        )?.apply {
+            tag = user.uid.orEmpty()
+        }
+
+        Glide.with(this)
+            .asBitmap()
+            .load(user.profilePhoto)
+            .transform(RoundedCorners(60))
+            .override(200)
+            .listener(object : RequestListener<Bitmap> {
+                override fun onLoadFailed(
+                    e: GlideException?,
+                    model: Any?,
+                    target: Target<Bitmap>?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    return true
+                }
+
+                override fun onResourceReady(
+                    resource: Bitmap?,
+                    model: Any?,
+                    target: Target<Bitmap>?,
+                    dataSource: DataSource?,
+                    isFirstResource: Boolean
+                ): Boolean {
+                    runOnUiThread {
+                        resource?.let { bitmap ->
+                            marker?.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                        }
+                    }
+                    return true
+                }
+
+            }).submit()
 
         return marker
     }
@@ -196,7 +251,24 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(map: GoogleMap) {
         googleMap = map
-        googleMap.setMinZoomPreference(10.0f)
-        googleMap.setMaxZoomPreference(20.0f)
+        googleMap.apply {
+            setMinZoomPreference(10.0f)
+            setMaxZoomPreference(20.0f)
+            setOnMarkerClickListener { marker ->
+                trackingUserUid = marker.tag as? String
+                // true: 기본 클릭이벤트 무시, false: 기본 클릭이벤트 소비
+                false
+            }
+            setOnCameraMoveStartedListener { reason ->
+                Log.e(LOG, "camera move started!!")
+                if (reason == REASON_GESTURE) trackingUserUid = null
+            }
+//            setOnMapClickListener {
+//                trackingUserUid = null
+//            }
+//            setOnMapLongClickListener {
+//                trackingUserUid = null
+//            }
+        }
     }
 }
