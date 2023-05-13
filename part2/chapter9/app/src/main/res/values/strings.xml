@@ -1,3 +1,6 @@
 <resources>
-    <string name="app_name">넌지금어디</string>
+    <string name="app_name">젠리</string>
+
+    <string name="button_kakao_login">카카오 로그인</string>
+    <string name="button_test_login">테스트 계정 로그인</string>
 </resources>

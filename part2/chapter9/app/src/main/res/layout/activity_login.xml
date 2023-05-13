@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
+    android:background="@color/main_color"
+    android:padding="40dp"
     tools:context=".LoginActivity">
 
     <TextView
@@ -12,9 +13,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp"
         android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="45sp"
-        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +40,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="카카오 로그인"
+            android:text="@string/button_kakao_login"
             android:textColor="@color/black"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -48,4 +48,17 @@
             app:layout_constraintStart_toEndOf="@id/iv_kakao_logo"
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/btn_test_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:padding="5dp"
+        android:text="@string/button_test_login"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_kakao_login" />
 </androidx.constraintlayout.widget.ConstraintLayout>
