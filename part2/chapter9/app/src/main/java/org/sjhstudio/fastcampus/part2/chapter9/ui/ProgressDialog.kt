@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter9
+package org.sjhstudio.fastcampus.part2.chapter9.ui
 
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -33,10 +33,6 @@ class ProgressDialog : DialogFragment() {
         isCancelable = false
 
         return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
     }
 
     override fun show(manager: FragmentManager, tag: String?) {

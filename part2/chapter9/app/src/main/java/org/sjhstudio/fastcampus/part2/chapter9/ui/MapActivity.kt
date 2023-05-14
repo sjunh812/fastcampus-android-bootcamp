@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter9
+package org.sjhstudio.fastcampus.part2.chapter9.ui
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -31,7 +31,9 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import org.sjhstudio.fastcampus.part2.chapter9.R
 import org.sjhstudio.fastcampus.part2.chapter9.databinding.ActivityMapBinding
+import org.sjhstudio.fastcampus.part2.chapter9.model.Emoji
 import org.sjhstudio.fastcampus.part2.chapter9.model.User
 import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_EMOJI
 import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_EMOJI_LAST_MODIFIER
@@ -83,7 +85,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                         DB_USER_LONGITUDE to location.longitude
                     )
 
-                    Firebase.database.reference.child(DB_USER).child(uid)
+                    Firebase.database.reference.child(DB_USER)
+                        .child(uid)
                         .updateChildren(locationMap)
                 }
             }
@@ -103,6 +106,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
 
         if (Firebase.auth.currentUser?.uid != null) {
             uid = Firebase.auth.currentUser?.uid!!
+            trackingUserUid = uid
         } else {
             navigateLoginActivity()
         }
@@ -128,6 +132,11 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
     private fun initViews() {
         with(binding) {
             BottomSheetBehavior.from(bottomSheetEmoji).state = BottomSheetBehavior.STATE_HIDDEN
+
+            fabCurrentLocation.setOnClickListener {
+                trackingUserUid = null
+                getLastLocation()
+            }
 
             lottieViewSmileyEmoji.setOnClickListener {
                 sendEmoji(EMOJI_TYPE_SMILE)
@@ -160,21 +169,41 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             return
         }
 
-        fusedLocationProviderClient.run {
-            requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
-            lastLocation.addOnSuccessListener { location ->
-                if (location == null) return@addOnSuccessListener
+        fusedLocationProviderClient.requestLocationUpdates(
+            locationRequest,
+            locationCallback,
+            Looper.getMainLooper()
+        )
 
-                googleMap.animateCamera(
-                    CameraUpdateFactory.newLatLngZoom(
-                        LatLng(
-                            location.latitude,
-                            location.longitude
-                        ),
-                        16.0f
-                    )
+        getLastLocation()
+    }
+
+    private fun getLastLocation() {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+            && ActivityCompat.checkSelfPermission(
+                this,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+            != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        }
+
+        fusedLocationProviderClient.lastLocation.addOnSuccessListener { location ->
+            if (location == null) return@addOnSuccessListener
+
+            Log.e(LOG, "last location : ${location.latitude}, ${location.longitude}")
+
+            googleMap.moveCamera(
+                CameraUpdateFactory.newLatLngZoom(
+                    LatLng(location.latitude, location.longitude),
+                    16.0f
                 )
-            }
+            )
         }
     }
 
@@ -229,11 +258,12 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                 override fun onCancelled(error: DatabaseError) {}
             })
 
-        Firebase.database.reference.child(DB_EMOJI).child(uid)
+        Firebase.database.reference.child(DB_EMOJI)
+            .child(uid)
             .addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    val emojiType = snapshot.child(DB_EMOJI_TYPE).value.toString()
-                    updateReceivedEmoji(emojiType)
+                    val typeValue = snapshot.child(DB_EMOJI_TYPE).value ?: return
+                    updateReceivedEmoji(typeValue.toString())
                 }
 
                 override fun onCancelled(error: DatabaseError) {}
@@ -245,6 +275,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             MarkerOptions()
                 .position(LatLng(user.latitude ?: 0.0, user.longitude ?: 0.0))
                 .title(user.name.orEmpty())
+                .visible(false)
         )?.apply {
             tag = user.uid.orEmpty()
         }
@@ -274,6 +305,7 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
                     runOnUiThread {
                         resource?.let { bitmap ->
                             marker?.setIcon(BitmapDescriptorFactory.fromBitmap(bitmap))
+                            marker?.isVisible = true
                         }
                     }
                     return true
@@ -366,10 +398,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
             setOnMarkerClickListener { marker ->
                 trackingUserUid = marker.tag as? String
 
-                if (uid != trackingUserUid) {
-                    BottomSheetBehavior.from(binding.bottomSheetEmoji).state =
-                        BottomSheetBehavior.STATE_EXPANDED
-                }
+                BottomSheetBehavior.from(binding.bottomSheetEmoji).state =
+                    if (uid == trackingUserUid) BottomSheetBehavior.STATE_HIDDEN else BottomSheetBehavior.STATE_EXPANDED
 
                 false   // true: 기본 클릭이벤트 무시, false: 기본 클릭이벤트 소비
             }

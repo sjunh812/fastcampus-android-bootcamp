@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MapActivity">
+    tools:context=".ui.MapActivity">
 
     <fragment
         android:id="@+id/fragment_map"
@@ -21,6 +21,16 @@
         android:alpha="1"
         android:scaleX="0"
         android:scaleY="0" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_current_location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:src="@drawable/ic_my_location_24"
+        app:layout_anchor="@id/bottom_sheet_emoji"
+        app:layout_anchorGravity="right|top"
+        app:tint="@color/white" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottom_sheet_emoji"

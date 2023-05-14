@@ -35,7 +35,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".ui.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -47,7 +47,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".MapActivity"
+            android:name=".ui.MapActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

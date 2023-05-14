@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter9
+package org.sjhstudio.fastcampus.part2.chapter9.ui
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputLayout
+import org.sjhstudio.fastcampus.part2.chapter9.R
 import org.sjhstudio.fastcampus.part2.chapter9.databinding.BottomSheetDialogEmailBinding
 import org.sjhstudio.fastcampus.part2.chapter9.util.Validation
 

@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter9
+package org.sjhstudio.fastcampus.part2.chapter9.ui
 
 import android.content.Intent
 import android.os.Bundle
@@ -14,7 +14,6 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.kakao.sdk.user.model.User
-import dalvik.annotation.TestTargetClass
 import org.sjhstudio.fastcampus.part2.chapter9.databinding.ActivityLoginBinding
 import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_USER
 import org.sjhstudio.fastcampus.part2.chapter9.util.Constants.DB_USER_NAME
@@ -224,13 +223,16 @@ class LoginActivity : AppCompatActivity() {
             DB_USER_PROFILE_PHOTO to "https://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg"
         )
 
-        Firebase.database.reference.child(DB_USER).child(Firebase.auth.currentUser?.uid.orEmpty())
+        Firebase.database.reference.child(DB_USER)
+            .child(Firebase.auth.currentUser?.uid.orEmpty())
             .updateChildren(testUserMap)
+
         navigateToMapActivity()
     }
 
 
     private fun navigateToMapActivity() {
         startActivity(Intent(this, MapActivity::class.java))
+        finish()
     }
 }
