@@ -1,7 +1,9 @@
 package org.sjhstudio.flow.chapter10
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupWithNavController
 import org.sjhstudio.flow.chapter10.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -13,12 +15,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        initViews()
-    }
-
-    private fun initViews() {
-        with(binding) {
-
-        }
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.fragment_nav_host) as NavHostFragment
+        binding.bottomNavigationView.setupWithNavController(navHostFragment.navController)
     }
 }
