@@ -1,9 +1,11 @@
 package org.sjhstudio.flow.chapter10
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.ktx.auth
@@ -15,6 +17,10 @@ class AuthFragment : Fragment() {
     private var _binding: FragmentAuthBinding? = null
     val binding: FragmentAuthBinding
         get() = _binding ?: error("ViewBinding Error")
+
+    private val inputMethodManager by lazy {
+        requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,10 +44,12 @@ class AuthFragment : Fragment() {
     private fun initViews() {
         with(binding) {
             btnSignUp.setOnClickListener {
+                hideKeyboard(it)
                 signUp()
             }
 
             btnSignInOut.setOnClickListener {
+                hideKeyboard(it)
                 signInOut()
             }
         }
@@ -131,7 +139,7 @@ class AuthFragment : Fragment() {
             }
             Validation.validatePassword(password) == false && isSignUp -> {
                 handleErrorTextInputLayout(
-                    binding.textInputLayoutEmail,
+                    binding.textInputLayoutPassword,
                     "비밀번호는 8자이상 20자이하의 영문숫자를 입력해 주세요."
                 )
                 false
@@ -150,5 +158,9 @@ class AuthFragment : Fragment() {
     private fun handleSuccessTextInputLayout(textInputLayout: TextInputLayout) {
         textInputLayout.error = null
         textInputLayout.isErrorEnabled = false
+    }
+
+    private fun hideKeyboard(view: View) {
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }
