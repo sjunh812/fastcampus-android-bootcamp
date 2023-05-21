@@ -1,4 +1,4 @@
-package org.sjhstudio.flow.chapter10
+package org.sjhstudio.flow.chapter10.ui.auth
 
 import android.content.Context
 import android.os.Bundle
@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment
 import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import org.sjhstudio.flow.chapter10.R
+import org.sjhstudio.flow.chapter10.util.Validation
 import org.sjhstudio.flow.chapter10.databinding.FragmentAuthBinding
+import org.sjhstudio.flow.chapter10.util.showSnackBar
 
 class AuthFragment : Fragment() {
 

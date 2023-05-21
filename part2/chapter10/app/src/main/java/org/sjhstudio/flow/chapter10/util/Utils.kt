@@ -1,4 +1,4 @@
-package org.sjhstudio.flow.chapter10
+package org.sjhstudio.flow.chapter10.util
 
 import android.view.View
 import com.google.android.material.snackbar.Snackbar

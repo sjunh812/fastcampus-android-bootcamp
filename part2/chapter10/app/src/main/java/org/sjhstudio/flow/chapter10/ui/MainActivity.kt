@@ -1,4 +1,4 @@
-package org.sjhstudio.flow.chapter10
+package org.sjhstudio.flow.chapter10.ui
 
 import android.content.Context
 import android.os.Bundle
@@ -9,6 +9,7 @@ import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
+import org.sjhstudio.flow.chapter10.R
 import org.sjhstudio.flow.chapter10.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
