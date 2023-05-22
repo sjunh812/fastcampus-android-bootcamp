@@ -6,6 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import org.sjhstudio.flow.chapter10.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
@@ -31,6 +33,10 @@ class HomeFragment : Fragment() {
     private fun initViews() {
         with(binding) {
             btnWriteArticle.setOnClickListener {
+                if (Firebase.auth.currentUser == null) {
+                    return@setOnClickListener
+                }
+
                 val direction = HomeFragmentDirections.actionHomeFragmentToWriteArticleFragment()
                 findNavController().navigate(direction)
             }

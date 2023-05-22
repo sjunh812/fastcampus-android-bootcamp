@@ -3,27 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/nav_home">
+
+    <include app:graph="@navigation/nav_home" />
 
     <fragment
-        android:id="@+id/homeFragment"
-        android:name="org.sjhstudio.flow.chapter10.ui.home.HomeFragment"
-        android:label="HomeFragment"
-        tools:layout="@layout/fragment_home">
-        <action
-            android:id="@+id/action_homeFragment_to_writeArticleFragment"
-            app:destination="@id/writeArticleFragment" />
-    </fragment>
-
-    <fragment
-        android:id="@+id/authFragment"
+        android:id="@+id/fragment_auth"
         android:name="org.sjhstudio.flow.chapter10.ui.auth.AuthFragment"
         android:label="AuthFragment"
         tools:layout="@layout/fragment_auth" />
-
-    <fragment
-        android:id="@+id/writeArticleFragment"
-        android:name="org.sjhstudio.flow.chapter10.ui.article.WriteArticleFragment"
-        android:label="WriteArticleFragment"
-        tools:layout="@layout/fragment_write_article" />
 </navigation>

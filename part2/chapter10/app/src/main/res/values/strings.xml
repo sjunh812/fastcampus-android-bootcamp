@@ -7,7 +7,11 @@
 
     <string name="hint_input_email">이메일</string>
     <string name="hint_input_password">비밀번호</string>
+    <string name="hint_photo_description">사진을 설명해 주세요.</string>
 
     <string name="label_home">홈</string>
     <string name="label_my_info">내 정보</string>
+    <string name="button_upload">올리기</string>
+
+    <string name="description_add_photo">사진 추가</string>
 </resources>
