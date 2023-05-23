@@ -7,10 +7,14 @@ import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
 import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.plusAssign
+import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import org.sjhstudio.flow.chapter10.R
 import org.sjhstudio.flow.chapter10.databinding.ActivityMainBinding
+import org.sjhstudio.flow.chapter10.util.KeepStateNavigator
 
 class MainActivity : AppCompatActivity() {
 
@@ -28,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.fragment_nav_host) as NavHostFragment
         binding.bottomNavigationView.setupWithNavController(navHostFragment.navController)
+
+//        val navHostFragment =  supportFragmentManager.findFragmentById(R.id.fragment_nav_host) as NavHostFragment
+//        val navController = navHostFragment.navController
+//        val navigator = KeepStateNavigator(this, navHostFragment.childFragmentManager, R.id.fragment_nav_host)
+//
+//        navController.navigatorProvider.addNavigator(navigator)
+//        navController.setGraph(R.navigation.nav_graph)
+//
+//        binding.bottomNavigationView.setupWithNavController(navController)
     }
 
     override fun dispatchTouchEvent(ev: MotionEvent?): Boolean {

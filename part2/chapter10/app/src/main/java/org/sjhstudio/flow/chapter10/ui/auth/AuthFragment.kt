@@ -2,6 +2,7 @@ package org.sjhstudio.flow.chapter10.ui.auth
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -25,12 +26,22 @@ class AuthFragment : Fragment() {
         requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
     }
 
+    companion object {
+        private const val LOG = "AuthFragment"
+    }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.e(LOG, "onAttach()")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAuthBinding.inflate(layoutInflater)
+        Log.e(LOG, "onCreateView()")
         return binding.root
     }
 

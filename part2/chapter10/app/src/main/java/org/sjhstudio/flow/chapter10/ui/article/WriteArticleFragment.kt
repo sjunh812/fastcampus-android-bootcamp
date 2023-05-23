@@ -1,5 +1,6 @@
 package org.sjhstudio.flow.chapter10.ui.article
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -45,13 +46,18 @@ class WriteArticleFragment : Fragment() {
         private const val LOG = "WriteArticleFragment"
     }
 
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Log.e(LOG, "onAttach()")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentWriteArticleBinding.inflate(layoutInflater)
-
+        Log.e(LOG, "onCreateView()")
         return binding.root
     }
 

@@ -17,6 +17,9 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_right"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_fragment_home_to_fragment_article"
+            app:destination="@id/fragment_article" />
     </fragment>
 
     <fragment
@@ -24,4 +27,15 @@
         android:name="org.sjhstudio.flow.chapter10.ui.article.WriteArticleFragment"
         android:label="WriteArticleFragment"
         tools:layout="@layout/fragment_write_article" />
+
+    <fragment
+        android:id="@+id/fragment_article"
+        android:name="org.sjhstudio.flow.chapter10.ui.article.ArticleFragment"
+        android:label="글 상세"
+        tools:layout="@layout/fragment_article">
+
+        <argument
+            android:name="articleId"
+            app:argType="string" />
+    </fragment>
 </navigation>

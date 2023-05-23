@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">chapter10</string>
+    <string name="app_name">내일의집</string>
 
     <string name="button_sign_up">회원가입</string>
     <string name="button_sign_in">로그인</string>
@@ -8,6 +8,7 @@
     <string name="hint_input_email">이메일</string>
     <string name="hint_input_password">비밀번호</string>
     <string name="hint_photo_description">사진을 설명해 주세요.</string>
+    <string name="hint_search_article">내일의집 게시글 검색</string>
 
     <string name="label_home">홈</string>
     <string name="label_my_info">내 정보</string>
