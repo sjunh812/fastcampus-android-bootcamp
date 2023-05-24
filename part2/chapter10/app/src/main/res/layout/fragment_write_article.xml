@@ -19,6 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/ic_arrow_back_24"
+            android:backgroundTint="?attr/colorOnSecondary"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,56 +37,70 @@
             app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/iv_photo"
-        android:layout_width="0dp"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:background="@color/sub_background"
-        android:scaleType="centerCrop"
-        app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/layout_toolbar" />
-
-    <ImageView
-        android:id="@+id/btn_delete_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="7dp"
-        android:padding="5dp"
-        android:src="@drawable/ic_clear_24"
-        android:visibility="gone"
-        app:layout_constraintEnd_toEndOf="@id/iv_photo"
-        app:layout_constraintTop_toTopOf="@id/iv_photo"
-        app:tint="@color/white"
-        tools:visibility="visible" />
-
-    <TextView
-        android:id="@+id/tv_add_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/description_add_photo"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@id/iv_photo"
-        app:layout_constraintEnd_toEndOf="@id/iv_photo"
-        app:layout_constraintStart_toStartOf="@id/iv_photo"
-        app:layout_constraintTop_toTopOf="@id/iv_photo" />
-
-    <EditText
-        android:id="@+id/et_photo_description"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_margin="20dp"
-        android:background="?attr/colorOnPrimary"
-        android:gravity="top"
-        android:hint="@string/hint_photo_description"
-        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_photo" />
+        app:layout_constraintTop_toBottomOf="@id/layout_toolbar">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/iv_photo"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_margin="20dp"
+                android:background="@color/sub_background"
+                android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btn_delete_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="7dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_clear_24"
+                android:visibility="gone"
+                app:layout_constraintEnd_toEndOf="@id/iv_photo"
+                app:layout_constraintTop_toTopOf="@id/iv_photo"
+                app:tint="@color/white"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/tv_add_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/description_add_photo"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="@id/iv_photo"
+                app:layout_constraintEnd_toEndOf="@id/iv_photo"
+                app:layout_constraintStart_toStartOf="@id/iv_photo"
+                app:layout_constraintTop_toTopOf="@id/iv_photo" />
+
+            <EditText
+                android:id="@+id/et_photo_description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="?attr/colorPrimaryVariant"
+                android:gravity="top"
+                android:hint="@string/hint_photo_description"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/iv_photo" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
     <FrameLayout
         android:id="@+id/layout_progress"

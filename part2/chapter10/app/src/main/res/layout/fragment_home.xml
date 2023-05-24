@@ -24,6 +24,7 @@
             android:background="@color/sub_background"
             android:drawableStart="@drawable/ic_search_24"
             android:drawablePadding="10dp"
+            android:drawableTint="?attr/colorOnSecondary"
             android:hint="@string/hint_search_article"
             android:inputType="text"
             android:paddingHorizontal="10dp"

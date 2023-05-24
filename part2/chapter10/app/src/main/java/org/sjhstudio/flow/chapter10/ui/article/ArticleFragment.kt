@@ -13,7 +13,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 import org.sjhstudio.flow.chapter10.databinding.FragmentArticleBinding
-import org.sjhstudio.flow.chapter10.model.Article
+import org.sjhstudio.flow.chapter10.model.ArticleDto
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_ARTICLE
 import org.sjhstudio.flow.chapter10.util.showSnackBar
 
@@ -50,20 +50,20 @@ class ArticleFragment : Fragment() {
         Firebase.firestore.collection(FIRESTORE_ARTICLE).document(navArgs.articleId)
             .get()
             .addOnSuccessListener { documentSnapshot ->
-                updateArticleUI(documentSnapshot.toObject<Article>() ?: return@addOnSuccessListener)
+                updateArticleUI(documentSnapshot.toObject<ArticleDto>() ?: return@addOnSuccessListener)
             }.addOnFailureListener { e ->
                 e.printStackTrace()
                 binding.root.showSnackBar("게시물을 가져오는 중 오류가 발생했습니다.")
             }
     }
 
-    private fun updateArticleUI(article: Article) {
+    private fun updateArticleUI(articleDto: ArticleDto) {
         with(binding) {
             Glide.with(ivPhoto)
-                .load(article.imageUrl)
+                .load(articleDto.imageUrl)
                 .into(ivPhoto)
 
-            tvDescription.text = article.description
+            tvDescription.text = articleDto.description
         }
     }
 }

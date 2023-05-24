@@ -17,6 +17,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ImageView
+        android:id="@+id/btn_bookmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:src="@drawable/ic_bookmark_border_24"
+        app:layout_constraintBottom_toBottomOf="@id/iv_photo"
+        app:layout_constraintEnd_toEndOf="@id/iv_photo"
+        app:tint="?attr/colorPrimary" />
+
     <TextView
         android:id="@+id/tv_description"
         android:layout_width="0dp"

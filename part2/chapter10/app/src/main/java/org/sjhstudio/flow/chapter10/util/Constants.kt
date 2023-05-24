@@ -8,4 +8,7 @@ object Constants {
 
     // Firestore
     const val FIRESTORE_ARTICLE = "articles"
+    const val FIRESTORE_ARTICLE_ID = "id"
+    const val FIRESTORE_BOOKMARK = "bookmarks"
+    const val FIRESTORE_BOOKMARK_ARTICLE_ID = "articleIds"
 }

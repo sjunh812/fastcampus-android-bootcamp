@@ -16,7 +16,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import org.sjhstudio.flow.chapter10.databinding.FragmentWriteArticleBinding
-import org.sjhstudio.flow.chapter10.model.Article
+import org.sjhstudio.flow.chapter10.model.ArticleDto
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_ARTICLE
 import org.sjhstudio.flow.chapter10.util.Constants.STORAGE_ARTICLE
 import org.sjhstudio.flow.chapter10.util.Constants.STORAGE_PHOTO
@@ -56,8 +56,8 @@ class WriteArticleFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentWriteArticleBinding.inflate(layoutInflater)
         Log.e(LOG, "onCreateView()")
+        _binding = FragmentWriteArticleBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -140,7 +140,7 @@ class WriteArticleFragment : Fragment() {
 
     private fun uploadFirestore(photoUrl: String, description: String) {
         val articleId = UUID.randomUUID().toString()
-        val article = Article(
+        val articleDto = ArticleDto(
             id = articleId,
             createAt = System.currentTimeMillis(),
             imageUrl = photoUrl,
@@ -148,7 +148,7 @@ class WriteArticleFragment : Fragment() {
         )
 
         Firebase.firestore.collection(FIRESTORE_ARTICLE).document(articleId)
-            .set(article)
+            .set(articleDto)
             .addOnCompleteListener { task ->
                 hideProgress()
 
