@@ -1,6 +1,7 @@
 package org.sjhstudio.flow.chapter10.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,7 +16,7 @@ import com.google.firebase.ktx.Firebase
 import org.sjhstudio.flow.chapter10.databinding.FragmentHomeBinding
 import org.sjhstudio.flow.chapter10.model.Article
 import org.sjhstudio.flow.chapter10.model.ArticleDto
-import org.sjhstudio.flow.chapter10.ui.ArticleAdapter
+import org.sjhstudio.flow.chapter10.ui.adapter.ArticleAdapter
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_ARTICLE
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_BOOKMARK
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_BOOKMARK_ARTICLE_ID
@@ -48,6 +49,7 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater)
+
         return binding.root
     }
 
@@ -134,7 +136,11 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToArticleFragment(article: Article) {
-        val direction = HomeFragmentDirections.actionFragmentHomeToFragmentArticle(article.id)
+        Log.e(LOG, "${article.isBookmark}")
+        val direction = HomeFragmentDirections.actionFragmentHomeToFragmentArticle(
+            articleId = article.id,
+            isBookmark = article.isBookmark
+        )
         findNavController().navigate(direction)
     }
 }

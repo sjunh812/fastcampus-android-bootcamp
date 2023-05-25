@@ -41,13 +41,17 @@
         <argument
             android:name="articleId"
             app:argType="string" />
+
+        <argument
+            android:name="isBookmark"
+            app:argType="boolean" />
     </fragment>
 
     <fragment
         android:id="@+id/bookmarkFragment"
         android:name="org.sjhstudio.flow.chapter10.ui.bookmark.BookmarkFragment"
         android:label="북마크"
-        tools:layout="@layout/fragment_bookmark" >
+        tools:layout="@layout/fragment_bookmark">
         <action
             android:id="@+id/action_bookmarkFragment_to_fragment_article"
             app:destination="@id/fragment_article" />

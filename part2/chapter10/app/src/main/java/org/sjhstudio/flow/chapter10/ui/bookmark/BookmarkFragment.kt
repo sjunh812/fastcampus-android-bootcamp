@@ -16,7 +16,7 @@ import com.google.firebase.ktx.Firebase
 import org.sjhstudio.flow.chapter10.databinding.FragmentBookmarkBinding
 import org.sjhstudio.flow.chapter10.model.Article
 import org.sjhstudio.flow.chapter10.model.ArticleDto
-import org.sjhstudio.flow.chapter10.ui.ArticleAdapter
+import org.sjhstudio.flow.chapter10.ui.adapter.ArticleAdapter
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_ARTICLE
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_ARTICLE_ID
 import org.sjhstudio.flow.chapter10.util.Constants.FIRESTORE_BOOKMARK
@@ -40,16 +40,13 @@ class BookmarkFragment : Fragment() {
         )
     }
 
-    companion object {
-        private const val LOG = "BookmarkFragment"
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentBookmarkBinding.inflate(layoutInflater)
+
         return binding.root
     }
 
@@ -131,7 +128,10 @@ class BookmarkFragment : Fragment() {
 
     private fun navigateToArticleFragment(article: Article) {
         val direction =
-            BookmarkFragmentDirections.actionBookmarkFragmentToFragmentArticle(article.id)
+            BookmarkFragmentDirections.actionBookmarkFragmentToFragmentArticle(
+                article.id,
+                article.isBookmark
+            )
         findNavController().navigate(direction)
     }
 }

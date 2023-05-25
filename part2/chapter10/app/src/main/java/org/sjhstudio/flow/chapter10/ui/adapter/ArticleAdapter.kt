@@ -1,6 +1,5 @@
-package org.sjhstudio.flow.chapter10.ui
+package org.sjhstudio.flow.chapter10.ui.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
@@ -45,7 +44,8 @@ class ArticleAdapter(
                     pos != RecyclerView.NO_POSITION
                 }?.let { position ->
                     val articleId = currentList[position].id
-                    onBookmarkClicked.invoke(articleId,currentList[position].isBookmark.not())
+
+                    onBookmarkClicked.invoke(articleId, currentList[position].isBookmark.not())
                     currentList[position].isBookmark = currentList[position].isBookmark.not()
                     setBookmarkImage(currentList[position].isBookmark)
                 }

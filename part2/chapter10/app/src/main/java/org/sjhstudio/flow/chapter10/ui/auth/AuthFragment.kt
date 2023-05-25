@@ -12,8 +12,8 @@ import com.google.android.material.textfield.TextInputLayout
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import org.sjhstudio.flow.chapter10.R
-import org.sjhstudio.flow.chapter10.util.Validation
 import org.sjhstudio.flow.chapter10.databinding.FragmentAuthBinding
+import org.sjhstudio.flow.chapter10.util.Validation
 import org.sjhstudio.flow.chapter10.util.showSnackBar
 
 class AuthFragment : Fragment() {
@@ -40,8 +40,9 @@ class AuthFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentAuthBinding.inflate(layoutInflater)
         Log.e(LOG, "onCreateView()")
+        _binding = FragmentAuthBinding.inflate(layoutInflater)
+
         return binding.root
     }
 
@@ -115,7 +116,6 @@ class AuthFragment : Fragment() {
             Firebase.auth.signInWithEmailAndPassword(email.toString(), password.toString())
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {
-                        // todo. 로그아웃 버튼으로 변경
                         initSignViews(isSignOut = false)
                     } else {
                         binding.root.showSnackBar("로그인에 실패하였습니다. 이메일 또는 비밀번호를 확인해 주세요.")
@@ -123,7 +123,6 @@ class AuthFragment : Fragment() {
                 }
         } else {    // 로그아웃
             Firebase.auth.signOut()
-            // todo. 로그인 버튼으로 변경
             initSignViews(isSignOut = true)
         }
     }
@@ -131,7 +130,7 @@ class AuthFragment : Fragment() {
     private fun validateEmail(email: String, isSignUp: Boolean): Boolean {
         return when {
             Validation.validateEmail(email) == null -> {
-                handleErrorTextInputLayout(binding.textInputLayoutEmail, "이메일을 입력해 주세요.")
+                handleErrorTextInputLayout(binding.textInputLayoutEmail, "이메일을 입력해주세요.")
                 false
             }
             Validation.validateEmail(email) == false && isSignUp -> {
@@ -148,13 +147,13 @@ class AuthFragment : Fragment() {
     private fun validatePassword(password: String, isSignUp: Boolean): Boolean {
         return when {
             Validation.validateEmail(password) == null -> {
-                handleErrorTextInputLayout(binding.textInputLayoutPassword, "비밀번호를 입력해 주세요.")
+                handleErrorTextInputLayout(binding.textInputLayoutPassword, "비밀번호를 입력해주세요.")
                 false
             }
             Validation.validatePassword(password) == false && isSignUp -> {
                 handleErrorTextInputLayout(
                     binding.textInputLayoutPassword,
-                    "비밀번호는 8자이상 20자이하의 영문숫자를 입력해 주세요."
+                    "비밀번호는 8자이상 20자이하의 영문숫자를 입력해주세요."
                 )
                 false
             }

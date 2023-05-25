@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimaryVariant">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -30,10 +31,21 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_margin="20dp"
+                android:scaleType="centerCrop"
                 app:layout_constraintDimensionRatio="w,10:7"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
+
+            <ImageView
+                android:id="@+id/btn_bookmark"
+                android:layout_width="45dp"
+                android:layout_height="45dp"
+                android:padding="5dp"
+                android:src="@drawable/ic_bookmark_border_24"
+                app:layout_constraintBottom_toBottomOf="@id/iv_photo"
+                app:layout_constraintEnd_toEndOf="@id/iv_photo"
+                app:tint="?attr/colorPrimary" />
 
             <TextView
                 android:id="@+id/tv_description"
