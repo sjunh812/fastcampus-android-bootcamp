@@ -1,10 +1,14 @@
 package org.sjhstudio.flow.chapter10.ui.article
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
@@ -30,8 +34,7 @@ class ArticleFragment : Fragment() {
     val binding: FragmentArticleBinding
         get() = _binding ?: error("ViewBinding Error")
 
-    private val navArgs: ArticleFragmentArgs by navArgs()
-    private var isBookmark = false
+    private val viewModel: ArticleViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +42,6 @@ class ArticleFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentArticleBinding.inflate(layoutInflater)
-        isBookmark = navArgs.isBookmark
 
         return binding.root
     }
@@ -47,6 +49,7 @@ class ArticleFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        observeData()
         callArticle()
     }
 
@@ -54,18 +57,24 @@ class ArticleFragment : Fragment() {
         with(binding) {
             toolbar.setupWithNavController(findNavController())
             btnBookmark.apply {
-                setImageResource(if (isBookmark) R.drawable.ic_bookmark_24 else R.drawable.ic_bookmark_border_24)
                 setOnClickListener {
-                    isBookmark = isBookmark.not()
+                    viewModel.updateBookmark()
                     updateBookmark()
-                    setImageResource(if (isBookmark) R.drawable.ic_bookmark_24 else R.drawable.ic_bookmark_border_24)
                 }
             }
         }
     }
 
+    private fun observeData() {
+        viewModel.isBookmark.observe(viewLifecycleOwner) { isBookmark ->
+            binding.btnBookmark.setImageResource(
+                if (isBookmark) R.drawable.ic_bookmark_24 else R.drawable.ic_bookmark_border_24
+            )
+        }
+    }
+
     private fun callArticle() {
-        Firebase.firestore.collection(FIRESTORE_ARTICLE).document(navArgs.articleId)
+        Firebase.firestore.collection(FIRESTORE_ARTICLE).document(viewModel.articleId)
             .get()
             .addOnSuccessListener { documentSnapshot ->
                 val articleDto =
@@ -74,7 +83,7 @@ class ArticleFragment : Fragment() {
                     id = articleDto.id.orEmpty(),
                     imageUrl = articleDto.imageUrl.orEmpty(),
                     description = articleDto.description.orEmpty(),
-                    isBookmark = navArgs.isBookmark
+                    isBookmark = viewModel.isBookmark.value ?: false
                 )
 
                 updateArticleUI(article)
@@ -90,17 +99,17 @@ class ArticleFragment : Fragment() {
         Firebase.firestore.collection(FIRESTORE_BOOKMARK).document(uid)
             .update(
                 FIRESTORE_BOOKMARK_ARTICLE_ID,
-                if (isBookmark) {
-                    FieldValue.arrayUnion(navArgs.articleId)
+                if (viewModel.isBookmark.value == true) {
+                    FieldValue.arrayUnion(viewModel.articleId)
                 } else {
-                    FieldValue.arrayRemove(navArgs.articleId)
+                    FieldValue.arrayRemove(viewModel.articleId)
                 }
             ).addOnSuccessListener {
-                binding.root.showSnackBar(if (isBookmark) "북마크에 추가되었습니다." else "북마크가 삭제되었습니다.")
+                binding.root.showSnackBar(if (viewModel.isBookmark.value == true) "북마크에 추가되었습니다." else "북마크가 삭제되었습니다.")
             }.addOnFailureListener { e ->
                 if (e is FirebaseFirestoreException && e.code == FirebaseFirestoreException.Code.NOT_FOUND) {
                     Firebase.firestore.collection(FIRESTORE_BOOKMARK).document(uid)
-                        .set(hashMapOf(FIRESTORE_BOOKMARK_ARTICLE_ID to listOf(navArgs.articleId)))
+                        .set(hashMapOf(FIRESTORE_BOOKMARK_ARTICLE_ID to listOf(viewModel.articleId)))
                         .addOnSuccessListener {
                             binding.root.showSnackBar("북마크에 추가되었습니다.")
                         }

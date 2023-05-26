@@ -7,10 +7,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -29,18 +33,24 @@ class WriteArticleFragment : Fragment() {
     val binding: FragmentWriteArticleBinding
         get() = _binding ?: error("ViewBinding Error")
 
-    private var selectedPhotoUri: Uri? = null
+        private val viewModel: WriteArticleViewModel by viewModels()
 
     private val pickPhotoResult =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
             if (uri != null) {
                 Log.e(LOG, "Selected URI: $uri")
-                selectedPhotoUri = uri
-                addPhoto(uri)
+                viewModel.updateSelectedUri(uri)
             } else {
                 Log.e(LOG, "No media selected")
             }
         }
+
+    private val onBackPressedCallback = object : OnBackPressedCallback(true) {
+        override fun handleOnBackPressed() {
+            findNavController().popBackStack()
+            viewModel.updateSelectedUri(null)
+        }
+    }
 
     companion object {
         private const val LOG = "WriteArticleFragment"
@@ -49,6 +59,13 @@ class WriteArticleFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Log.e(LOG, "onAttach()")
+        requireActivity().onBackPressedDispatcher.addCallback(this, onBackPressedCallback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        Log.e(LOG, "onDetach()")
+        onBackPressedCallback.remove()
     }
 
     override fun onCreateView(
@@ -58,25 +75,30 @@ class WriteArticleFragment : Fragment() {
     ): View {
         Log.e(LOG, "onCreateView()")
         _binding = FragmentWriteArticleBinding.inflate(layoutInflater)
+
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initViews()
+        observeData()
     }
 
     private fun initViews() {
         with(binding) {
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
+                viewModel.updateSelectedUri(null)
             }
 
             btnUpload.setOnClickListener {
-                if (selectedPhotoUri != null) {
+                val uri = viewModel.selectedUri.value
+
+                if (uri != null) {
                     showProgress()
                     uploadStorage(
-                        photoUri = selectedPhotoUri!!,
+                        photoUri = uri,
                         onSuccess = { url ->
                             uploadFirestore(url, etPhotoDescription.text.toString())
                         },
@@ -92,23 +114,27 @@ class WriteArticleFragment : Fragment() {
             }
 
             ivPhoto.setOnClickListener {
-                pickPhoto()
+                if (viewModel.selectedUri.value == null) {
+                    pickPhoto()
+                }
             }
 
             btnDeletePhoto.setOnClickListener {
-                addPhoto(null)
+                viewModel.updateSelectedUri(null)
             }
+        }
+    }
+
+    private fun observeData() {
+        viewModel.selectedUri.observe(viewLifecycleOwner) { uri ->
+            binding.ivPhoto.setImageURI(uri)
+            binding.tvAddPhoto.isVisible = uri == null
+            binding.btnDeletePhoto.isVisible = uri != null
         }
     }
 
     private fun pickPhoto() {
         pickPhotoResult.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-    }
-
-    private fun addPhoto(uri: Uri?) {
-        binding.ivPhoto.setImageURI(uri)
-        binding.tvAddPhoto.isVisible = uri == null
-        binding.btnDeletePhoto.isVisible = uri != null
     }
 
     private fun uploadStorage(
