@@ -7,7 +7,7 @@
 - 위치기반 라이브러리
 - 권한 라이브러리
 - 미디어 라이브러리
-- `Firebase`
+
 <br>
 
 | 프로젝트 명 | 구현사항 | 태그 |
@@ -21,3 +21,4 @@
 | [☀️ 날씨 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter7) | - 공공 API 불러오기<br>- 현 위치 날씨 정보 표시하기 | `Location` `Foreground Service` `Android Widget` `공공 API` |
 | [🍴 대동맛집도](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter8) | - 네이버 지도 사용<br>- 맛집 목록 가져오기<br>- 맛집 목록 나타내기 | `Moshi` `Naver Map` `BottomSheetBehavior` | 
 | [📍 위치공유 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter9) | - SNS 로그인 하기<br>- 관심표현 기능 구현<br>- 현재 위치 표시하기 | `Google Map` `Firebase` `GPS` `Lottie` | 
+| [🏠 내일의집](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter10) | - 사진 업로드<br>- 메인, 상세페이지 구현 | `Navigation` `LiveData` `Firebase Storage` | 
