@@ -5,12 +5,14 @@
 - `Firebase Database` (`Firestore`)
 - `Firebase Storage`
 - `Navigation`
+- `LiveData`
 <br>
 
 ## 구현 기능
 - Firebase Auth 를 이용한 로그인 구현
 - 사진 및 간단한 설명을 포함한 게시물 작성
 - 게시물 북마크 기능
+- 화면 회전 시에도 데이터 유지 (`LiveData`)
 <br>
 
 ## Firebase DataStore (Firestore)
