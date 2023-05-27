@@ -5,7 +5,7 @@
 
 ## 강의 구성
 ### [Part 0. 안드로이드 앱 개발 시작에 앞서](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part0)
-- Kotlin 의 기초 및 중급 문법
+- `Kotlin` 의 기초 및 중급 문법
 - 안드로이드 기초 개념
 ### [Part 1. 안드로이드 기본](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part1) 
 - 안드로이드 4대 컴포넌트 : `Activity`, `Service`, `BroadcastReceiver`, `ContentProvider`
