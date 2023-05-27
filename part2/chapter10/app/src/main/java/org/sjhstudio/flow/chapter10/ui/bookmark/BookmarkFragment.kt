@@ -84,12 +84,7 @@ class BookmarkFragment : Fragment() {
                         val list = querySnapshot.map { article ->
                             article.toObject<ArticleDto>()
                         }.map { articleDto ->
-                            Article(
-                                id = articleDto.id.orEmpty(),
-                                imageUrl = articleDto.imageUrl.orEmpty(),
-                                description = articleDto.description.orEmpty(),
-                                isBookmark = true
-                            )
+                            articleDto.toArticle(isBookmark = true)
                         }
 
                         articleAdapter.submitList(list)

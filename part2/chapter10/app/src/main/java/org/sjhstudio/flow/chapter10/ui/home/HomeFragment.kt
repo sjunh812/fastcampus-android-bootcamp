@@ -98,12 +98,8 @@ class HomeFragment : Fragment() {
                         val list = querySnapshot.map { documentSnapshot ->
                             documentSnapshot.toObject<ArticleDto>()
                         }.map { articleDto ->
-                            Article(
-                                id = articleDto.id.orEmpty(),
-                                imageUrl = articleDto.imageUrl.orEmpty(),
-                                description = articleDto.description.orEmpty(),
-                                isBookmark = bookmarkIds?.contains(articleDto.id.orEmpty()) ?: false
-                            )
+                            val isBookmark = bookmarkIds?.contains(articleDto.id.orEmpty()) ?: false
+                            articleDto.toArticle(isBookmark)
                         }
 
                         articleAdapter.submitList(list)

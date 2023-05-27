@@ -13,8 +13,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -33,7 +31,7 @@ class WriteArticleFragment : Fragment() {
     val binding: FragmentWriteArticleBinding
         get() = _binding ?: error("ViewBinding Error")
 
-        private val viewModel: WriteArticleViewModel by viewModels()
+    private val viewModel: WriteArticleViewModel by viewModels()
 
     private val pickPhotoResult =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
@@ -109,7 +107,7 @@ class WriteArticleFragment : Fragment() {
                         }
                     )
                 } else {
-                    root.showSnackBar("사진을 추가해 주세요.")
+                    root.showSnackBar("사진을 추가해주세요.")
                 }
             }
 
@@ -150,14 +148,13 @@ class WriteArticleFragment : Fragment() {
         storageReference.putFile(photoUri)
             .addOnCompleteListener { uploadTask ->
                 if (uploadTask.isSuccessful) {
-                    storageReference.downloadUrl
-                        .addOnCompleteListener { downloadUrlTask ->
-                            if (downloadUrlTask.isSuccessful) {
-                                onSuccess.invoke(downloadUrlTask.result.toString())
-                            } else {
-                                onError(downloadUrlTask.exception)
-                            }
+                    storageReference.downloadUrl.addOnCompleteListener { downloadUrlTask ->
+                        if (downloadUrlTask.isSuccessful) {
+                            onSuccess.invoke(downloadUrlTask.result.toString())
+                        } else {
+                            onError(downloadUrlTask.exception)
                         }
+                    }
                 } else {
                     onError(uploadTask.exception)
                 }

@@ -1,16 +1,12 @@
 package org.sjhstudio.flow.chapter10.ui.article
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
@@ -79,14 +75,7 @@ class ArticleFragment : Fragment() {
             .addOnSuccessListener { documentSnapshot ->
                 val articleDto =
                     documentSnapshot.toObject<ArticleDto>() ?: return@addOnSuccessListener
-                val article = Article(
-                    id = articleDto.id.orEmpty(),
-                    imageUrl = articleDto.imageUrl.orEmpty(),
-                    description = articleDto.description.orEmpty(),
-                    isBookmark = viewModel.isBookmark.value ?: false
-                )
-
-                updateArticleUI(article)
+                updateArticleUI(articleDto.toArticle(viewModel.isBookmark.value ?: false))
             }.addOnFailureListener { e ->
                 e.printStackTrace()
                 binding.root.showSnackBar("게시물을 가져오는 중 오류가 발생했습니다.")
