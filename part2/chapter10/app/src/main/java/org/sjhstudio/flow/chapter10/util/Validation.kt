@@ -2,6 +2,12 @@ package org.sjhstudio.flow.chapter10.util
 
 import java.util.regex.Pattern
 
+/**
+ * 정규식
+ * '+' : 1개 이상
+ * '*' : 0개 이상
+ * 'd' : 숫자 0 ~ 9
+ */
 object Validation {
 
     fun validateEmail(email: String): Boolean? {
