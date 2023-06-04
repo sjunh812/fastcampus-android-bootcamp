@@ -42,10 +42,12 @@
                     android:id="@+id/iv_appbar"
                     android:layout_width="0dp"
                     android:layout_height="170dp"
-                    android:background="@color/gray_ae"
+                    android:alpha="0.5"
+                    android:scaleType="centerCrop"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:background="@color/gray_ae" />
 
                 <TextView
                     android:id="@+id/tv_appbar_title"
@@ -82,7 +84,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="3dp"
                     android:layout_marginBottom="50dp"
-                    android:text="19"
                     android:textColor="@color/black"
                     android:textSize="30sp"
                     android:textStyle="bold"
@@ -111,7 +112,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="50dp"
-                    android:text="25"
                     android:textColor="@color/main_color"
                     android:textSize="22sp"
                     android:textStyle="bold"
