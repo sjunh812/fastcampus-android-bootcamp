@@ -15,9 +15,9 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="1500dp" />
+            <include
+                android:id="@+id/recommend_menu_list"
+                layout="@layout/layout_horizontal_menu_list" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

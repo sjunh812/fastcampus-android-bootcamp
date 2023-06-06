@@ -52,6 +52,13 @@ class HomeFragment : Fragment() {
                 progress = mockData.user.currentStarCount.toIntOrNull() ?: 0
                 max = mockData.user.totalStarCount.toIntOrNull() ?: 0
             }
+
+            recommendMenuList.layoutMenu.addView(
+                MenuView(requireContext()).apply {
+                    setImageUrl("https://picsum.photos/200/200")
+                    setMenuName("아이스 카페 아메리카노")
+                }
+            )
         }
     }
 }
