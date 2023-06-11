@@ -9,4 +9,6 @@
     <string name="label_coupon">Coupon</string>
 
     <string name="title_appbar">%s님,\n오늘도 커피 한잔 어떠세요?</string>
+    <string name="title_recommend_menu">%s님을 위한 추천 메뉴</string>
+    <string name="title_food_menu">저녁 식사 하셨나요?</string>
 </resources>

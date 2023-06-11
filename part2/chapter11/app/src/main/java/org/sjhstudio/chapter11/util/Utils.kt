@@ -2,17 +2,16 @@ package org.sjhstudio.chapter11.util
 
 import android.content.Context
 import com.google.gson.Gson
-import org.sjhstudio.chapter11.model.Home
 import java.io.IOException
 
-fun Context.readData(): Home? {
+fun <T> Context.readData(fileName: String, classT: Class<T>): T? {
     return try {
-        val inputStream = resources.assets.open("home.json")
+        val inputStream = resources.assets.open(fileName)
         val buffer = ByteArray(inputStream.available())
 
         inputStream.read(buffer)
 
-        Gson().fromJson(String(buffer), Home::class.java)
+        Gson().fromJson(String(buffer), classT)
     } catch (e: IOException) {
         null
     }

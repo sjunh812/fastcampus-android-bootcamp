@@ -1,0 +1,78 @@
+{
+  "drinks": [
+    {
+      "name": "아이스 카페 아메리카노",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "콜드 브루",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "바닐라 크림 콜드 브루",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "아이스 카페 라떼",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "아이스 디카페인 카페 아메리카노",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "아이스 자몽 허니 블랙 티",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "망고 용과 레모네이드 별다방커피 리프레셔",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "바닐라 빈 푸딩 블렌디드 위드 콜드 브루",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "라이트 키위 라임 블렌디드",
+      "imageUrl": "https://picsum.photos/200/200"
+    }
+  ],
+  "foods": [
+    {
+      "name": "베이컨 치즈 토스트",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "바비큐 치킨 치즈 치아바타",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "바질 토마토 크림치즈 베이글",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "햄&루꼴라 올리브 샌드위치",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "B.E.L.T 샌드위치",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "단호박 에그 샌드위치",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "치즈 포크 커틀릿 샌드위치",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "하트 파이",
+      "imageUrl": "https://picsum.photos/200/200"
+    },
+    {
+      "name": "스모크드 소시지 브레드",
+      "imageUrl": "https://picsum.photos/200/200"
+    }
+  ]
+}

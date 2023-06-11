@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import org.sjhstudio.chapter11.databinding.FragmentHomeBinding
+import org.sjhstudio.chapter11.model.Home
+import org.sjhstudio.chapter11.model.Menu
 import org.sjhstudio.chapter11.util.readData
 
 class HomeFragment : Fragment() {
@@ -15,8 +17,11 @@ class HomeFragment : Fragment() {
     val binding: FragmentHomeBinding
         get() = _binding ?: error("ViewBinding Error")
 
-    private val mockData by lazy {
-        context?.readData() ?: error("IOException Error")
+    private val mockHomeData by lazy {
+        context?.readData("home.json", Home::class.java) ?: error("IOException Error")
+    }
+    private val mockMenuData by lazy {
+        context?.readData("menu.json", Menu::class.java) ?: error("IOException Error")
     }
 
     companion object {
@@ -40,23 +45,57 @@ class HomeFragment : Fragment() {
 
     private fun initViews() {
         with(binding) {
-            Glide.with(ivAppbar)
-                .load(mockData.appbarImageUrl)
-                .into(ivAppbar)
+            initAppbar()
+            initRecommendMenuList()
+            initBanner()
+            initFoodList()
+        }
+    }
 
-            tvAppbarTitle.text = getString(R.string.title_appbar, mockData.user.nickname)
-            tvCurrentStarCount.text = mockData.user.currentStarCount
-            tvTotalStarCount.text = mockData.user.totalStarCount
+    private fun FragmentHomeBinding.initAppbar() {
+        Glide.with(ivAppbar)
+            .load(mockHomeData.appbarImageUrl)
+            .into(ivAppbar)
 
-            progressBarStar.apply {
-                progress = mockData.user.currentStarCount.toIntOrNull() ?: 0
-                max = mockData.user.totalStarCount.toIntOrNull() ?: 0
-            }
+        tvAppbarTitle.text = getString(R.string.title_appbar, mockHomeData.user.nickname)
+        tvCurrentStarCount.text = mockHomeData.user.currentStarCount
+        tvTotalStarCount.text = mockHomeData.user.totalStarCount
 
+        progressBarStar.apply {
+            progress = mockHomeData.user.currentStarCount.toIntOrNull() ?: 0
+            max = mockHomeData.user.totalStarCount.toIntOrNull() ?: 0
+        }
+    }
+
+    private fun FragmentHomeBinding.initRecommendMenuList() {
+        recommendMenuList.tvTitle.text =
+            getString(R.string.title_recommend_menu, mockHomeData.user.nickname)
+        mockMenuData.drinks.forEach { drink ->
             recommendMenuList.layoutMenu.addView(
                 MenuView(requireContext()).apply {
-                    setImageUrl("https://picsum.photos/200/200")
-                    setMenuName("아이스 카페 아메리카노")
+                    setMenuName(drink.name)
+                    setImageUrl(drink.imageUrl)
+                }
+            )
+        }
+    }
+
+    private fun FragmentHomeBinding.initBanner() {
+        bannerHome.ivBannerHome.apply {
+            Glide.with(this)
+                .load(mockHomeData.banner.imageUrl)
+                .into(this)
+            contentDescription = mockHomeData.banner.contentDescription
+        }
+    }
+
+    private fun FragmentHomeBinding.initFoodList() {
+        foodList.tvTitle.text = getString(R.string.title_food_menu)
+        mockMenuData.foods.forEach { food ->
+            foodList.layoutMenu.addView(
+                MenuView(requireContext()).apply {
+                    setMenuName(food.name)
+                    setImageUrl(food.imageUrl)
                 }
             )
         }

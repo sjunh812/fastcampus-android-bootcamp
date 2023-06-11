@@ -18,6 +18,14 @@
             <include
                 android:id="@+id/recommend_menu_list"
                 layout="@layout/layout_horizontal_menu_list" />
+
+            <include
+                android:id="@+id/banner_home"
+                layout="@layout/layout_banner_home" />
+
+            <include
+                android:id="@+id/food_list"
+                layout="@layout/layout_horizontal_menu_list" />
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 

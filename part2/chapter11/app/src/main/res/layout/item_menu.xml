@@ -8,17 +8,17 @@
 
     <ImageView
         android:id="@+id/iv_menu"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
         android:importantForAccessibility="no" />
 
     <TextView
         android:id="@+id/tv_menu_name"
-        android:layout_width="match_parent"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:gravity="center_horizontal"
         android:textColor="@color/black"
-        android:textSize="15sp"
-        tools:text="아이스 카페 아메리카노" />
+        android:textSize="13sp"
+        tools:text="아이스 카페 아메리카노 아이스 카페 아메리카노" />
 </LinearLayout>
