@@ -1,9 +1,12 @@
 package org.sjhstudio.chapter11
 
+import android.animation.ValueAnimator
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import org.sjhstudio.chapter11.databinding.FragmentHomeBinding
@@ -34,12 +37,12 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(layoutInflater)
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        ViewCompat.requestApplyInsets(binding.container)
         initViews()
     }
 
@@ -49,6 +52,7 @@ class HomeFragment : Fragment() {
             initRecommendMenuList()
             initBanner()
             initFoodList()
+            initDelivers()
         }
     }
 
@@ -58,12 +62,17 @@ class HomeFragment : Fragment() {
             .into(ivAppbar)
 
         tvAppbarTitle.text = getString(R.string.title_appbar, mockHomeData.user.nickname)
-        tvCurrentStarCount.text = mockHomeData.user.currentStarCount
-        tvTotalStarCount.text = mockHomeData.user.totalStarCount
+        tvCurrentStarCount.text = mockHomeData.user.currentStarCount.toString()
+        tvTotalStarCount.text = mockHomeData.user.totalStarCount.toString()
 
-        progressBarStar.apply {
-            progress = mockHomeData.user.currentStarCount.toIntOrNull() ?: 0
-            max = mockHomeData.user.totalStarCount.toIntOrNull() ?: 0
+        progressBarStar.run {
+            max = mockHomeData.user.totalStarCount
+            ValueAnimator.ofInt(0, mockHomeData.user.currentStarCount).apply {
+                duration = 1000
+                addUpdateListener { animator ->
+                    progress = animator.animatedValue as Int
+                }
+            }.start()
         }
     }
 
@@ -98,6 +107,19 @@ class HomeFragment : Fragment() {
                     setImageUrl(food.imageUrl)
                 }
             )
+        }
+    }
+
+    private fun FragmentHomeBinding.initDelivers() {
+        btnDelivers.extend()
+        scrollView.setOnScrollChangeListener { _, _, scrollY, _, oldScrollY ->
+            Log.e(LOG, "setOnScrollChangeListener(): scrollY $scrollY, oldScrollY $oldScrollY")
+
+            if (scrollY > 0) {
+                btnDelivers.shrink()
+            } else {
+                btnDelivers.extend()
+            }
         }
     }
 }

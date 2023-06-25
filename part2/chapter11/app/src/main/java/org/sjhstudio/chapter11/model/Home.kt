@@ -8,8 +8,8 @@ data class Home(
 
 data class User(
     val nickname: String,
-    val currentStarCount: String,
-    val totalStarCount: String
+    val currentStarCount: Int,
+    val totalStarCount: Int
 )
 
 data class Banner(

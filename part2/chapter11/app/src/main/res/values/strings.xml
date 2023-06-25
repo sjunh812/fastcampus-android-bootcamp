@@ -7,6 +7,7 @@
     <string name="label_order">Order</string>
     <string name="label_whats_new">What\'s New</string>
     <string name="label_coupon">Coupon</string>
+    <string name="label_delivers">Delivers</string>
 
     <string name="title_appbar">%s님,\n오늘도 커피 한잔 어떠세요?</string>
     <string name="title_recommend_menu">%s님을 위한 추천 메뉴</string>
