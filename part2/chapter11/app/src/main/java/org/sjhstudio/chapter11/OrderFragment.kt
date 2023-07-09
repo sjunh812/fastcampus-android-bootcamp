@@ -53,7 +53,7 @@ class OrderFragment : Fragment() {
     }
 
     private fun initData() {
-        val mockOrderMenuData = requireContext().readData("menu.json", Menu::class.java)?.drinks ?: return
+        val mockOrderMenuData = requireContext().readData<Menu>("menu.json")?.drinks ?: return
         orderMenuAdapter.submitList(mockOrderMenuData)
     }
 }

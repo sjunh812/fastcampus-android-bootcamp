@@ -21,10 +21,10 @@ class HomeFragment : Fragment() {
         get() = _binding ?: error("ViewBinding Error")
 
     private val mockHomeData by lazy {
-        context?.readData("home.json", Home::class.java) ?: error("IOException Error")
+        context?.readData<Home>("home.json") ?: error("IOException Error")
     }
     private val mockMenuData by lazy {
-        context?.readData("menu.json", Menu::class.java) ?: error("IOException Error")
+        context?.readData<Menu>("menu.json") ?: error("IOException Error")
     }
 
     companion object {
