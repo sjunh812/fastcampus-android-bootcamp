@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">chapter12</string>
+    <string name="app_name">준튜브</string>
+    <string name="sub_title_video">%s ・ 조회수 %s ・ %s</string>
 </resources>
