@@ -44,6 +44,7 @@ dependencies {
 
     implementation 'com.google.code.gson:gson:2.10.1'   // gson
     implementation 'com.github.bumptech.glide:glide:4.15.1' // glide
+    implementation 'com.google.android.exoplayer:exoplayer:2.19.0'   // exoplayer
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

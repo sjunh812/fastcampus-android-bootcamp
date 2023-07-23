@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">준튜브</string>
     <string name="sub_title_video">%s ・ 조회수 %s ・ %s</string>
+    <string name="label_home">홈</string>
 </resources>
