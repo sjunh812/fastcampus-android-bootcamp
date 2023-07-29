@@ -3,10 +3,40 @@
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
     <Transition
-        motion:constraintSetEnd="@id/collapse"
-        motion:constraintSetStart="@id/expand"
+        motion:constraintSetEnd="@id/expand"
+        motion:constraintSetStart="@id/collapse"
         motion:duration="300"
-        motion:motionInterpolator="linear" />
+        motion:motionInterpolator="linear">
+
+        <KeyFrameSet>
+
+            <KeyPosition
+                motion:framePosition="10"
+                motion:motionTarget="@+id/video_player_view"
+                motion:percentWidth="1"
+                motion:percentX="1" />
+
+            <KeyAttribute
+                android:alpha="0"
+                motion:framePosition="25"
+                motion:motionTarget="@+id/rv_video_player" />
+
+            <KeyAttribute
+                android:alpha="0.1"
+                motion:framePosition="10"
+                motion:motionTarget="@+id/tv_video_player_title" />
+
+            <KeyAttribute
+                android:alpha="0.1"
+                motion:framePosition="10"
+                motion:motionTarget="@+id/btn_control" />
+
+            <KeyAttribute
+                android:alpha="0.1"
+                motion:framePosition="10"
+                motion:motionTarget="@+id/btn_hide" />
+        </KeyFrameSet>
+    </Transition>
 
     <ConstraintSet android:id="@+id/expand">
 
@@ -32,6 +62,7 @@
             android:id="@id/tv_video_player_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:alpha="0"
             motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
             motion:layout_constraintEnd_toStartOf="@id/btn_control"
@@ -53,7 +84,7 @@
             android:layout_height="wrap_content"
             android:alpha="0"
             motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
-            motion:layout_constraintEnd_toStartOf="@id/btn_hide"
+            motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintTop_toTopOf="@id/video_player_container" />
 
         <Constraint
@@ -108,6 +139,7 @@
             android:id="@id/tv_video_player_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:alpha="1"
             motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
             motion:layout_constraintEnd_toStartOf="@id/btn_control"
@@ -129,7 +161,7 @@
             android:layout_height="wrap_content"
             android:alpha="1"
             motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
-            motion:layout_constraintEnd_toStartOf="@id/btn_hide"
+            motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintTop_toTopOf="@id/video_player_container" />
 
         <Constraint
