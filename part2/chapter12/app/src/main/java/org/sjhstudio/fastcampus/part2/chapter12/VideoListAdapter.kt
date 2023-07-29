@@ -8,7 +8,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import org.sjhstudio.fastcampus.part2.chapter12.databinding.ItemVideoBinding
 
-class VideoListAdapter : ListAdapter<VideoItem, VideoListAdapter.VideoListViewHolder>(diffCallback) {
+class VideoListAdapter(
+    private val onClick: (VideoItem) -> Unit
+) : ListAdapter<VideoItem, VideoListAdapter.VideoListViewHolder>(diffCallback) {
 
     inner class VideoListViewHolder(private val binding: ItemVideoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: VideoItem) {
@@ -29,6 +31,11 @@ class VideoListAdapter : ListAdapter<VideoItem, VideoListAdapter.VideoListViewHo
 
                 // sub title
                 tvSubTitle.text = root.context.getString(R.string.sub_title_video, item.channelName, item.viewCount, item.dateText)
+
+                // click event
+                root.setOnClickListener {
+                    onClick.invoke(item)
+                }
             }
         }
     }

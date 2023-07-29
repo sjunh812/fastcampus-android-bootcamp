@@ -1,14 +1,19 @@
 package org.sjhstudio.fastcampus.part2.chapter12
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.sjhstudio.fastcampus.part2.chapter12.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val videoListAdapter by lazy { VideoListAdapter() }
+    private val videoListAdapter by lazy {
+        VideoListAdapter {
+            binding.layoutMotion.setTransition(R.id.collapse, R.id.expand)
+            binding.layoutMotion.transitionToEnd()
+        }
+    }
     private var mockVideoList: VideoList? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,6 +23,9 @@ class MainActivity : AppCompatActivity() {
 
         initViews()
         initData()
+
+        // motion test
+        binding.layoutMotion.jumpToState(R.id.collapse)
     }
 
     private fun initViews() {
