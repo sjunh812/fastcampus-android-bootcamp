@@ -2,8 +2,8 @@ package org.sjhstudio.fastcampus.part2.chapter12
 
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import org.sjhstudio.fastcampus.part2.chapter12.databinding.ActivityMainBinding
@@ -57,10 +57,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         with(binding) {
-            rvVideoList.run {
-                layoutManager = LinearLayoutManager(this@MainActivity)
-                adapter = videoListAdapter
-            }
+            rvVideoList.adapter = videoListAdapter
+            layoutMotion.targetView = videoPlayerContainer
         }
     }
 
@@ -84,6 +82,7 @@ class MainActivity : AppCompatActivity() {
     private fun initData() {
         mockVideoList = readData<VideoList>(VIDEO_LIST_FILE_NAME)
         videoListAdapter.submitList(mockVideoList?.videos ?: emptyList())
+        Log.e("sjh", "$mockVideoList")
     }
 
     companion object {
