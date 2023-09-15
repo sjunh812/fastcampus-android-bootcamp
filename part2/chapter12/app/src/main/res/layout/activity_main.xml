@@ -66,7 +66,8 @@
         app:layout_constraintBottom_toBottomOf="@id/video_player_container"
         app:layout_constraintEnd_toEndOf="@id/video_player_container"
         app:layout_constraintStart_toStartOf="@id/video_player_container"
-        app:layout_constraintTop_toTopOf="@id/video_player_container" />
+        app:layout_constraintTop_toTopOf="@id/video_player_container"
+        app:resize_mode="fixed_width" />
 
     <TextView
         android:id="@+id/tv_video_player_title"
