@@ -45,6 +45,10 @@
         </KeyFrameSet>
     </Transition>
 
+    <Transition
+        motion:constraintSetEnd="@+id/hide"
+        motion:constraintSetStart="@+id/collapse" />
+
     <ConstraintSet android:id="@+id/expand">
 
         <Constraint
@@ -133,6 +137,84 @@
             motion:layout_constraintBottom_toTopOf="@id/bottom_navigation"
             motion:layout_constraintEnd_toEndOf="parent"
             motion:layout_constraintStart_toStartOf="parent" />
+
+        <Constraint
+            android:id="@id/video_player_view"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
+            motion:layout_constraintDimensionRatio="h,1:2.5"
+            motion:layout_constraintStart_toStartOf="@id/video_player_container"
+            motion:layout_constraintTop_toTopOf="@id/video_player_container" />
+
+        <Constraint
+            android:id="@id/tv_video_player_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:alpha="1"
+            motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
+            motion:layout_constraintEnd_toStartOf="@id/btn_control"
+            motion:layout_constraintStart_toEndOf="@id/video_player_view"
+            motion:layout_constraintTop_toTopOf="@id/video_player_container" />
+
+        <Constraint
+            android:id="@id/btn_control"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
+            motion:layout_constraintEnd_toStartOf="@id/btn_hide"
+            motion:layout_constraintTop_toTopOf="@id/video_player_container" />
+
+        <Constraint
+            android:id="@id/btn_hide"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            motion:layout_constraintBottom_toBottomOf="@id/video_player_container"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/video_player_container" />
+
+        <Constraint
+            android:id="@id/rv_video_player_container"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toBottomOf="@id/video_player_container" />
+
+        <Constraint
+            android:id="@id/rv_video_player"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:alpha="0"
+            motion:layout_constraintBottom_toBottomOf="@id/rv_video_player_container"
+            motion:layout_constraintEnd_toEndOf="@id/rv_video_player_container"
+            motion:layout_constraintStart_toStartOf="@id/rv_video_player_container"
+            motion:layout_constraintTop_toTopOf="@id/rv_video_player_container" />
+
+        <Constraint
+            android:id="@id/bottom_navigation"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:alpha="1"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent" />
+    </ConstraintSet>
+
+    <ConstraintSet android:id="@+id/hide">
+
+        <Constraint
+            android:id="@id/video_player_container"
+            android:layout_width="0dp"
+            android:layout_height="54dp"
+            motion:layout_constraintEnd_toEndOf="parent"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="@id/bottom_navigation" />
 
         <Constraint
             android:id="@id/video_player_view"

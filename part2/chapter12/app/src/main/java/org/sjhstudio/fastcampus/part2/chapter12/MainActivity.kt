@@ -67,6 +67,10 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
+            btnHide.setOnClickListener {
+                layoutMotion.transitionToState(R.id.hide)
+                exoPlayer?.pause()
+            }
         }
     }
 
@@ -82,7 +86,7 @@ class MainActivity : AppCompatActivity() {
                                 if (isPlaying) {
                                     R.drawable.ic_pause_24
                                 } else {
-                                    R.drawable.ic_play_24
+                                    R.drawable.ic_play_arrow_24
                                 }
                             )
                         }
@@ -113,6 +117,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun play(videoItem: VideoItem) {
         exoPlayer?.run {
+            binding.tvVideoPlayerTitle.text = videoItem.title
             setMediaItem(MediaItem.fromUri(Uri.parse(videoItem.videoUrl)))
             prepare()
             play()
