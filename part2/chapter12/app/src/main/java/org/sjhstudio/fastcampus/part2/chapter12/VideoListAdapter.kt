@@ -10,9 +10,9 @@ import org.sjhstudio.fastcampus.part2.chapter12.databinding.ItemVideoBinding
 
 class VideoListAdapter(
     private val onClick: (VideoItem) -> Unit
-) : ListAdapter<VideoItem, VideoListAdapter.VideoListViewHolder>(diffCallback) {
+) : ListAdapter<VideoItem, VideoListAdapter.ViewHolder>(diffCallback) {
 
-    inner class VideoListViewHolder(private val binding: ItemVideoBinding) : RecyclerView.ViewHolder(binding.root) {
+    inner class ViewHolder(private val binding: ItemVideoBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(item: VideoItem) {
             with(binding) {
                 // video thumb
@@ -40,8 +40,8 @@ class VideoListAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VideoListViewHolder {
-        return VideoListViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        return ViewHolder(
             ItemVideoBinding.inflate(
                 LayoutInflater.from(parent.context),
                 parent,
@@ -50,7 +50,7 @@ class VideoListAdapter(
         )
     }
 
-    override fun onBindViewHolder(holder: VideoListViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(currentList[position])
     }
 

@@ -2,7 +2,6 @@ package org.sjhstudio.fastcampus.part2.chapter12
 
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.motion.widget.MotionLayout
 import com.google.android.exoplayer2.ExoPlayer
@@ -16,14 +15,17 @@ class MainActivity : AppCompatActivity() {
     private var exoPlayer: ExoPlayer? = null
     private val videoListAdapter by lazy {
         VideoListAdapter {
-            // transition test
-            binding.layoutMotion.setTransition(R.id.collapse, R.id.expand)
-            binding.layoutMotion.transitionToEnd()
-
-            play(it)
+            onClickVideoItem(it)
         }
     }
-    private var mockVideoList: VideoList? = null
+    private val playerVideoListAdapter by lazy {
+        PlayerVideoListAdapter {
+            onClickPlayerVideoItem(it)
+        }
+    }
+    private val mockVideoList by lazy {
+        readData<VideoList>(VIDEO_LIST_FILE_NAME) ?: VideoList()
+    }
 
     override fun onStart() {
         super.onStart()
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initViews()
         initMotionLayout()
-        initData()
+        videoListAdapter.submitList(mockVideoList?.videos ?: emptyList())
     }
 
     override fun onResume() {
@@ -57,6 +59,7 @@ class MainActivity : AppCompatActivity() {
     private fun initViews() {
         with(binding) {
             rvVideoList.adapter = videoListAdapter
+            rvVideoPlayer.adapter = playerVideoListAdapter
             layoutMotion.targetView = videoPlayerContainer
             btnControl.setOnClickListener {
                 exoPlayer?.let { player ->
@@ -97,7 +100,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun initMotionLayout() {
         with(binding.layoutMotion) {
-            jumpToState(R.id.collapse)  // motion test
+            jumpToState(R.id.hide)
             targetView = binding.videoPlayerContainer
             setTransitionListener(object : MotionLayout.TransitionListener {
                 override fun onTransitionStarted(motionLayout: MotionLayout?, startId: Int, endId: Int) {}
@@ -124,9 +127,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initData() {
-        mockVideoList = readData<VideoList>(VIDEO_LIST_FILE_NAME)
-        videoListAdapter.submitList(mockVideoList?.videos ?: emptyList())
+    private fun onClickVideoItem(videoItem: VideoItem) {
+        binding.layoutMotion.setTransition(R.id.collapse, R.id.expand)
+        binding.layoutMotion.transitionToEnd()
+        val list = listOf(videoItem) + mockVideoList.videos.filter { it.id != videoItem.id }
+        playerVideoListAdapter.submitList(list)
+        play(videoItem)
+    }
+
+    private fun onClickPlayerVideoItem(videoItem: VideoItem) {
+        val list = listOf(videoItem) + mockVideoList.videos.filter { it.id != videoItem.id }
+        playerVideoListAdapter.submitList(list)
+        play(videoItem)
     }
 
     companion object {
