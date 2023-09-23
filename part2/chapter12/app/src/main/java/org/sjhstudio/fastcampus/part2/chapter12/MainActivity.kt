@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initViews()
         initMotionLayout()
-        videoListAdapter.submitList(mockVideoList?.videos ?: emptyList())
+        videoListAdapter.submitList(mockVideoList.videos)
     }
 
     override fun onResume() {
@@ -79,7 +79,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initExoPlayer() {
         if (exoPlayer == null) {
-            exoPlayer = ExoPlayer.Builder(this).build()
+            exoPlayer = ExoPlayer.Builder(this)
+                .build()
                 .also {
                     binding.videoPlayerView.player = it
                     it.addListener(object : Player.Listener {
@@ -130,12 +131,14 @@ class MainActivity : AppCompatActivity() {
     private fun onClickVideoItem(videoItem: VideoItem) {
         binding.layoutMotion.setTransition(R.id.collapse, R.id.expand)
         binding.layoutMotion.transitionToEnd()
+        // 선택된 아이템를 리스트 제일 앞으로 위치
         val list = listOf(videoItem) + mockVideoList.videos.filter { it.id != videoItem.id }
         playerVideoListAdapter.submitList(list)
         play(videoItem)
     }
 
     private fun onClickPlayerVideoItem(videoItem: VideoItem) {
+        // 선택된 아이템를 리스트 제일 앞으로 위치
         val list = listOf(videoItem) + mockVideoList.videos.filter { it.id != videoItem.id }
         playerVideoListAdapter.submitList(list)
         play(videoItem)
