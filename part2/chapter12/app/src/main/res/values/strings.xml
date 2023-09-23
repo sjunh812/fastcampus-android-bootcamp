@@ -3,4 +3,9 @@
     <string name="sub_title_video">%s ・ 조회수 %s ・ %s</string>
     <string name="header_sub_title_video">조회수 %s ・ %s</string>
     <string name="label_home">홈</string>
+    <string name="slash">/</string>
+    <string name="fast_rewind_a11y">뒤로감기 버튼</string>
+    <string name="play_a11y">시작 버튼</string>
+    <string name="pause_a11y">일시정지 버튼</string>
+    <string name="fast_forward_a11y">빨리감기 버튼</string>
 </resources>
