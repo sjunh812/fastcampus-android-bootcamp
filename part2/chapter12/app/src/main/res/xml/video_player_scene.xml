@@ -47,7 +47,9 @@
 
     <Transition
         motion:constraintSetEnd="@+id/hide"
-        motion:constraintSetStart="@+id/collapse" />
+        motion:constraintSetStart="@+id/collapse"
+        motion:duration="150"
+        motion:motionInterpolator="linear" />
 
     <ConstraintSet android:id="@+id/expand">
 
