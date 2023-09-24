@@ -1,13 +1,13 @@
-package org.sjhstudio.fastcampus.part2.chapter12
+package org.sjhstudio.fastcampus.part2.chapter12.main.data
 
 import com.google.gson.annotations.SerializedName
 
-data class VideoList(
+data class VideoListEntity(
     @SerializedName("videos")
-    val videos: List<VideoItem> = emptyList()
+    val videos: List<VideoEntity> = emptyList()
 )
 
-data class VideoItem(
+data class VideoEntity(
     @SerializedName("id")
     val id: String = "",
     @SerializedName("description")

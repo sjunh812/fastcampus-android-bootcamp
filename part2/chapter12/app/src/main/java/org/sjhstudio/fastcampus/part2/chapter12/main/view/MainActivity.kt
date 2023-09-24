@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter12
+package org.sjhstudio.fastcampus.part2.chapter12.main.view
 
 import android.net.Uri
 import android.os.Bundle
@@ -7,7 +7,17 @@ import androidx.constraintlayout.motion.widget.MotionLayout
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
+import org.sjhstudio.fastcampus.part2.chapter12.R
 import org.sjhstudio.fastcampus.part2.chapter12.databinding.ActivityMainBinding
+import org.sjhstudio.fastcampus.part2.chapter12.main.data.VideoEntity
+import org.sjhstudio.fastcampus.part2.chapter12.main.data.VideoListEntity
+import org.sjhstudio.fastcampus.part2.chapter12.main.adapter.VideoListAdapter
+import org.sjhstudio.fastcampus.part2.chapter12.player.adapter.PlayerVideoListAdapter
+import org.sjhstudio.fastcampus.part2.chapter12.player.model.PlayerVideoModel
+import org.sjhstudio.fastcampus.part2.chapter12.player.model.transformToPlayerHeader
+import org.sjhstudio.fastcampus.part2.chapter12.player.model.transformToPlayerVideo
+import org.sjhstudio.fastcampus.part2.chapter12.player.model.transformsToHeader
+import org.sjhstudio.fastcampus.part2.chapter12.util.readData
 
 class MainActivity : AppCompatActivity() {
 
@@ -24,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     private val mockVideoList by lazy {
-        readData<VideoList>(VIDEO_LIST_FILE_NAME) ?: VideoList()
+        readData<VideoListEntity>(VIDEO_LIST_FILE_NAME) ?: VideoListEntity()
     }
 
     override fun onStart() {
@@ -38,7 +48,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         initViews()
         initMotionLayout()
-        videoListAdapter.submitList(mockVideoList.videos)
     }
 
     override fun onResume() {
@@ -58,8 +67,11 @@ class MainActivity : AppCompatActivity() {
 
     private fun initViews() {
         with(binding) {
-            rvVideoList.adapter = videoListAdapter
-            rvVideoPlayer.adapter = playerVideoListAdapter
+            videoListAdapter.also { rvVideoList.adapter = it }.run { submitList(mockVideoList.videos) }
+            rvVideoPlayer.run {
+                adapter = playerVideoListAdapter
+                itemAnimator = null
+            }
             layoutMotion.targetView = videoPlayerContainer
             btnControl.setOnClickListener {
                 exoPlayer?.let { player ->
@@ -119,29 +131,32 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun play(videoItem: VideoItem) {
+    private fun play(videoUrl: String, videoTitle: String) {
         exoPlayer?.run {
-            binding.tvVideoPlayerTitle.text = videoItem.title
-            setMediaItem(MediaItem.fromUri(Uri.parse(videoItem.videoUrl)))
+            binding.tvVideoPlayerTitle.text = videoTitle
+            setMediaItem(MediaItem.fromUri(Uri.parse(videoUrl)))
             prepare()
             play()
         }
     }
 
-    private fun onClickVideoItem(videoItem: VideoItem) {
+    private fun onClickVideoItem(videoEntity: VideoEntity) {
         binding.layoutMotion.setTransition(R.id.collapse, R.id.expand)
         binding.layoutMotion.transitionToEnd()
         // 선택된 아이템를 리스트 제일 앞으로 위치
-        val list = listOf(videoItem) + mockVideoList.videos.filter { it.id != videoItem.id }
+        val list = listOf(videoEntity.transformToPlayerHeader()) + mockVideoList.videos.filter { it.id != videoEntity.id }.map { it.transformToPlayerVideo() }
         playerVideoListAdapter.submitList(list)
-        play(videoItem)
+        play(videoEntity.videoUrl, videoEntity.title)
     }
 
-    private fun onClickPlayerVideoItem(videoItem: VideoItem) {
+    private fun onClickPlayerVideoItem(playerVideo: PlayerVideoModel) {
         // 선택된 아이템를 리스트 제일 앞으로 위치
-        val list = listOf(videoItem) + mockVideoList.videos.filter { it.id != videoItem.id }
-        playerVideoListAdapter.submitList(list)
-        play(videoItem)
+        val list = listOf(playerVideo.transformsToHeader()) + mockVideoList.videos.filter { it.id != playerVideo.id }.map { it.transformToPlayerVideo() }
+        playerVideoListAdapter.submitList(list) {
+            // 플레이어 내, 비디오 리스트 갱신완료 후 최상단으로 스크롤
+            binding.rvVideoPlayer.scrollToPosition(0)
+        }
+        play(playerVideo.videoUrl, playerVideo.title)
     }
 
     companion object {

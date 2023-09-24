@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter12
+package org.sjhstudio.fastcampus.part2.chapter12.main.view
 
 import android.content.Context
 import android.util.AttributeSet
@@ -7,6 +7,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import androidx.constraintlayout.motion.widget.MotionLayout
+import org.sjhstudio.fastcampus.part2.chapter12.extension.containTouchArea
 
 class ExoPlayerMotionLayout @JvmOverloads constructor(
     context: Context,

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<org.sjhstudio.fastcampus.part2.chapter12.ExoPlayerMotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<org.sjhstudio.fastcampus.part2.chapter12.main.view.ExoPlayerMotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/layout_motion"
@@ -11,7 +11,7 @@
         android:id="@+id/video_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".main.view.MainActivity">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appbar"
@@ -137,4 +137,4 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_main" />
-</org.sjhstudio.fastcampus.part2.chapter12.ExoPlayerMotionLayout>
+</org.sjhstudio.fastcampus.part2.chapter12.main.view.ExoPlayerMotionLayout>
