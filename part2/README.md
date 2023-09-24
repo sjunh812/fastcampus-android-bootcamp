@@ -23,3 +23,4 @@
 | [📍 위치공유 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter9) | - SNS 로그인 하기<br>- 관심표현 기능 구현<br>- 현재 위치 표시하기 | `Google Map` `Firebase` `GPS` `Lottie` | 
 | [🏠 내일의집](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter10) | - 사진 업로드<br>- 메인, 상세페이지 구현 | `Navigation` `LiveData` `Firebase Storage` | 
 | [☕️ 별다방커피](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter11) | - 홈 및 주문화면 구현하기<br>- 모션 애니메이션 구현 | `MotionLayout` `Animation` | 
+| [▶️ 요튜브](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2/chapter12) | - 영상 리스트 보기<br>- 영상 재생하기 | `ExoPlayer` `MotionLayout` | 
