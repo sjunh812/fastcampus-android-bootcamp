@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter12
+package org.sjhstudio.fastcampus.part2.chapter12.extension
 
 import android.view.View
 

@@ -1,4 +1,4 @@
-package org.sjhstudio.fastcampus.part2.chapter12
+package org.sjhstudio.fastcampus.part2.chapter12.util
 
 import android.content.Context
 import com.google.gson.Gson
