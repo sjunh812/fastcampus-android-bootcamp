@@ -12,6 +12,12 @@
 - 기본 UI 구성 : `LinearLayout`, `ConstraintLayout`, `RecyclerView`, `ViewPager2` 등
 - 데이터 저장 : `SharedPreferences`, `Room`
 ### [Part 2. 개발의 퀄리티를 높이는 라이브러리의 활용](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part2)
+안드로이드에서 제공하는 **기본 라이브러리** 및 **JetPack 라이브러리**, 그리고 자주 사용되는 **서드파티 라이브러리**의 활용  
+
+- `BottomSheetBehavior` `MotionLayout` `MediaPlayer` `ExoPlayer` `Navigation` `LiveData`  
+- `OkHttp3` `Retrofit2` `Gson` `Moshi` `Jsoup`   
+- `Glide` `Lottie` `Google Map` `Naver Map`  
+- `FCM` `Firebase Storage` `Firebase Realtime Database`
 ### Part 3
 ### Part 4
 ### Part 5
