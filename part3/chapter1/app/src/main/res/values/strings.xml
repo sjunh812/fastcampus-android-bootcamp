@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">chapter1</string>
+    <string name="label_start_detect_button">시작하기</string>
+</resources>
