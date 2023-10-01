@@ -1,4 +1,4 @@
-package com.example.face_recongnition
+package com.example.face_recognition
 
 import android.Manifest
 import android.app.Activity
