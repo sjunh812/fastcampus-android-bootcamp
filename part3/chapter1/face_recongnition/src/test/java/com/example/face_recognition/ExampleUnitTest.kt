@@ -1,4 +1,4 @@
-package com.example.face_recongnition
+package com.example.face_recognition
 
 import org.junit.Test
 
