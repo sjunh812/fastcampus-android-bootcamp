@@ -2,7 +2,7 @@ package com.example.face_recognition.recognition
 
 internal enum class FaceAnalyzerStatus {
     Detect,
-    NotDetect,
+    UnDetect,
     Smile,
     LeftWink,
     RightWink
