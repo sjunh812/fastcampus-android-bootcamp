@@ -15,4 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "chapter1"
 include(":app")
-include(":face_recongnition")
+include(":face_recognition")
