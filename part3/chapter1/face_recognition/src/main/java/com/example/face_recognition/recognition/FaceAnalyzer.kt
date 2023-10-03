@@ -23,9 +23,11 @@ internal class FaceAnalyzer(
     private val listener: FaceAnalyzerListener?
 ) : ImageAnalysis.Analyzer {
 
+    // Scale Factor
     private var widthScaleFactor = 1F
     private var heightScaleFactor = 1F
 
+    // Detect Size
     private var preCenterX = 0F
     private var preCenterY = 0F
     private var preWidth = 0F
@@ -153,7 +155,6 @@ internal class FaceAnalyzer(
     companion object {
         private const val SUCCESS_VALUE_EYE = 0.1F
         private const val SUCCESS_VALUE_SMILE = 0.8F
-
         private const val OFFSET_PIVOT = 15
         private const val OFFSET_SIZE = 30
     }

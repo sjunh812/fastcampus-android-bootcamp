@@ -24,16 +24,13 @@ class MainActivity : AppCompatActivity(), FaceAnalyzerListener {
         binding = ActivityMainBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
-
         initViews()
-
         camera.initCamera(binding.flCamera, this@MainActivity)
     }
 
     private fun initViews() {
         with(binding) {
             setProgressText("시작하기를 눌러주세요.")
-
             btnStartDetect.setOnClickListener {
                 it.isVisible = false
                 camera.startFaceDetect()
