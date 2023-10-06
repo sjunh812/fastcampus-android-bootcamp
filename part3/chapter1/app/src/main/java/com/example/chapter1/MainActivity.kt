@@ -33,6 +33,7 @@ class MainActivity : AppCompatActivity(), FaceAnalyzerListener {
             setProgressText("시작하기를 눌러주세요.")
             btnStartDetect.setOnClickListener {
                 it.isVisible = false
+                faceOverlayView.reset()
                 camera.startFaceDetect()
                 setProgressText("얼굴을 보여주세요.")
             }
@@ -48,6 +49,7 @@ class MainActivity : AppCompatActivity(), FaceAnalyzerListener {
     }
 
     override fun notDetect() {
+        binding.faceOverlayView.reset()
     }
 
     override fun detectProgress(progress: Float, message: String) {
@@ -55,6 +57,7 @@ class MainActivity : AppCompatActivity(), FaceAnalyzerListener {
     }
 
     override fun faceSize(rectF: RectF, sizeF: SizeF, pointF: PointF) {
+        binding.faceOverlayView.setSize(rectF, sizeF, pointF)
     }
 
     private fun reset() {
