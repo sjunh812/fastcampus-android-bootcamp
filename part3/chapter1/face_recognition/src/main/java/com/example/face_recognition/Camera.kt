@@ -50,6 +50,7 @@ class Camera(private val context: Context) : ActivityCompat.OnRequestPermissions
         this.listener = listener
         previewView = PreviewView(context)
         layout.addView(previewView)
+        checkCameraPermission(context)
     }
 
     private fun checkCameraPermission(context: Context) {
@@ -98,6 +99,7 @@ class Camera(private val context: Context) : ActivityCompat.OnRequestPermissions
             cameraProvider.bindToLifecycle(
                 context as LifecycleOwner,
                 cameraSelector,
+                preview,
                 analysisUseCase
             )
         } catch (e: Exception) {
