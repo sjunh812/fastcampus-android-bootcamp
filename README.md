@@ -18,6 +18,7 @@
 - `OkHttp3` `Retrofit2` `Gson` `Moshi` `Jsoup`   
 - `Glide` `Lottie` `Google Map` `Naver Map`  
 - `FCM` `Firebase Storage` `Firebase Realtime Database`
-### Part 3
+### [Part 3. 복잡한 요구사항 대응과 유지보수가 용이한 아키텍처](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part3)
+**아키텍처 패턴**, **멀티 모듈**, **의존성 주입**등을 이용하여 기능뿐만 아니라 유지보수에도 용이한 구조의 앱 개발
 ### Part 4
 ### Part 5
