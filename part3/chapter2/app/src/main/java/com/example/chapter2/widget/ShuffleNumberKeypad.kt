@@ -34,6 +34,8 @@ class ShuffleNumberKeypad @JvmOverloads constructor(
             this,
             true
         )
+        binding.view = this
+        binding.clickListener = this
         shuffle()
     }
 
