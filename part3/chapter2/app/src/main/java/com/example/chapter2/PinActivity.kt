@@ -1,0 +1,46 @@
+package com.example.chapter2
+
+import android.os.Bundle
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import com.example.chapter2.databinding.ActivityPinBinding
+import com.example.chapter2.widget.ShuffleNumberKeypad
+
+class PinActivity : AppCompatActivity(), ShuffleNumberKeypad.KeypadListener {
+
+    private lateinit var binding: ActivityPinBinding
+    private val viewModel: PinViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivityPinBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        bind()
+        initViews()
+    }
+
+    private fun bind() {
+        with(binding) {
+            lifecycleOwner = this@PinActivity
+            viewModel = this@PinActivity.viewModel
+        }
+    }
+
+    private fun initViews() {
+        with(binding) {
+            shuffleNumberKeypad.setKeypadListener(this@PinActivity)
+        }
+    }
+
+    override fun onClickNumber(number: String) {
+        viewModel.input(number)
+    }
+
+    override fun onClickDelete() {
+        viewModel.delete()
+    }
+
+    override fun onClickDone() {
+        viewModel.done()
+    }
+}

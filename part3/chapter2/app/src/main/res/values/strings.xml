@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">chapter2</string>
+    <string name="title_pin">간편 비밀번호 6자리를 입력해주세요.</string>
 </resources>

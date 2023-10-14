@@ -1,5 +1,6 @@
 package com.example.chapter2
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.chapter2.databinding.ActivityMainBinding
@@ -16,7 +17,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun openShuffle() {
-
+        startActivity(Intent(this, PinActivity::class.java))
     }
 
     fun openVerifyOTP() {
