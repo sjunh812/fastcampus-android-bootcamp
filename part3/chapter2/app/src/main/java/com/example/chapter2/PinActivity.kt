@@ -1,6 +1,7 @@
 package com.example.chapter2
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import com.example.chapter2.databinding.ActivityPinBinding
@@ -17,6 +18,7 @@ class PinActivity : AppCompatActivity(), ShuffleNumberKeypad.KeypadListener {
         setContentView(binding.root)
         bind()
         initViews()
+        observeData()
     }
 
     private fun bind() {
@@ -29,6 +31,14 @@ class PinActivity : AppCompatActivity(), ShuffleNumberKeypad.KeypadListener {
     private fun initViews() {
         with(binding) {
             shuffleNumberKeypad.setKeypadListener(this@PinActivity)
+        }
+    }
+
+    private fun observeData() {
+        with(viewModel) {
+            messageLiveData.observe(this@PinActivity) {
+                Toast.makeText(this@PinActivity, it, Toast.LENGTH_SHORT).show()
+            }
         }
     }
 
