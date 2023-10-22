@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:text="본인 확인을 위해 정보를 입력해주세요."
+            android:text="@string/title_identity_input"
             android:textSize="20sp"
             android:textStyle="bold" />
 
@@ -87,52 +87,58 @@
                         android:text="통신사"
                         android:textSize="12sp" />
 
-                    <com.google.android.material.chip.ChipGroup
-                        android:id="@+id/chip_group_telecom"
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        app:chipSpacingHorizontal="8dp"
-                        app:selectionRequired="true"
-                        app:singleLine="true"
-                        app:singleSelection="true">
+                        android:scrollbars="none">
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_skt"
-                            style="@style/Widget.App.ChoiceChip"
-                            android:tag="01"
-                            android:text="SKT" />
+                        <com.google.android.material.chip.ChipGroup
+                            android:id="@+id/chip_group_telecom"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            app:chipSpacingHorizontal="8dp"
+                            app:selectionRequired="true"
+                            app:singleLine="true"
+                            app:singleSelection="true">
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_kt"
-                            style="@style/Widget.App.ChoiceChip"
-                            android:tag="02"
-                            android:text="KT" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_skt"
+                                style="@style/Widget.App.ChoiceChip"
+                                android:tag="01"
+                                android:text="SKT" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_lg"
-                            style="@style/Widget.App.ChoiceChip"
-                            android:tag="03"
-                            android:text="LG U+" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_kt"
+                                style="@style/Widget.App.ChoiceChip"
+                                android:tag="02"
+                                android:text="KT" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_skt_cheap"
-                            style="@style/Widget.App.ChoiceChip"
-                            android:tag="04"
-                            android:text="SKT 알뜰폰" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_lg"
+                                style="@style/Widget.App.ChoiceChip"
+                                android:tag="03"
+                                android:text="LG U+" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_kt_cheap"
-                            style="@style/Widget.App.ChoiceChip"
-                            android:tag="05"
-                            android:text="KT 알뜰폰" />
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_skt_cheap"
+                                style="@style/Widget.App.ChoiceChip"
+                                android:tag="04"
+                                android:text="SKT 알뜰폰" />
 
-                        <com.google.android.material.chip.Chip
-                            android:id="@+id/chip_lg_cheap"
-                            style="@style/Widget.App.ChoiceChip"
-                            android:tag="06"
-                            android:text="LG U+ 알뜰폰" />
-                    </com.google.android.material.chip.ChipGroup>
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_kt_cheap"
+                                style="@style/Widget.App.ChoiceChip"
+                                android:tag="05"
+                                android:text="KT 알뜰폰" />
+
+                            <com.google.android.material.chip.Chip
+                                android:id="@+id/chip_lg_cheap"
+                                style="@style/Widget.App.ChoiceChip"
+                                android:tag="06"
+                                android:text="LG U+ 알뜰폰" />
+                        </com.google.android.material.chip.ChipGroup>
+                    </HorizontalScrollView>
                 </LinearLayout>
 
                 <LinearLayout
@@ -204,7 +210,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="이름"
-                        android:imeOptions="actionNext" />
+                        android:imeOptions="actionNext"
+                        android:inputType="textPersonName" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
         </ScrollView>
