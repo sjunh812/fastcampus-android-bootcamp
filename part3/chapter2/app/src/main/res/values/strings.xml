@@ -2,4 +2,5 @@
     <string name="app_name">chapter2</string>
     <string name="title_pin">간편 비밀번호 6자리를 입력해주세요.</string>
     <string name="title_identity_input">본인 확인을 위해 정보를 입력해주세요.</string>
+    <string name="title_verify">인증번호 6자리를 입력해주세요.</string>
 </resources>
