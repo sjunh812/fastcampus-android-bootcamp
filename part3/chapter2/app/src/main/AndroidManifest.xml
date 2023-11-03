@@ -26,6 +26,8 @@
             android:exported="false" />
         <activity
             android:name=".IdentityInputActivity"
+            android:configChanges="keyboardHidden|screenSize"
+            android:windowSoftInputMode="adjustResize"
             android:exported="false" />
         <activity
             android:name=".VerifyOtpActivity"
