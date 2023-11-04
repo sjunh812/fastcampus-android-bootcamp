@@ -2,6 +2,7 @@ package com.example.chapter2
 
 import android.os.Bundle
 import android.os.CountDownTimer
+import android.util.Log
 import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -68,6 +69,7 @@ class VerifyOtpActivity : AppCompatActivity(), AuthOtpReceiver.OtpReceiveListene
     }
 
     override fun onOtpReceived(otp: String) {
+        Log.e("sjh", "onOtpReceived :: otp >> $otp")
         binding.etOtp.setText(otp)
     }
 
@@ -91,7 +93,7 @@ class VerifyOtpActivity : AppCompatActivity(), AuthOtpReceiver.OtpReceiveListene
                     smsReceiver = AuthOtpReceiver().apply {
                         setOtpReceiveListener(this@VerifyOtpActivity)
                     }
-                    ContextCompat.registerReceiver(this, smsReceiver, smsReceiver!!.doFilter(), ContextCompat.RECEIVER_NOT_EXPORTED)
+                    ContextCompat.registerReceiver(this, smsReceiver, smsReceiver!!.doFilter(), ContextCompat.RECEIVER_EXPORTED)
                 }
             }
             task.addOnFailureListener {
