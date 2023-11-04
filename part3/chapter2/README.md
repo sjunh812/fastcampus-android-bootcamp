@@ -2,8 +2,7 @@
 <img src="https://github.com/sjunh812/fastcampus-android-bootcamp/assets/79048895/89354246-7d42-41c1-97b1-d8fefa883d05" width="324" height="702" /> 
 
 - `GridLayout`
-- `BindingAdapter`
-- `정규 표현식`  
+- `BindingAdapter` 
 - `TextInputLayout`
 - `CountDownTimer`
 - `SmsReceiver`
