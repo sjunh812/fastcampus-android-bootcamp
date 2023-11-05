@@ -10,10 +10,11 @@
     <androidx.constraintlayout.motion.widget.MotionLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layoutDescription="@xml/scene_card_click"
         tools:context=".MainActivity">
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_third_card"
+            android:id="@+id/third_card"
             android:layout_width="@dimen/width_card"
             android:layout_height="@dimen/height_card"
             android:backgroundTint="@color/third_card"
@@ -35,7 +36,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_second_card"
+            android:id="@+id/second_card"
             android:layout_width="@dimen/width_card"
             android:layout_height="@dimen/height_card"
             android:backgroundTint="@color/second_card"
@@ -57,7 +58,7 @@
         </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/cv_first_card"
+            android:id="@+id/first_card"
             android:layout_width="@dimen/width_card"
             android:layout_height="@dimen/height_card"
             android:backgroundTint="@color/first_card"

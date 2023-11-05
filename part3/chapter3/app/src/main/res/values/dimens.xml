@@ -2,4 +2,11 @@
 <resources>
     <dimen name="width_card">250dp</dimen>
     <dimen name="height_card">150dp</dimen>
+
+    <dimen name="elevation_back">1dp</dimen>
+    <dimen name="elevation_front">4dp</dimen>
+
+    <!-- 우측상단으로 이동 -->
+    <dimen name="translation_move_x">120dp</dimen>
+    <dimen name="translation_move_y">-200dp</dimen>
 </resources>
