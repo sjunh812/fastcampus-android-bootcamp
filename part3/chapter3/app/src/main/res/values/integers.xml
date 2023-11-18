@@ -4,5 +4,5 @@
     <integer name="rotation_bottom">-7</integer>
     <integer name="rotation_move">45</integer>
 
-    <integer name="duration_move">600</integer>
+    <integer name="duration_move">600</integer> <!-- 0.6 seconds -->
 </resources>
