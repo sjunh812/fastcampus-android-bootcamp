@@ -2,6 +2,7 @@
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
+    <!-- delayStart → start -->
     <Transition
         android:id="@+id/delay_start_transition"
         app:autoTransition="animateToEnd"
@@ -9,6 +10,7 @@
         app:constraintSetStart="@id/delay_start"
         app:duration="@integer/duration_move" />
 
+    <!-- start → fanOut -->
     <Transition
         android:id="@+id/delay_start_to_fan_out"
         app:autoTransition="animateToEnd"
@@ -17,16 +19,19 @@
         app:duration="1000"
         app:motionInterpolator="bounce" />
 
+    <!-- fanOut → firstCardOnTop -->
     <Transition
         android:id="@+id/fan_out_collapse_cards"
         app:constraintSetEnd="@id/first_card_on_top"
         app:constraintSetStart="@id/fan_out"
         app:duration="@integer/duration_move" />
 
+    <!-- thirdCardOnTop → secondCardOnTop -->
     <Transition
         android:id="@+id/third_card_to_second_card"
-        app:constraintSetEnd="@id/second_card"
-        app:constraintSetStart="@id/third_card"
+        app:constraintSetEnd="@id/second_card_on_top"
+        app:constraintSetStart="@id/third_card_on_top"
+        app:motionInterpolator="easeInOut"
         app:duration="@integer/duration_move">
 
         <KeyFrameSet>
@@ -40,10 +45,12 @@
         </KeyFrameSet>
     </Transition>
 
+    <!-- thirdCardOnTop → firstCardOnTop -->
     <Transition
         android:id="@+id/third_card_to_first_card"
-        app:constraintSetEnd="@id/first_card"
-        app:constraintSetStart="@id/third_card"
+        app:constraintSetEnd="@id/first_card_on_top"
+        app:constraintSetStart="@id/third_card_on_top"
+        app:motionInterpolator="easeInOut"
         app:duration="@integer/duration_move">
 
         <KeyFrameSet>
@@ -57,10 +64,12 @@
         </KeyFrameSet>
     </Transition>
 
+    <!-- secondCardOnTop → firstCardOnTop -->
     <Transition
-        android:id="@+id/second_to_first_card"
-        app:constraintSetEnd="@id/first_card"
-        app:constraintSetStart="@id/second_card"
+        android:id="@+id/second_card_to_first_card"
+        app:constraintSetEnd="@id/first_card_on_top"
+        app:motionInterpolator="easeInOut"
+        app:constraintSetStart="@id/second_card_on_top"
         app:duration="@integer/duration_move">
 
         <KeyFrameSet>
@@ -74,10 +83,12 @@
         </KeyFrameSet>
     </Transition>
 
+    <!-- secondCardOnTop → thirdCardOnTop -->
     <Transition
-        android:id="@+id/second_to_third_card"
-        app:constraintSetEnd="@id/third_card"
-        app:constraintSetStart="@id/second_card"
+        android:id="@+id/second_card_to_third_card"
+        app:constraintSetEnd="@id/third_card_on_top"
+        app:constraintSetStart="@id/second_card_on_top"
+        app:motionInterpolator="easeInOut"
         app:duration="@integer/duration_move">
 
         <KeyFrameSet>
@@ -91,10 +102,12 @@
         </KeyFrameSet>
     </Transition>
 
+    <!-- firstCardOnTop → secondCardOnTop -->
     <Transition
-        android:id="@+id/first_to_second_card"
-        app:constraintSetEnd="@id/second_card"
-        app:constraintSetStart="@id/first_card"
+        android:id="@+id/first_card_to_second_card"
+        app:motionInterpolator="easeInOut"
+        app:constraintSetEnd="@id/second_card_on_top"
+        app:constraintSetStart="@id/first_card_on_top"
         app:duration="@integer/duration_move">
 
         <KeyFrameSet>
@@ -108,10 +121,12 @@
         </KeyFrameSet>
     </Transition>
 
+    <!-- firstCardOnTop → thirdCardOnTop -->
     <Transition
-        android:id="@+id/first_to_third_card"
-        app:constraintSetEnd="@id/third_card"
-        app:constraintSetStart="@id/first_card"
+        android:id="@+id/first_card_to_third_card"
+        app:motionInterpolator="easeInOut"
+        app:constraintSetEnd="@id/third_card_on_top"
+        app:constraintSetStart="@id/first_card_on_top"
         app:duration="@integer/duration_move">
 
         <KeyFrameSet>
@@ -158,7 +173,7 @@
 
             <Transform
                 android:elevation="@dimen/elevation_back"
-                android:rotation="@integer/rotation_bottom" />
+                android:rotation="@integer/rotation_top" />
         </Constraint>
 
         <Constraint android:id="@id/second_card">
@@ -180,7 +195,7 @@
 
             <Transform
                 android:elevation="@dimen/elevation_back"
-                android:rotation="@integer/rotation_bottom" />
+                android:rotation="@integer/rotation_top" />
         </Constraint>
 
         <Constraint android:id="@id/first_card">
@@ -202,7 +217,7 @@
 
             <Transform
                 android:elevation="@dimen/elevation_back"
-                android:rotation="@integer/rotation_bottom" />
+                android:rotation="@integer/rotation_top" />
         </Constraint>
 
         <Constraint android:id="@id/first_card">
