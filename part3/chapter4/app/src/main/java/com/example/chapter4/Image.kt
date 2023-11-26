@@ -1,4 +1,4 @@
-package com.example.chapter4.mvc
+package com.example.chapter4
 
 import com.google.gson.annotations.SerializedName
 

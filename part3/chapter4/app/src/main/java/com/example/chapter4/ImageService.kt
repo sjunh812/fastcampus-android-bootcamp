@@ -1,6 +1,5 @@
 package com.example.chapter4
 
-import com.example.chapter4.mvc.ImageResponse
 import retrofit2.Call
 import retrofit2.http.GET
 import retrofit2.http.Headers
