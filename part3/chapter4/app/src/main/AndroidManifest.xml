@@ -29,6 +29,9 @@
         <activity
             android:name=".mvp.MvpActivity"
             android:exported="false" />
+        <activity
+            android:name=".mvvm.MvvmActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
