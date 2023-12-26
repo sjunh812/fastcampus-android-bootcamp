@@ -15,4 +15,7 @@
 | [🙃 얼굴 인식 서비스](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part3/chapter1) | - 머신러닝을 이용한 얼굴인식기능 구현<br>- 얼굴형 Mask Custom UI 구현 | `CameraX` `Vision API` `Path animation` `Paint` | 
 | [🏦 금융 서비스](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part3/chapter2) | - 휴대폰 본인인증 기능 구현<br>- 보안키패드 기능 구현 | `TextInputLayout` `CountDownTimer` `SmsRetriever` `DataBinding` | 
 | [👛 월렛 서비스](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part3/chapter3) | - 카드 이동 애니메이션<br>- 카드내역 리스트기능 구현 | `Trainsition` `MotionLayout` `RecyclerView` | 
+| [🌃 이미지 추출 앱](https://github.com/sjunh812/fastcampus-android-bootcamp/tree/master/part3/chapter4) | - 4가지 아키텍처 패턴의 이해<br>- MVC, MVP, MVVM, MVI | `DataBinding` `LiveData` `RxJava` `Coroutine` `Flow` | 
+
+
   
