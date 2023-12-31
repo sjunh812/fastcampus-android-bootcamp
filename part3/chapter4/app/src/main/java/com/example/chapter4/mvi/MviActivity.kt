@@ -57,8 +57,9 @@ class MviActivity : AppCompatActivity() {
                 }
             }
         }
-
-        fun loadRandomImage() {
-            viewModel.sendIntent(MviIntent.LoadImage)
-        }
     }
+
+    fun loadRandomImage() {
+        viewModel.sendIntent(MviIntent.LoadImage)
+    }
+}
