@@ -5,14 +5,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.part3.chapter5.databinding.FragmentFavoritesBinding
+import com.example.part3.chapter5.list.ListAdapter
 
 class FavoritesFragment : BaseFragment<FragmentFavoritesBinding>() {
 
     override val layoutRes: Int
         get() = R.layout.fragment_favorites
 
+    private val adapter by lazy { ListAdapter() }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         super.onCreateView(inflater, container, savedInstanceState)
         return binding.root
+    }
+
+    override fun FragmentFavoritesBinding.initViews() {
+        rv.adapter = adapter
     }
 }
