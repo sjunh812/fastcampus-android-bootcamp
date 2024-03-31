@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -18,14 +19,27 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -36,7 +50,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.Coil
 import coil.compose.AsyncImage
 import coil.compose.rememberImagePainter
 import com.example.compose.component.components.ui.theme.ComponentsTheme
@@ -48,10 +61,11 @@ class MainActivity : ComponentActivity() {
             ComponentsTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(modifier = Modifier.fillMaxSize(), color = MaterialTheme.colorScheme.background) {
-                    Column {
-                        ProfileCardEx(cardData = cardData)
-                        ProfileCardEx(cardData = cardData)
-                    }
+//                    Column {
+//                        ProfileCardEx(cardData = cardData)
+//                        ProfileCardEx(cardData = cardData)
+//                    }
+                    TextFieldEx()
                 }
             }
         }
@@ -117,9 +131,11 @@ fun ColumnEx() {
 @Composable
 fun Outer() {
     Column() {
-        Inner(modifier = Modifier
-            .widthIn(min = 50.dp, max = 100.dp)
-            .height(300.dp))
+        Inner(
+            modifier = Modifier
+                .widthIn(min = 50.dp, max = 100.dp)
+                .height(300.dp)
+        )
         Inner()
     }
 }
@@ -177,6 +193,62 @@ fun ProfileCardEx(cardData: CardData) {
     }
 }
 
+@Composable
+fun CheckBoxEx() {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        val (getter, setter) = remember { mutableStateOf(false) }
+        Checkbox(checked = getter, onCheckedChange = setter)
+        Text(text = "checkbox1", modifier = Modifier
+            .clickable { setter(getter.not()) }
+            .padding(end = 8.dp))
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TextFieldEx() {
+    Column(modifier = Modifier.padding(16.dp)) {
+        var name by remember { mutableStateOf("준형") }
+        OutlinedTextField(
+            value = name,
+            label = { Text(text = "이름") },
+            onValueChange = { name = it }
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        Text(text = "Hello $name!")
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun TopAppBarEx() {
+    Column {
+        TopAppBar(
+            navigationIcon = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "업 네비게이션")
+                }
+            },
+            title = {
+                Text(text = "TopAppBar")
+                    },
+            actions = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.Search, contentDescription = "검색")
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.Settings, contentDescription = "설정")
+                }
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(imageVector = Icons.Filled.AccountBox, contentDescription = "계 {")
+                }
+            },
+            colors = TopAppBarDefaults.smallTopAppBarColors(containerColor = Color.Yellow)
+        )
+        Text(text = "Hello Android!")
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -186,6 +258,9 @@ fun GreetingPreview() {
 //        Outer()
 //        ImageEx()
 //        CoilEx()
+//        CheckBoxEx()
+//        TextFieldEx()
+        TopAppBarEx()
     }
 }
 
