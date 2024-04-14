@@ -1,6 +1,8 @@
 package com.example.compose.component.components
 
+import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.ImageButton
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -10,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -27,15 +30,18 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Card
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -231,7 +237,7 @@ fun TopAppBarEx() {
             },
             title = {
                 Text(text = "TopAppBar")
-                    },
+            },
             actions = {
                 IconButton(onClick = { /*TODO*/ }) {
                     Icon(imageVector = Icons.Filled.Search, contentDescription = "검색")
@@ -249,6 +255,73 @@ fun TopAppBarEx() {
     }
 }
 
+@Composable
+fun SlotEx() {
+    var checked1 by remember { mutableStateOf(false) }
+    var checked2 by remember { mutableStateOf(false) }
+
+    Column {
+        CheckboxWithSlot(checked = checked1, onCheckedChange = { checked1 = checked1.not() }) {
+            Text(text = "텍스트 1")
+        }
+        CheckboxWithSlot(checked = checked2, onCheckedChange = { checked2 = checked2.not() }) {
+            Text(text = "텍스트 2" )
+        }
+    }
+}
+
+@Composable
+fun CheckboxWithSlot(
+    checked: Boolean,
+    onCheckedChange: () -> Unit,
+    content: @Composable RowScope.() -> Unit
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.clickable { onCheckedChange.invoke() }
+    ) {
+        Checkbox(checked = checked, onCheckedChange = { onCheckedChange.invoke() })
+        content.invoke(this)
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ScaffoldEx() {
+    var checked by remember { mutableStateOf(false) }
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Image(
+                            imageVector = Icons.Filled.ArrowBack,
+                            contentDescription = "뒤로가기"
+                        )
+                    }
+                },
+                title = {
+                    Text(text = "Scaffold App")
+                }
+            )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = { /*TODO*/ }) {}
+        },
+        modifier = Modifier.padding(8.dp)
+    ) {
+        Surface(modifier = Modifier.padding(it)) {
+            CheckboxWithSlot(
+                checked = checked,
+                onCheckedChange = { checked = checked.not() }
+            ) {
+                Text(text = "Checkbox1")
+            }
+        }
+    }
+}
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
@@ -260,7 +333,9 @@ fun GreetingPreview() {
 //        CoilEx()
 //        CheckBoxEx()
 //        TextFieldEx()
-        TopAppBarEx()
+//        TopAppBarEx()
+//        SlotEx()
+        ScaffoldEx()
     }
 }
 
