@@ -307,20 +307,61 @@ fun PyeongToSquareMeter() {
     var pyeong by rememberSaveable { mutableStateOf("") }
     var squareMeter by rememberSaveable { mutableStateOf("") }
 
+    PyeongToSquareMeterStateless(
+        pyeong = pyeong,
+        squareMeter = squareMeter
+    ) { changedValue ->
+        if (changedValue.isBlank()) {
+            pyeong = ""
+            squareMeter = ""
+            return@PyeongToSquareMeterStateless
+        }
+        changedValue.takeIf { it.isDigitsOnly() }?.let {
+            pyeong = it
+            squareMeter = (changedValue.toFloat() * 3.306).toString()
+        }
+    }
+
+//    Column(modifier = Modifier.padding(16.dp)) {
+//        OutlinedTextField(
+//            value = pyeong,
+//            onValueChange = { changedValue ->
+//                if (changedValue.isBlank()) {
+//                    pyeong = ""
+//                    squareMeter = ""
+//                    return@OutlinedTextField
+//                }
+//                changedValue.takeIf { it.isDigitsOnly() }?.let {
+//                    pyeong = changedValue
+//                    squareMeter = (changedValue.toFloat() * 3.306).toString()
+//                }
+//            },
+//            label = {
+//                Text("평")
+//            }
+//        )
+//        OutlinedTextField(
+//            value = squareMeter,
+//            onValueChange = {},
+//            label = {
+//                Text("제곱미터")
+//            }
+//        )
+//    }
+}
+
+// Using State Hoist
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PyeongToSquareMeterStateless(
+    pyeong: String,
+    squareMeter: String,
+    onPyeongChanged: (String) -> Unit
+) {
     Column(modifier = Modifier.padding(16.dp)) {
         OutlinedTextField(
             value = pyeong,
-            onValueChange = { changedValue ->
-                if (changedValue.isBlank()) {
-                    pyeong = ""
-                    squareMeter = ""
-                    return@OutlinedTextField
-                }
-                changedValue.takeIf { it.isDigitsOnly() }?.let {
-                    pyeong = changedValue
-                    squareMeter = (changedValue.toFloat() * 3.306).toString()
-                }
-            },
+            onValueChange = onPyeongChanged,
             label = {
                 Text("평")
             }
@@ -333,8 +374,6 @@ fun PyeongToSquareMeter() {
             }
         )
     }
-
-    // Using State Hoist
 }
 
 @Preview(showBackground = true)
