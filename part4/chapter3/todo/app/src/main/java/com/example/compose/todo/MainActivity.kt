@@ -58,10 +58,22 @@ class MainActivity : ComponentActivity() {
 fun TopLevel() {
     val (text, setText) = remember { mutableStateOf("") }   // getter, setter
     val todoList = remember { mutableStateListOf<TodoData>() }
-    val onSubmit: (text: String) -> Unit = {
+    val onSubmit: (String) -> Unit = { text ->
         val key = (todoList.lastOrNull()?.key ?: 0).plus(1)
-        todoList.add(TodoData(key = key, text = it))
+        todoList.add(TodoData(key = key, text = text))
         setText("")
+    }
+    val onToggle: (Int, Boolean) -> Unit = { key, checked ->
+        val i = todoList.indexOfFirst { it.key == key }
+        todoList[i] = todoList[i].copy(isDone = checked)
+    }
+    val onDelete: (Int) -> Unit = { key ->
+        val i = todoList.indexOfFirst { it.key == key }
+        todoList.removeAt(i)
+    }
+    val onEdit: (Int, String) -> Unit = { key, text ->
+        val i = todoList.indexOfFirst { it.key == key }
+        todoList[i] = todoList[i].copy(text = text)
     }
     Scaffold {
         Column {
@@ -72,7 +84,12 @@ fun TopLevel() {
             )
             LazyColumn {
                 items(todoList) {
-                    Todo(todoData = it)
+                    Todo(
+                        todoData = it,
+                        onToggle = onToggle,
+                        onDelete = onDelete,
+                        onEdit = onEdit
+                    )
                 }
             }
         }
@@ -122,7 +139,9 @@ fun TodoInputPreview() {
 @Composable
 fun Todo(
     todoData: TodoData,
-    onToggle: (key: Int, isChecked: Boolean) -> Unit = { _, _ -> }
+    onToggle: (key: Int, isChecked: Boolean) -> Unit = { _, _ -> },
+    onDelete: (key: Int) -> Unit = { _ -> },
+    onEdit: (key: Int, text: String) -> Unit = { _, _ -> }
 ) {
     var isEditing by remember { mutableStateOf(false) }
     Card(
@@ -138,7 +157,9 @@ fun Todo(
                     ) {
                         OutlinedTextField(
                             value = "",
-                            onValueChange = {},
+                            onValueChange = { text ->
+                                onEdit(todoData.key, text)
+                            },
                             modifier = Modifier.weight(1f)
                         )
                         Spacer(modifier = Modifier.size(4.dp))
@@ -164,11 +185,11 @@ fun Todo(
                                 onToggle(todoData.key, isChecked)
                             }
                         )
-                        Button(onClick = { isEditing = true }) {
+                        Button(onClick = { isEditing = isEditing.not() }) {
                             Text("수정")
                         }
                         Spacer(modifier = Modifier.size(4.dp))
-                        Button(onClick = {}) {
+                        Button(onClick = { onDelete(todoData.key) }) {
                             Text("삭제")
                         }
                     }
