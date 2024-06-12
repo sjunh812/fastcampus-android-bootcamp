@@ -56,34 +56,39 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopLevel() {
-    val (text, setText) = remember { mutableStateOf("") }   // getter, setter
+    val (inputText, setInputText) = remember { mutableStateOf("") }   // getter, setter
     val todoList = remember { mutableStateListOf<TodoData>() }
+    // Create
     val onSubmit: (String) -> Unit = { text ->
         val key = (todoList.lastOrNull()?.key ?: 0).plus(1)
         todoList.add(TodoData(key = key, text = text))
-        setText("")
+        setInputText("")
     }
+    // Toggle
     val onToggle: (Int, Boolean) -> Unit = { key, checked ->
         val i = todoList.indexOfFirst { it.key == key }
         todoList[i] = todoList[i].copy(isDone = checked)
     }
+    // Delete
     val onDelete: (Int) -> Unit = { key ->
         val i = todoList.indexOfFirst { it.key == key }
         todoList.removeAt(i)
     }
+    // Edit
     val onEdit: (Int, String) -> Unit = { key, text ->
         val i = todoList.indexOfFirst { it.key == key }
         todoList[i] = todoList[i].copy(text = text)
     }
+
     Scaffold {
         Column {
             TodoInput(
-                text = text,
-                onTextChange = setText,
+                text = inputText,
+                onTextChange = setInputText,
                 onSubmit = onSubmit
             )
             LazyColumn {
-                items(todoList) {
+                items(todoList, key = { it.key }) {
                     Todo(
                         todoData = it,
                         onToggle = onToggle,
@@ -143,7 +148,9 @@ fun Todo(
     onDelete: (key: Int) -> Unit = { _ -> },
     onEdit: (key: Int, text: String) -> Unit = { _, _ -> }
 ) {
+    // Mode
     var isEditing by remember { mutableStateOf(false) }
+
     Card(
         modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation()
@@ -155,15 +162,18 @@ fun Todo(
                         verticalAlignment = Alignment.CenterVertically,
                         modifier = Modifier.padding(8.dp)
                     ) {
+                        val (text, setText) = remember { mutableStateOf(todoData.text) }
+
                         OutlinedTextField(
-                            value = "",
-                            onValueChange = { text ->
-                                onEdit(todoData.key, text)
-                            },
+                            value = text,
+                            onValueChange = setText,
                             modifier = Modifier.weight(1f)
                         )
                         Spacer(modifier = Modifier.size(4.dp))
-                        Button(onClick = {}) {
+                        Button(onClick = {
+                            onEdit(todoData.key, text)
+                            isEditing = false
+                        }) {
                             Text("입력")
                         }
                     }
@@ -181,11 +191,11 @@ fun Todo(
                         Text(text = "완료")
                         Checkbox(
                             checked = todoData.isDone,
-                            onCheckedChange = { isChecked ->
-                                onToggle(todoData.key, isChecked)
+                            onCheckedChange = { checked ->
+                                onToggle(todoData.key, checked)
                             }
                         )
-                        Button(onClick = { isEditing = isEditing.not() }) {
+                        Button(onClick = { isEditing = true }) {
                             Text("수정")
                         }
                         Spacer(modifier = Modifier.size(4.dp))
