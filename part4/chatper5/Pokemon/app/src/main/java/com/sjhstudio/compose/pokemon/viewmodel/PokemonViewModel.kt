@@ -1,6 +1,8 @@
 package com.sjhstudio.compose.pokemon.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -10,10 +12,12 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import androidx.paging.cachedIn
 import com.sjhstudio.compose.pokemon.PokemonApi
+import com.sjhstudio.compose.pokemon.data.dto.PokemonResponse
 import com.sjhstudio.compose.pokemon.data.dto.PokemonsResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class PokemonViewModel @Inject constructor(
@@ -21,6 +25,12 @@ class PokemonViewModel @Inject constructor(
 ) : ViewModel() {
 
     val pokemonPagingData: Flow<PagingData<PokemonsResponse.Result>> = getPokemons().cachedIn(viewModelScope)
+    val pokemonResult by mutableStateOf(
+        PokemonResponse(
+            species = PokemonResponse.Species(""),
+            sprites = PokemonResponse.Sprites("")
+        )
+    )
 
     private fun getPokemons(): Flow<PagingData<PokemonsResponse.Result>> = Pager(
         config = PagingConfig(
@@ -54,4 +64,10 @@ class PokemonViewModel @Inject constructor(
             }
         }
     ).flow
+
+    fun getPokemon(pokemonId: Int) {
+        viewModelScope.launch {
+            pokemonApi.getPokemon(pokemonId)
+        }
+    }
 }

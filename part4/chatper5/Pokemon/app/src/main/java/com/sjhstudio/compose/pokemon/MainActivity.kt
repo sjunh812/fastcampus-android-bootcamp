@@ -10,9 +10,12 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.sjhstudio.compose.pokemon.ui.screen.DetailScreen
 import com.sjhstudio.compose.pokemon.ui.screen.MainScreen
 import com.sjhstudio.compose.pokemon.ui.screen.types.MainNavRoute
 import com.sjhstudio.compose.pokemon.ui.theme.PokemonTheme
@@ -50,6 +53,29 @@ fun TopLevel(
         composable(MainNavRoute.Home.name) {
             MainScreen {
                 Log.d("SJH", "click pokemon >> url:$it")
+                // url : https://pokeapi.co/api/v2/pokemon/1/
+                val pokemonId = it.substringAfter("pokemon/")
+                    .substringBefore("/")
+                    .toIntOrNull() ?: -1
+                navController.navigate(MainNavRoute.getDetailRealRoute(pokemonId))
+            }
+        }
+
+        composable(
+            route = MainNavRoute.getDetailRoute(),
+            arguments = listOf(
+                navArgument("pokemonId") {
+                    type = NavType.IntType
+                }
+            )
+        ) {
+            val pokemonId = it.arguments?.getInt("pokemonId") as Int
+            DetailScreen(pokemonId = pokemonId) {
+                navController.navigate(MainNavRoute.Home.name) {
+                    popUpTo(MainNavRoute.Home.name) {
+                        inclusive = true
+                    }
+                }
             }
         }
     }
