@@ -3,6 +3,7 @@ package com.sjhstudio.compose.pokemon.viewmodel
 import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -25,7 +26,7 @@ class PokemonViewModel @Inject constructor(
 ) : ViewModel() {
 
     val pokemonPagingData: Flow<PagingData<PokemonsResponse.Result>> = getPokemons().cachedIn(viewModelScope)
-    val pokemonResult by mutableStateOf(
+    var pokemonResult by mutableStateOf(
         PokemonResponse(
             species = PokemonResponse.Species(""),
             sprites = PokemonResponse.Sprites("")
@@ -66,8 +67,9 @@ class PokemonViewModel @Inject constructor(
     ).flow
 
     fun getPokemon(pokemonId: Int) {
+        Log.d("SJH", "getPokemon :: pokemonId=$pokemonId")
         viewModelScope.launch {
-            pokemonApi.getPokemon(pokemonId)
+            pokemonResult = pokemonApi.getPokemon(pokemonId)
         }
     }
 }
