@@ -4,14 +4,19 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
@@ -21,6 +26,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +34,8 @@ import androidx.compose.ui.unit.dp
 import com.sjhstudio.compose.memo.ui.model.Memo
 import com.sjhstudio.compose.memo.ui.model.memos
 import com.sjhstudio.compose.memo.ui.theme.MemoTheme
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 @Composable
 fun HomeScreen(homeState: HomeState) {
@@ -37,26 +45,40 @@ fun HomeScreen(homeState: HomeState) {
             color = MaterialTheme.colorScheme.background
         ) {
             val memoList = remember { memos }
-            val onClickAction: (Int) -> Unit = {
-                homeState.showContent(it)
+            val memoListState = rememberLazyListState()
+            val coroutineScope = rememberCoroutineScope()
+            val onClickAction: (Int) -> Unit = { id ->
+                homeState.showContent(index = id)
             }
 
             Column {
-                AddMemo(memoList = memoList)
-                MemoList(onClickAction = onClickAction, memoList = memoList)
+                AddMemo(
+                    memoList = memoList,
+                    memoListState = memoListState,
+                    scope = coroutineScope
+                )
+                MemoList(
+                    onClickAction = onClickAction,
+                    memoList = memoList,
+                    memoListState = memoListState
+                )
             }
         }
     }
 }
 
 @Composable
-fun AddMemo(memoList: SnapshotStateList<Memo>) {
+fun AddMemo(
+    memoList: SnapshotStateList<Memo>,
+    memoListState: LazyListState,
+    scope: CoroutineScope
+) {
     val inputValue = remember { mutableStateOf("") }
 
     Row(
         modifier = Modifier
             .padding(all = 16.dp)
-            .height(100.dp)
+            .height(200.dp)
     ) {
         TextField(
             modifier = Modifier
@@ -65,16 +87,21 @@ fun AddMemo(memoList: SnapshotStateList<Memo>) {
             value = inputValue.value,
             onValueChange = { textFieldValue -> inputValue.value = textFieldValue }
         )
+        Spacer(modifier = Modifier.size(8.dp))
         Button(
             modifier = Modifier
                 .fillMaxHeight()
                 .wrapContentWidth(),
+            shape = RoundedCornerShape(size = 8.dp),
             onClick = {
-                memoList.add(
-                    index = 0,
-                    Memo(id = memoList.size, text = inputValue.value)
-                )
-                inputValue.value = ""
+                scope.launch {
+                    memoList.add(
+                        index = 0,
+                        Memo(id = memoList.size, text = inputValue.value)
+                    )
+                    memoListState.scrollToItem(0)
+                    inputValue.value = ""
+                }
             }
         ) {
             Text(text = "Add")
@@ -83,8 +110,15 @@ fun AddMemo(memoList: SnapshotStateList<Memo>) {
 }
 
 @Composable
-fun ColumnScope.MemoList(onClickAction: (Int) -> Unit, memoList: SnapshotStateList<Memo>) {
-    LazyColumn(modifier = Modifier.weight(1f)) {
+fun ColumnScope.MemoList(
+    onClickAction: (Int) -> Unit,
+    memoList: SnapshotStateList<Memo>,
+    memoListState: LazyListState
+) {
+    LazyColumn(
+        modifier = Modifier.weight(1f),
+        state = memoListState
+    ) {
         items(
             items = memoList,
             key = { it.id }
@@ -97,7 +131,13 @@ fun ColumnScope.MemoList(onClickAction: (Int) -> Unit, memoList: SnapshotStateLi
                     .fillMaxWidth(),
                 onClick = { onClickAction(memo.id) }
             ) {
-                Text(text = memo.text, modifier = Modifier.fillMaxSize())
+                Text(
+                    text = memo.text,
+                    style = MaterialTheme.typography.bodyMedium,
+                    modifier = Modifier
+                        .padding(8.dp)
+                        .fillMaxSize()
+                )
             }
         }
     }
