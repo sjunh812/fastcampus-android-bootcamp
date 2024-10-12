@@ -2,6 +2,7 @@ package com.sjhstudio.compose.movieapp.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.staticCompositionLocalOf
@@ -33,7 +34,8 @@ private val LocalColors = staticCompositionLocalOf { ColorSet.Red.LightColors }
 
 @Composable
 fun MovieAppTheme(
-    myColors: ColorSet,
+    myColors: ColorSet = ColorSet.Red,
+    typography: Typography = Typography,
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,
@@ -53,7 +55,7 @@ fun MovieAppTheme(
     CompositionLocalProvider(value = LocalColors provides colors) {
         MaterialTheme(
             colorScheme = colors.colorScheme,
-            typography = Typography,
+            typography = typography,
             content = content
         )
     }
