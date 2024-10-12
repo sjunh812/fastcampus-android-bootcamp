@@ -28,6 +28,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.runtime.toMutableStateList
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
@@ -44,7 +45,7 @@ fun HomeScreen(homeState: HomeState) {
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background
         ) {
-            val memoList = remember { memos }
+            val memoList = remember { memos.sortedByDescending { it.id }.toMutableStateList() }
             val memoListState = rememberLazyListState()
             val coroutineScope = rememberCoroutineScope()
             val onClickAction: (Int) -> Unit = { id ->
