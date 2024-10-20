@@ -22,11 +22,11 @@ private val spoqaThin = FontFamily(
 
 val Typography = Typography(
     displayLarge = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaBold,
         fontSize = 60.sp,
     ),
     displayMedium = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaBold,
         fontSize = 45.sp,
     ),
     displaySmall = TextStyle(
@@ -34,11 +34,11 @@ val Typography = Typography(
         fontSize = 36.sp
     ),
     headlineLarge = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaBold,
         fontSize = 32.sp
     ),
     headlineMedium = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaBold,
         fontSize = 28.sp
     ),
     headlineSmall = TextStyle(
@@ -46,11 +46,11 @@ val Typography = Typography(
         fontSize = 24.sp,
     ),
     titleLarge = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaBold,
         fontSize = 22.sp
     ),
     titleMedium = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaBold,
         fontSize = 16.sp,
     ),
     titleSmall = TextStyle(
@@ -66,7 +66,7 @@ val Typography = Typography(
         fontSize = 14.sp,
     ),
     bodySmall = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaThin,
         fontSize = 12.sp
     ),
     labelLarge = TextStyle(
@@ -78,29 +78,34 @@ val Typography = Typography(
         fontSize = 12.sp
     ),
     labelSmall = TextStyle(
-        fontFamily = spoqaRegular,
+        fontFamily = spoqaThin,
         fontSize = 11.sp
     )
 )
 
 val Typography.titleLarge24: TextStyle
-    @Composable get() = titleLarge.copy(
+    @Composable get() = titleMedium.copy(
         fontSize = 24.sp
     )
 
+val Typography.button: TextStyle
+    @Composable get() = titleMedium.copy(
+        fontSize = 18.sp
+    )
+
 val Typography.dialogButton: TextStyle
-    @Composable get() = labelLarge.copy(
+    @Composable get() = titleMedium.copy(
         fontSize = 18.sp
     )
 
 val Typography.underlinedDialogButton: TextStyle
-    @Composable get() = labelLarge.copy(
+    @Composable get() = titleMedium.copy(
         fontSize = 18.sp,
         textDecoration = TextDecoration.Underline
     )
 
 val Typography.underlinedButton: TextStyle
-    @Composable get() = labelLarge.copy(
+    @Composable get() = titleMedium.copy(
         fontSize = 18.sp,
         textDecoration = TextDecoration.Underline
     )
