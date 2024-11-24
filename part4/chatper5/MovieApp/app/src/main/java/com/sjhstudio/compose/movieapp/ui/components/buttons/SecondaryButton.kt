@@ -37,8 +37,8 @@ fun SecondaryButton(
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.secondary,
-            disabledContainerColor = MaterialTheme.colorScheme.background,
-            disabledContentColor = MaterialTheme.colorScheme.disabledSecondary
+            disabledContainerColor = MaterialTheme.colorScheme.disabledSecondary,
+            disabledContentColor = MaterialTheme.colorScheme.background
         )
     ) {
         Row(

@@ -15,16 +15,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.sjhstudio.compose.movieapp.ui.theme.MovieAppTheme
 import com.sjhstudio.compose.movieapp.ui.theme.Paddings
 import com.sjhstudio.compose.movieapp.ui.theme.button
 import com.sjhstudio.compose.movieapp.ui.theme.color.disabledSecondary
 
-val BUTTON_RADIUS = 8.dp
-
 @Composable
-fun PrimaryButton(
+fun SecondaryBorderlessButton(
     modifier: Modifier = Modifier,
     @StringRes id: Int? = null,
     text: String = "",
@@ -35,8 +32,8 @@ fun PrimaryButton(
         shape = RoundedCornerShape(BUTTON_RADIUS),
         onClick = onClick,
         colors = ButtonColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            containerColor = MaterialTheme.colorScheme.background,
+            contentColor = MaterialTheme.colorScheme.secondary,
             disabledContainerColor = MaterialTheme.colorScheme.disabledSecondary,
             disabledContentColor = MaterialTheme.colorScheme.background
         )
@@ -46,7 +43,7 @@ fun PrimaryButton(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = id?.let { stringResource(id = id) } ?: text,
+                text = id?.let { stringResource(id = it) } ?: text,
                 style = MaterialTheme.typography.button,
                 modifier = Modifier.padding(Paddings.medium)
             )
@@ -54,11 +51,11 @@ fun PrimaryButton(
     }
 }
 
-@Preview(showBackground = true)
+@Preview(showBackground = false)
 @Composable
-fun PrimaryButtonPreview() {
+fun SecondaryBorderlessButtonPreview() {
     MovieAppTheme {
-        PrimaryButton(
+        SecondaryBorderlessButton(
             text = "test"
         ) {
 
