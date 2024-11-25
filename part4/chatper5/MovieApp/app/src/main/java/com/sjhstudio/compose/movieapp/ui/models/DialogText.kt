@@ -23,7 +23,7 @@ sealed class DialogText {
 
         override var text: String? = null
         override var id: Int? = null
-        var rating: Float? = 0.0F
+        var rating: Float = 0.0F
 
         constructor(text: String, rating: Float) : this() {
             this.text = text
