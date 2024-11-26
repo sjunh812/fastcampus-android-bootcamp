@@ -27,7 +27,7 @@ fun ColumnScope.DialogContentWrapper(content: DialogContent) {
                 LocalDialogContentStyle provides DialogContentStyle(
                     textStyle = { MaterialTheme.typography.bodyMedium.copy(lineHeight = 1.6.em) },
                     contentTopPadding = Paddings.small,
-                    contentBottomPadding = Paddings.xlarge
+                    contentBottomPadding = Paddings.extra
                 )
             ) {
                 NormalDialogTextContent(text = content.dialogText)
@@ -37,7 +37,7 @@ fun ColumnScope.DialogContentWrapper(content: DialogContent) {
         is DialogContent.Large -> {
             CompositionLocalProvider(
                 LocalDialogContentStyle provides DialogContentStyle(
-                    textStyle = { MaterialTheme.typography.titleLarge.copy(lineHeight = 1.6.em) },
+                    textStyle = { MaterialTheme.typography.bodyLarge.copy(lineHeight = 1.6.em) },
                     contentTopPadding = Paddings.extra,
                     contentBottomPadding = Paddings.extra
                 )

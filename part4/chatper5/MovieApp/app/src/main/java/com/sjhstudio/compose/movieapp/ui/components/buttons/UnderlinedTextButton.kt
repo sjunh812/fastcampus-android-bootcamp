@@ -1,7 +1,6 @@
 package com.sjhstudio.compose.movieapp.ui.components.buttons
 
 import androidx.annotation.StringRes
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
 import com.sjhstudio.compose.movieapp.ui.theme.MovieAppTheme
 import com.sjhstudio.compose.movieapp.ui.theme.Paddings
 import com.sjhstudio.compose.movieapp.ui.theme.color.disabledSecondary
@@ -32,7 +30,6 @@ fun UnderlinedTextButton(
     Button(
         modifier = modifier.fillMaxWidth(),
         shape = RoundedCornerShape(BUTTON_RADIUS),
-        border = BorderStroke(2.dp, MaterialTheme.colorScheme.secondary),
         onClick = onClick,
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.background,

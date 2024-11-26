@@ -30,8 +30,8 @@ sealed class ColorSet {
     data object Red : ColorSet() {
         override var LightColors = MyColors(
             colorScheme = lightColorScheme(
-                primary = Red800,
-                primaryContainer = Red700,
+                primary = Red700,
+                primaryContainer = Red800,
                 onPrimary = White,
                 onPrimaryContainer = White,
                 secondary = Purple900,
