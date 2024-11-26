@@ -19,7 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.sjhstudio.compose.movieapp.ui.models.DialogText
 import com.sjhstudio.compose.movieapp.ui.theme.Paddings
@@ -51,7 +50,7 @@ fun ColumnScope.RatingTable(rating: Float, movieTitle: String) {
         Text(
             modifier = Modifier.align(Alignment.CenterHorizontally),
             text = movieTitle.getAnnotatedText(),
-            style = MaterialTheme.typography.titleLarge.copy(color = MaterialTheme.colorScheme.secondary),
+            style = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.secondary),
             textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(Paddings.large))
@@ -66,7 +65,7 @@ fun ColumnScope.StarRatingBar(score: Float) {
             .wrapContentWidth()
             .padding(Paddings.medium)
             .align(Alignment.CenterHorizontally),
-        elevation = CardDefaults.cardElevation(0.dp)
+        elevation = CardDefaults.cardElevation(Paddings.none)
     ) {
         Box(contentAlignment = Alignment.Center) {
             val foregroundColor = MaterialTheme.colorScheme.primary.toArgb()

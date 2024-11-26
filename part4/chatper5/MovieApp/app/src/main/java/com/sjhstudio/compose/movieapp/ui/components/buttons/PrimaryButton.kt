@@ -43,8 +43,8 @@ fun PrimaryButton(
         shape = RoundedCornerShape(BUTTON_RADIUS),
         onClick = onClick,
         colors = ButtonColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary,
             disabledContainerColor = MaterialTheme.colorScheme.disabledSecondary,
             disabledContentColor = MaterialTheme.colorScheme.background
         )
