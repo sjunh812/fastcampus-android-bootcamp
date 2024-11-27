@@ -33,7 +33,7 @@ fun DialogTitleWrapper(title: DialogTitle) {
             CompositionLocalProvider(
                 LocalDialogTitleStyle provides DialogTitleStyle(
                     textStyle = { MaterialTheme.typography.titleLarge },
-                    contentPadding = Paddings.large
+                    contentPadding = Paddings.xlarge
                 )
             ) {
                 DefaultDialogTitle(title = title)
@@ -43,8 +43,8 @@ fun DialogTitleWrapper(title: DialogTitle) {
         is DialogTitle.Header -> {
             CompositionLocalProvider(
                 LocalDialogTitleStyle provides DialogTitleStyle(
-                    textStyle = { MaterialTheme.typography.titleLarge },
-                    contentPadding = Paddings.large
+                    textStyle = { MaterialTheme.typography.titleLarge24 },
+                    contentPadding = Paddings.xlarge
                 )
             ) {
                 HeaderDialogTitle(title = title)

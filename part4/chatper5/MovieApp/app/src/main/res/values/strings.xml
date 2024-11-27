@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">MovieApp</string>
+    <string name="btn_close">CLOSE</string>
+    <string name="btn_open">OPEN</string>
+    <string name="btn_cancel">CANCEL</string>
+    <string name="btn_submit">SUBMIT</string>
+    <string name="title_dialog_popup_rating">Rate your score!</string>
+    <string name="description_btn_send">Send Button</string>
 </resources>
