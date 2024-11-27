@@ -51,7 +51,7 @@ val Typography = Typography(
     ),
     titleMedium = TextStyle(
         fontFamily = spoqaBold,
-        fontSize = 16.sp,
+        fontSize = 18.sp,
     ),
     titleSmall = TextStyle(
         fontFamily = spoqaRegular,
@@ -79,33 +79,27 @@ val Typography = Typography(
     ),
     labelSmall = TextStyle(
         fontFamily = spoqaThin,
-        fontSize = 11.sp
+        fontSize = 10.sp
     )
 )
 
 val Typography.titleLarge24: TextStyle
-    @Composable get() = titleMedium.copy(
+    @Composable get() = titleLarge.copy(
         fontSize = 24.sp
     )
 
 val Typography.button: TextStyle
-    @Composable get() = titleMedium.copy(
-        fontSize = 18.sp
-    )
+    @Composable get() = titleMedium
 
 val Typography.dialogButton: TextStyle
-    @Composable get() = titleMedium.copy(
-        fontSize = 18.sp
-    )
+    @Composable get() = titleMedium
 
 val Typography.underlinedDialogButton: TextStyle
     @Composable get() = titleMedium.copy(
-        fontSize = 18.sp,
         textDecoration = TextDecoration.Underline
     )
 
 val Typography.underlinedButton: TextStyle
     @Composable get() = titleMedium.copy(
-        fontSize = 18.sp,
         textDecoration = TextDecoration.Underline
     )

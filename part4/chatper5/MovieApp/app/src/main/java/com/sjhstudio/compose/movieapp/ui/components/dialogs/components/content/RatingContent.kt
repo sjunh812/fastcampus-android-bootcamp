@@ -70,7 +70,7 @@ fun ColumnScope.StarRatingBar(score: Float) {
         Box(contentAlignment = Alignment.Center) {
             val foregroundColor = MaterialTheme.colorScheme.primary.toArgb()
             val starBackgroundColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2F).toArgb()
-            val ratingBackgroundColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.05F).toArgb()
+            val ratingBackgroundColor = MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.01F).toArgb()
 
             AndroidView(
                 factory = {
