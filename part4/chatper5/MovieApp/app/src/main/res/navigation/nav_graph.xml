@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/fragment_feed">
+
+    <fragment
+        android:id="@+id/fragment_feed"
+        android:name="com.sjhstudio.compose.movieapp.features.feed.FeedFragment"
+        android:label="Feed" />
+
+    <fragment
+        android:id="@+id/fragment_detail"
+        android:name="com.sjhstudio.compose.movieapp.features.detail.DetailFragment"
+        android:label="Detail" />
+</navigation>
