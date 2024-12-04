@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    alias(libs.plugins.jetbrains.kotlin.kapt)
     alias(libs.plugins.androidx.navigation.safeargs.kotlin)
+    alias(libs.plugins.dagger.hilt)
 }
 
 android {
@@ -51,6 +53,7 @@ dependencies {
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.compose)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
@@ -63,6 +66,22 @@ dependencies {
     implementation(libs.navigation.fragment.ktx)
     implementation(libs.navigation.ui.ktx)
     implementation(libs.navigation.dynamic.features.fragment)
+
+    // Hilt
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    kapt(libs.hilt.navigation)
+
+    // Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.okhttp3.logging.interceptor)
+    implementation(libs.retrofit.adapter.rxjava2)
+
+    // Gson
+    implementation(libs.gson)
+
+    // Timber
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
