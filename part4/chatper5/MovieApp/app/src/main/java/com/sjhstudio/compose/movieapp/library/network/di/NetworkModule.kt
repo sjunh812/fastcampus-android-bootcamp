@@ -3,6 +3,8 @@ package com.sjhstudio.compose.movieapp.library.network.di
 import com.google.gson.Gson
 import com.sjhstudio.compose.movieapp.BuildConfig
 import com.sjhstudio.compose.movieapp.library.network.api.ApiService
+import com.sjhstudio.compose.movieapp.library.network.retrofit.NetworkRequestFactory
+import com.sjhstudio.compose.movieapp.library.network.retrofit.NetworkRequestFactoryImpl
 import com.sjhstudio.compose.movieapp.library.network.retrofit.StringConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -60,6 +62,10 @@ class NetworkModule {
     @Provides
     @Singleton
     fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNetworkRequestFactory(impl: NetworkRequestFactoryImpl): NetworkRequestFactory = impl
 
     private fun logBaseUrl(baseUrl: String): String {
         return baseUrl.also {
