@@ -28,10 +28,14 @@ class StringConverterFactory(private val gson: Gson) : Converter.Factory() {
 
     override fun responseBodyConverter(
         type: Type,
-        annotations: Array<out Annotation>,
+        annotations: Array<Annotation>,
         retrofit: Retrofit
-    ): ResponseBodyConverter {
-        return ResponseBodyConverter()
+    ): Converter<ResponseBody, *>? {
+        return if (String::class.java == type) {
+            ResponseBodyConverter()
+        } else {
+            super.responseBodyConverter(type, annotations, retrofit)
+        }
     }
 
     inner class RequestBodyConverter<T>(
@@ -52,7 +56,7 @@ class StringConverterFactory(private val gson: Gson) : Converter.Factory() {
     inner class ResponseBodyConverter : Converter<ResponseBody, String> {
 
         override fun convert(value: ResponseBody): String {
-            return value.toString()
+            return value.string()
         }
     }
 
