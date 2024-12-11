@@ -1,6 +1,7 @@
 package com.sjhstudio.compose.movieapp.library.network.di
 
 import com.google.gson.Gson
+import com.sjhstudio.compose.movieapp.BuildConfig
 import com.sjhstudio.compose.movieapp.library.network.api.ApiService
 import com.sjhstudio.compose.movieapp.library.network.retrofit.StringConverterFactory
 import dagger.Module
@@ -31,6 +32,9 @@ class NetworkModule {
         interceptor: HttpLoggingInterceptor
     ): OkHttpClient {
         val builder = OkHttpClient.Builder()
+        if (BuildConfig.DEBUG) {
+            builder.addInterceptor(interceptor)
+        }
         return builder.build()
     }
 
@@ -58,7 +62,8 @@ class NetworkModule {
     fun provideApiService(retrofit: Retrofit) = retrofit.create(ApiService::class.java)
 
     private fun logBaseUrl(baseUrl: String): String {
-        Timber.d("baseUrl: $baseUrl")
-        return baseUrl
+        return baseUrl.also {
+            Timber.d("baseUrl: $it")
+        }
     }
 }
