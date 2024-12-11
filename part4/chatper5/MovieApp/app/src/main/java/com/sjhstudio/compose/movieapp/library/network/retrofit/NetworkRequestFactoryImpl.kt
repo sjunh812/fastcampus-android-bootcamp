@@ -13,7 +13,7 @@ class NetworkRequestFactoryImpl @Inject constructor(
     private val apiService: ApiService,
     private val gson: Gson,
     private val headerParser: HeaderParser
-): NetworkRequestFactory {
+) : NetworkRequestFactory {
 
     override suspend fun <T> create(
         url: String,
@@ -37,7 +37,7 @@ class NetworkRequestFactoryImpl @Inject constructor(
             val responseCode = response.code()
             val apiResponse = if (response.isSuccessful) {
                 val body = response.body()
-                val responseModel: T = gson.fromJson(body, type)
+                val responseModel: T? = gson.fromJson(body, type)
                 ApiResponse.Success(responseModel)
             } else {
                 val errorMessage = response.errorBody()?.toString() ?: response.message()
