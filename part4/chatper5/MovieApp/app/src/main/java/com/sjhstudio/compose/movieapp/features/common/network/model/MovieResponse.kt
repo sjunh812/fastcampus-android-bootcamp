@@ -1,6 +1,7 @@
 package com.sjhstudio.compose.movieapp.features.common.network.model
 
 import com.google.gson.annotations.SerializedName
+import com.sjhstudio.compose.movieapp.features.common.entity.MovieDetailEntity
 
 data class MovieResponse(
     @SerializedName("actors")
@@ -24,3 +25,17 @@ data class MovieResponse(
     @SerializedName("year")
     val year: Int?
 )
+
+fun MovieResponse.toMovieDetailEntity(): MovieDetailEntity =
+    MovieDetailEntity(
+        actors = actors,
+        desc = desc,
+        directors = directors,
+        genres = genre,
+        imageUrl = imageUrl,
+        thumbUrl = thumbUrl,
+        imdbPath = imdbPath,
+        title = name,
+        rating = rating,
+        year = year
+    )
