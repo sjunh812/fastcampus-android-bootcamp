@@ -12,7 +12,6 @@ abstract class BaseMapper<R, E> {
             is ApiResponse.Fail -> getFail(error = result.response.error)
         }
 
-
     abstract fun getSuccess(response: R?, extra: Any?): EntityWrapper.Success<E>
 
     abstract fun getFail(error: Throwable): EntityWrapper.Fail<E>

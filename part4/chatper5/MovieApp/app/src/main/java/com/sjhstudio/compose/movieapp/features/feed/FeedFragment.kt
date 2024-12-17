@@ -8,7 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.sjhstudio.compose.movieapp.features.feed.presentation.FeedViewModel
+import com.sjhstudio.compose.movieapp.features.feed.presentation.viewmodel.FeedViewModel
 import com.sjhstudio.compose.movieapp.ui.theme.MovieAppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -29,6 +29,5 @@ class FeedFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.test()
     }
 }
