@@ -70,8 +70,8 @@ dependencies {
 
     // Hilt
     implementation(libs.hilt.android)
-    kapt(libs.hilt.android.compiler)
-    kapt(libs.hilt.navigation)
+    implementation(libs.hilt.navigation)
+    kapt(libs.hilt.compiler)
 
     // Retrofit
     implementation(libs.retrofit)
@@ -80,6 +80,10 @@ dependencies {
 
     // Gson
     implementation(libs.gson)
+
+    // Coil
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     // Timber
     implementation(libs.timber)

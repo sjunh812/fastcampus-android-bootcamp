@@ -21,7 +21,7 @@ class StorageModule {
     @Provides
     @Singleton
     fun provideOnDiscStorage(
-        storage: StorageProvider,
+        @SharedPrefs storage: StorageProvider,
         converter: DataConverter,
         encoding: DataEncoding
     ): IStorage = StorageManager(storage, converter, encoding)
