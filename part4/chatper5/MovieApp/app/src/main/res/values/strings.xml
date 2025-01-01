@@ -6,4 +6,5 @@
     <string name="btn_submit">SUBMIT</string>
     <string name="title_dialog_popup_rating">Rate your score!</string>
     <string name="description_btn_send">Send Button</string>
+    <string name="retry">RETRY</string>
 </resources>

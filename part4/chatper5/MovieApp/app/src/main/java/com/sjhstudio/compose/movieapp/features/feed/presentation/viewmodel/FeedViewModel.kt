@@ -21,6 +21,9 @@ class FeedViewModel @Inject constructor(
     private val getFeedCategoryUseCase: IGetFeedCategoryUseCase
 ) : ViewModel(), IFeedViewModelInput, IFeedViewModelOutput {
 
+    val input: IFeedViewModelInput = this
+    val output: IFeedViewModelOutput = this
+
     private val _feedState = MutableStateFlow<FeedState>(FeedState.Loading)
     override val feedState: StateFlow<FeedState>
         get() = _feedState

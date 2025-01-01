@@ -4,9 +4,8 @@ import com.sjhstudio.compose.movieapp.library.storage.di.SharedPrefs
 import com.sjhstudio.compose.movieapp.library.storage.helpers.DataConverter
 import com.sjhstudio.compose.movieapp.library.storage.helpers.DataEncoding
 import com.sjhstudio.compose.movieapp.library.storage.prefs.StorageProvider
-import javax.inject.Inject
 
-class StorageManager @Inject constructor(
+class StorageManager(
     @SharedPrefs private val storage: StorageProvider,
     private val converter: DataConverter,
     private val encoding: DataEncoding

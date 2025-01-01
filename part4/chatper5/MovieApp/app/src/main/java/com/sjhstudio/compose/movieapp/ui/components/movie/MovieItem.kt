@@ -1,11 +1,9 @@
 package com.sjhstudio.compose.movieapp.ui.components.movie
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -18,12 +16,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.rememberAsyncImagePainter
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import coil3.size.Scale
 import com.sjhstudio.compose.movieapp.R
-import com.sjhstudio.compose.movieapp.ui.theme.MovieAppTheme
+import com.sjhstudio.compose.movieapp.features.common.entity.MovieFeedItemEntity
+import com.sjhstudio.compose.movieapp.features.feed.presentation.input.IFeedViewModelInput
 import com.sjhstudio.compose.movieapp.ui.theme.Paddings
 
 private val CARD_WIDTH = 150.dp
@@ -31,17 +35,23 @@ private val CARD_HEIGHT = 200.dp
 private val ICON_SIZE = 12.dp
 
 @Composable
-fun MovieItem() {
+fun MovieItem(
+    movie: MovieFeedItemEntity,
+    input: IFeedViewModelInput
+) {
     Column(
         modifier = Modifier
             .width(CARD_WIDTH)
             .padding(Paddings.large)
     ) {
         // Movie Poster
-        Poster()
+        Poster(
+            movie = movie,
+            input = input
+        )
         // Title
         Text(
-            text = "title",
+            text = movie.title,
             style = MaterialTheme.typography.titleMedium,
             maxLines = 1,
             overflow = TextOverflow.Ellipsis,
@@ -64,7 +74,7 @@ fun MovieItem() {
             )
             // Rating
             Text(
-                text = "0.0",
+                text = movie.rating.toString(),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurface.copy(
                     alpha = 0.5f
@@ -75,24 +85,40 @@ fun MovieItem() {
 }
 
 @Composable
-fun Poster() {
+fun Poster(
+    movie: MovieFeedItemEntity,
+    input: IFeedViewModelInput
+) {
     Card(
         modifier = Modifier
-            .fillMaxWidth()
-            .height(CARD_HEIGHT)
-    ) {
-        Box(
-            modifier = Modifier.background(Color.Gray)
-        ) {
-
+            .size(CARD_WIDTH, CARD_HEIGHT),
+        onClick = {
+            input.openDetail(movie.title)
         }
+    ) {
+        Image(
+            modifier = Modifier
+                .fillMaxSize(),
+            painter = rememberAsyncImagePainter(
+                model = ImageRequest
+                    .Builder(LocalContext.current)
+                    .data(movie.thumbUrl)
+                    .scale(Scale.FILL)
+                    .apply {
+                        crossfade(true)
+                    }
+                    .build()
+            ),
+            contentScale = ContentScale.FillHeight,
+            contentDescription = "Movie Poster Image"
+        )
     }
 }
 
-@Preview
-@Composable
-fun MovieItemPreview() {
-    MovieAppTheme {
-        MovieItem()
-    }
-}
+//@Preview
+//@Composable
+//fun MovieItemPreview() {
+//    MovieAppTheme {
+//        MovieItem()
+//    }
+//}
