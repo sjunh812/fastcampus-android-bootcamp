@@ -28,7 +28,7 @@ class FeedViewModel @Inject constructor(
     override val feedState: StateFlow<FeedState>
         get() = _feedState
 
-    private val _feedUiEffect = MutableSharedFlow<FeedUiEffect>()
+    private val _feedUiEffect = MutableSharedFlow<FeedUiEffect>(replay = 0)
     override val feedUiEffect: SharedFlow<FeedUiEffect>
         get() = _feedUiEffect
 
@@ -54,7 +54,9 @@ class FeedViewModel @Inject constructor(
     }
 
     override fun openDetail(movieName: String) {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            _feedUiEffect.emit(FeedUiEffect.OpenMovieDetail(movieName))
+        }
     }
 
     override fun openInfoDialog() {

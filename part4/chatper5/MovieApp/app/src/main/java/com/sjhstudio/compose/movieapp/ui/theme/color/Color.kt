@@ -43,10 +43,7 @@ sealed class ColorSet {
                 background = White,
                 onBackground = Black,
                 error = Red400
-            ),
-            success = Green400,
-            disabledSecondary = Grey200,
-            textFieldBackground = Grey200
+            )
         )
 
         override var DarkColors = MyColors(
