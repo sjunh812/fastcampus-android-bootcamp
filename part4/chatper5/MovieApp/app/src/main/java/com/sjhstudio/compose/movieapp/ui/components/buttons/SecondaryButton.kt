@@ -31,14 +31,17 @@ fun SecondaryButton(
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(BUTTON_RADIUS),
-        border = BorderStroke(2.dp, MaterialTheme.colorScheme.secondary),
+        shape = RoundedCornerShape(RADIUS_BUTTON),
+        border = BorderStroke(
+            width = 2.dp,
+            color = MaterialTheme.colorScheme.secondary
+        ),
         onClick = onClick,
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.secondary,
             disabledContainerColor = MaterialTheme.colorScheme.disabledSecondary,
-            disabledContentColor = MaterialTheme.colorScheme.background
+            disabledContentColor = MaterialTheme.colorScheme.onSecondary
         )
     ) {
         Row(
@@ -58,10 +61,6 @@ fun SecondaryButton(
 @Composable
 fun SecondaryButtonPreview() {
     MovieAppTheme {
-        SecondaryButton(
-            text = "test"
-        ) {
-
-        }
+        SecondaryButton(text = "test") {}
     }
 }

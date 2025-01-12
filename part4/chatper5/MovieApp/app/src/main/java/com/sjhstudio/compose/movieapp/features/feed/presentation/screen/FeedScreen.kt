@@ -6,10 +6,13 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.requiredHeight
 import androidx.compose.foundation.layout.requiredSize
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
@@ -41,8 +44,8 @@ import com.sjhstudio.compose.movieapp.ui.components.movie.CategoryRow
 import com.sjhstudio.compose.movieapp.ui.theme.Paddings
 import timber.log.Timber
 
-private val HEIGHT_TOP_APP_BAR = 70.dp
-private val PADDING_COMMON_HORIZONTAL = Paddings.medium
+val HEIGHT_TOP_APP_BAR = 70.dp
+val PADDING_COMMON_HORIZONTAL = Paddings.medium
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -55,6 +58,8 @@ fun FeedScreen(
     Scaffold(
         topBar = {
             TopAppBar(
+                modifier = Modifier
+                    .requiredHeight(HEIGHT_TOP_APP_BAR),
                 colors = TopAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primary,
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -62,12 +67,12 @@ fun FeedScreen(
                     scrolledContainerColor = MaterialTheme.colorScheme.secondary,
                     navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
                 ),
-//                modifier = Modifier
-//                    .requiredHeight(HEIGHT_TOP_APP_BAR),
                 title = {
                     Text(
                         modifier = Modifier
-                            .padding(PADDING_COMMON_HORIZONTAL),
+                            .fillMaxHeight()
+                            .padding(Paddings.medium)
+                            .wrapContentHeight(align = Alignment.CenterVertically),
                         text = stringResource(id = R.string.app_name),
                         style = MaterialTheme.typography.headlineMedium,
                     )
@@ -78,6 +83,11 @@ fun FeedScreen(
 //                        changeAppColor = changeAppColor,
 //                        input = input
 //                    )
+                },
+                navigationIcon = {
+                    Box(modifier = Modifier.size(0.dp)) {
+
+                    }
                 }
             )
         },
