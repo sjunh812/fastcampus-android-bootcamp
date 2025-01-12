@@ -29,13 +29,13 @@ fun SecondaryBorderlessButton(
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(BUTTON_RADIUS),
+        shape = RoundedCornerShape(RADIUS_BUTTON),
         onClick = onClick,
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.background,
             contentColor = MaterialTheme.colorScheme.secondary,
             disabledContainerColor = MaterialTheme.colorScheme.disabledSecondary,
-            disabledContentColor = MaterialTheme.colorScheme.background
+            disabledContentColor = MaterialTheme.colorScheme.onSecondary
         )
     ) {
         Row(
@@ -55,10 +55,6 @@ fun SecondaryBorderlessButton(
 @Composable
 fun SecondaryBorderlessButtonPreview() {
     MovieAppTheme {
-        SecondaryBorderlessButton(
-            text = "test"
-        ) {
-
-        }
+        SecondaryBorderlessButton(text = "test") {}
     }
 }

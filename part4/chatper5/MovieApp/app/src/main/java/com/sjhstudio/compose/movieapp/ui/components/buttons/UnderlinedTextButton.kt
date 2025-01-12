@@ -29,7 +29,7 @@ fun UnderlinedTextButton(
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(BUTTON_RADIUS),
+        shape = RoundedCornerShape(RADIUS_BUTTON),
         onClick = onClick,
         colors = ButtonColors(
             containerColor = MaterialTheme.colorScheme.background,
@@ -55,10 +55,6 @@ fun UnderlinedTextButton(
 @Composable
 fun UnderlinedTextButtonPreview() {
     MovieAppTheme {
-        UnderlinedTextButton(
-            text = "test"
-        ) {
-
-        }
+        UnderlinedTextButton(text = "test") {}
     }
 }
