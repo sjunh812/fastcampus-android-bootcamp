@@ -46,12 +46,12 @@ class FeedFragment : Fragment() {
 
     private fun observeUiEffects() {
         val navController = findNavController()
+
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 viewModel.output.feedUiEffect.collectLatest {
                     when (it) {
                         FeedUiEffect.OpenInfoDialog -> {
-                            // TODO.
                         }
 
                         is FeedUiEffect.OpenMovieDetail -> {
