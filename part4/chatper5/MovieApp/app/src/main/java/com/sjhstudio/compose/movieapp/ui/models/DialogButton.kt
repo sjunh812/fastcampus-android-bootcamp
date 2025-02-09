@@ -8,9 +8,9 @@ sealed class DialogButton(
 ) {
 
     data class Primary(
+        val leadingIconData: LeadingIconData? = null,
         override val title: String,
-        override val action: (() -> Unit)? = null,
-        val leadingIconData: LeadingIconData? = null
+        override val action: (() -> Unit)? = null
     ) : DialogButton(title, action)
 
     data class Secondary(

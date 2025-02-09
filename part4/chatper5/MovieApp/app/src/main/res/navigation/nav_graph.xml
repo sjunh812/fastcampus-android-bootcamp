@@ -20,8 +20,42 @@
         android:name="com.sjhstudio.compose.movieapp.features.detail.DetailFragment"
         android:label="Detail">
 
+        <action
+            android:id="@+id/action_detail_to_imdb_dialog"
+            app:destination="@id/dialog_fragment_imdb"
+            app:launchSingleTop="true" />
+
+        <action
+            android:id="@+id/action_detail_to_rating_dialog"
+            app:destination="@id/dialog_fragment_rating"
+            app:launchSingleTop="true" />
+
         <argument
             android:name="movie_name"
             app:argType="string" />
     </fragment>
+
+    <dialog
+        android:id="@+id/dialog_fragment_imdb"
+        android:name="com.sjhstudio.compose.movieapp.features.dialog.IMDBDialogFragment"
+        android:label="IMDB">
+
+        <argument
+            android:name="url"
+            app:argType="string" />
+    </dialog>
+
+    <dialog
+        android:id="@+id/dialog_fragment_rating"
+        android:name="com.sjhstudio.compose.movieapp.features.dialog.RatingDialogFragment"
+        android:label="Rating">
+
+        <argument
+            android:name="movie_name"
+            app:argType="string" />
+
+        <argument
+            android:name="rating"
+            app:argType="float" />
+    </dialog>
 </navigation>

@@ -1,10 +1,21 @@
 <resources>
+    <!-- App -->
     <string name="app_name">MovieApp</string>
+    
+    <!-- Network -->
+    <string name="retry">RETRY</string>
+    
+    <!-- Button --> 
     <string name="btn_close">CLOSE</string>
     <string name="btn_open">OPEN</string>
     <string name="btn_cancel">CANCEL</string>
     <string name="btn_submit">SUBMIT</string>
-    <string name="title_dialog_popup_rating">Rate your score!</string>
     <string name="description_btn_send">Send Button</string>
-    <string name="retry">RETRY</string>
+    
+    <!-- IMDB dialog popup -->
+    <string name="title_dialog_popup_imdb">Open IMDB</string>
+    <string name="body_dialog_popup_imdb">This will open the IMDB page in the external web browser. Are you okay?</string>
+    
+    <!-- Rating dialog popup -->
+    <string name="title_dialog_popup_rating">Rate your score!</string>
 </resources>

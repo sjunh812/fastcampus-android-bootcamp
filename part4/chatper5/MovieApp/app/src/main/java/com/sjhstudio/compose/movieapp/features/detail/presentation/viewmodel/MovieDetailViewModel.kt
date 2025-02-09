@@ -1,6 +1,7 @@
 package com.sjhstudio.compose.movieapp.features.detail.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.sjhstudio.compose.movieapp.features.detail.domain.usecase.IGetMovieDetailUseCase
 import com.sjhstudio.compose.movieapp.features.detail.presentation.input.IMovieDetailViewModelInputs
 import com.sjhstudio.compose.movieapp.features.detail.presentation.output.IMovieDetailViewModelOutputs
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
 
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
@@ -36,14 +38,31 @@ class MovieDetailViewModel @Inject constructor(
     }
 
     override fun goBackToFeed() {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            _detailUiEffect.emit(MovieDetailUiEffect.Back)
+        }
     }
 
     override fun openImdb() {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            if (detailState.value is MovieDetailState.Main) {
+                _detailUiEffect.emit(MovieDetailUiEffect.OpenUrl(url = (detailState.value as MovieDetailState.Main).movieDetailEntity.imdbPath))
+            }
+        }
     }
 
     override fun onClickedRate() {
-        TODO("Not yet implemented")
+        viewModelScope.launch {
+            if (detailState.value is MovieDetailState.Main) {
+                val movieEntity = (detailState.value as MovieDetailState.Main).movieDetailEntity
+
+                _detailUiEffect.emit(
+                    MovieDetailUiEffect.OpenMovieRateDialog(
+                        movieTitle = movieEntity.title,
+                        rating = movieEntity.rating
+                    )
+                )
+            }
+        }
     }
 }
